@@ -89,7 +89,6 @@ export const getPartidosFechaNoMayor = async () => {
       .from("fixture_exafam")
       .select("*")
       .order("fecha_partido", { ascending: true });
-    console.log(data);
     if (error) {
       throw error;
     }
@@ -110,9 +109,9 @@ export const userAdmin = async (
       .from("usuario")
       .select("rol")
       .eq("user_id", userId);
-
-    console.log(data);
     if (error) throw new Error(error.message);
+
+    return data[0].rol;
   } catch (error) {
     console.error(error);
     return undefined;

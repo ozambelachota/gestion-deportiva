@@ -38,8 +38,6 @@ const LoginWithGoogle = () => {
           );
           const rol = await userAdmin(session.user.id);
           setRol(rol);
-          console.log(rol);
-          console.log(session.user);
           navigate("/admin/home", { replace: true });
         } else {
           navigate("/login", { replace: true });
