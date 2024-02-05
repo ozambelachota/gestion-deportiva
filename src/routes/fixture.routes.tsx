@@ -1,18 +1,20 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
+import TablaFixture from "../components/tabla-fixture";
 import Admin from "../pages/admin";
 import { Fixture } from "../pages/fixture";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import Promocion from "../pages/promocion";
 import { RegisterPromocion } from "../pages/register-promocion";
+import Sancion from "../pages/sancion";
 import ProtectedRouter from "./protected.routes";
-import TablaFixture from "../components/tabla-fixture";
 
 const FixtureRoutes = () => {
   return (
     <>
       <Routes>
         <Route element={<ProtectedRouter />}>
+          <Route path="/" element={<Navigate to="/admin/home" />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/registrar-fixture" element={<Fixture />} />
           <Route path="/registrar-promociones" element={<Promocion />} />
@@ -20,9 +22,9 @@ const FixtureRoutes = () => {
             path="/registrar-promociones/create/:id"
             element={<RegisterPromocion />}
           />
-          <Route path="/admin/home" element={ <TablaFixture /> } />
+          <Route path="/sancion" element={<Sancion />} />
+          <Route path="/admin/home" element={<TablaFixture />} />
         </Route>
-
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Home />} />

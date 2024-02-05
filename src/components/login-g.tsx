@@ -13,7 +13,7 @@ const LoginWithGoogle = () => {
     try {
       const { error } = await clientApi.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: "http://localhost:5173/admin/home" },
+        options: { redirectTo: "https://dancing-naiad-312762.netlify.app" },
       });
 
       if (error) {

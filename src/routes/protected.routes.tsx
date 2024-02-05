@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useUserStore } from "../store/login.store";
 function ProtectedRouter() {
-  const userLogin = useUserStore((state) => state.login);
-  useEffect(() => {}, [userLogin]);
+  const rol = useUserStore((state) => state.rol);
+  useEffect(() => {}, [rol]);
 
-  if (userLogin !== "") {
+  if (rol == "admin") {
     return <Outlet />;
   }
   return <Navigate to="/" />;

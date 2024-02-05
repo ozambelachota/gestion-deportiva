@@ -27,7 +27,10 @@ const NavbarAdmin = () => {
   const handleLogout = async () => {
     const error = await signOut();
 
-    if (!error) {
+    if (error) {
+      console.log(error);
+      return;
+    } else {
       navigate("/", { replace: true });
       setUser("", "", "", "");
     }
@@ -52,7 +55,7 @@ const NavbarAdmin = () => {
           <Button color="inherit" component={Link} to="/registrar-promociones">
             Registrar Promociones
           </Button>
-          <Button color="inherit" component={Link} to="/jugadores-sancionados">
+          <Button color="inherit" component={Link} to="/sancion">
             Jugadores Sancionados
           </Button>
           <Button color="inherit" onClick={handleMenuClick}>
