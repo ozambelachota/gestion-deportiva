@@ -5,12 +5,6 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
@@ -20,6 +14,7 @@ import { useEffect, useState } from "react";
 import { fixtureStore } from "../store/fixture.store";
 import { GrupoStore } from "../store/grupoSotre.store";
 
+import { ListFixture } from "../components/list-fixture.component";
 import { CampoStore } from "../store/campo.store";
 
 export const Fixture = () => {
@@ -251,35 +246,7 @@ export const Fixture = () => {
           </Button>
         </div>
       </Box>
-
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Equipo 1</TableCell>
-              <TableCell>VS</TableCell>
-              <TableCell>Equipo 2</TableCell>
-              <TableCell>Fecha</TableCell>
-              <TableCell>CAMPO</TableCell>
-              <TableCell>Ronda</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {vsPromocion.map((promocion, index) => (
-              <TableRow key={index}>
-                <TableCell>{promocion.promocion}</TableCell>
-                <TableCell>VS</TableCell>
-                <TableCell>{promocion.vs_promocion}</TableCell>
-                <TableCell>
-                  {promocion.fecha_partido.toLocaleString()}
-                </TableCell>
-                <TableCell>{promocion.campo_id}</TableCell>
-                <TableCell>{"ronda n° " + promocion.n_fecha_jugada}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <ListFixture vsPromocion={vsPromocion} />
     </>
   );
 };

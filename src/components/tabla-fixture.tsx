@@ -55,7 +55,7 @@ const TablaFixture: React.FC = () => {
 
     try {
       const parsedDate = typeof date === "string" ? parseISO(date) : date;
-      return format(parsedDate, "dd/MM/yyyy HH:mm");
+      return format(parsedDate, "dd/MM HH:mm");
     } catch (error) {
       console.error("Error parsing or formatting date:", error);
       return "";
@@ -87,13 +87,19 @@ const TablaFixture: React.FC = () => {
                   {obtenerProximosPartidos(partidosAgrupados[grupoId]).map(
                     (partido) => (
                       <TableRow key={partido.id}>
-                        <TableCell>{partido.promocion}</TableCell>
-                        <TableCell>VS</TableCell>
-                        <TableCell>{partido.vs_promocion}</TableCell>
-                        <TableCell>
+                        <TableCell sx={{ padding: "8px" }}>
+                          {partido.promocion}
+                        </TableCell>
+                        <TableCell sx={{ padding: "8px" }}>VS</TableCell>
+                        <TableCell sx={{ padding: "8px" }}>
+                          {partido.vs_promocion}
+                        </TableCell>
+                        <TableCell sx={{ padding: "8px" }}>
                           {formatDate(partido.fecha_partido)}
                         </TableCell>
-                        <TableCell>{partido.campo_id}</TableCell>
+                        <TableCell sx={{ padding: "8px" }}>
+                          {partido.campo_id}
+                        </TableCell>
                       </TableRow>
                     )
                   )}

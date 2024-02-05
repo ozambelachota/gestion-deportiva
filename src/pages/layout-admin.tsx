@@ -1,6 +1,12 @@
+import { ThemeProvider, createTheme } from "@mui/material";
+import React from "react";
 import NavbarAdmin from "../components/navbar-admin";
 
-import React from "react";
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 type props = {
   children?: React.ReactNode;
@@ -8,8 +14,10 @@ type props = {
 const LayoutAdmin = ({ children }: props) => {
   return (
     <>
-      <NavbarAdmin />
-      <div style={{ marginTop: "80px" }}>{children}</div>
+      <ThemeProvider theme={darkTheme}>
+        <NavbarAdmin />
+        <div style={{ marginTop: "80px" }}>{children}</div>
+      </ThemeProvider>
     </>
   );
 };

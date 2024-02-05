@@ -5,7 +5,7 @@ function ProtectedRouter() {
   const rol = useUserStore((state) => state.rol);
   useEffect(() => {}, [rol]);
 
-  if (rol == "admin") {
+  if (rol === "admin") {
     return <Outlet />;
   }
   return <Navigate to="/" />;
