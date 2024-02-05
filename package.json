@@ -24,6 +24,7 @@
     "react-hook-form": "^7.46.1",
     "react-hooks": "^1.0.1",
     "react-router-dom": "^6.15.0",
+    "sonner": "^1.4.0",
     "zustand": "^4.4.1"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import TablaFixture from "../components/tabla-fixture";
 import Admin from "../pages/admin";
 import { Fixture } from "../pages/fixture";
@@ -14,7 +14,6 @@ const FixtureRoutes = () => {
     <>
       <Routes>
         <Route element={<ProtectedRouter />}>
-          <Route path="/" element={<Navigate to="/admin/home" />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/registrar-fixture" element={<Fixture />} />
           <Route path="/registrar-promociones" element={<Promocion />} />

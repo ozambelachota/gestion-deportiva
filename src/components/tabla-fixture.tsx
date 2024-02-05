@@ -20,6 +20,7 @@ const TablaFixture: React.FC = () => {
 
   useEffect(() => {
     obtenerPartido();
+    console.log(partidos);
   }, []);
 
   // Función para agrupar los partidos por grupo_id
