@@ -246,7 +246,7 @@ export const Fixture = () => {
           </Button>
         </div>
       </Box>
-      <ListFixture vsPromocion={vsPromocion} />
+       <ListFixture vsPromocion={vsPromocion} />
     </>
   );
 };
