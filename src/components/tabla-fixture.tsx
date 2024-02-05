@@ -65,8 +65,12 @@ const TablaFixture: React.FC = () => {
     <div>
       <Grid container spacing={2}>
         {Object.keys(partidosAgrupados).map((grupoId) => (
-          <Grid item xs={6} key={grupoId}>
-            <Typography variant="h6" mb={2}>{`Grupo ${grupoId}`}</Typography>
+          <Grid item xs={12} md={6} key={grupoId}>
+            <Typography
+              variant="h6"
+              mb={2}
+              sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
+            >{`Grupo ${grupoId}`}</Typography>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
@@ -80,7 +84,7 @@ const TablaFixture: React.FC = () => {
                 </TableHead>
                 <TableBody>
                   {obtenerProximosPartidos(partidosAgrupados[grupoId]).map(
-                    (partido: Fixture) => (
+                    (partido) => (
                       <TableRow key={partido.id}>
                         <TableCell>{partido.promocion}</TableCell>
                         <TableCell>VS</TableCell>
