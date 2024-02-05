@@ -19,7 +19,7 @@ function App() {
 
   return (
     <>
-      <Container>
+      <Container> 
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
           <ThemeProvider theme={darkTheme}>
             {user && (
