@@ -1,4 +1,4 @@
-import { CssBaseline, Typography } from "@mui/material";
+import { CssBaseline, LinearProgress, Typography } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useQuery } from "@tanstack/react-query";
 import Navbar from "../components/navbar.component";
@@ -22,7 +22,7 @@ const Layout = ({ children }: props) => {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      {isLoading && <div>Cargando....</div>}
+      {isLoading && <LinearProgress color="success" />}
       {isError && <div>Error</div>}
       {data && (
         <Typography variant="h4" textAlign={"center"}>
