@@ -120,3 +120,16 @@ export const userAdmin = async (
     return undefined;
   }
 };
+
+export const nombreCampeonato = async (id: number) => {
+  try {
+    const { data, error } = await clientApi
+      .from("Campeonato")
+      .select("nombre_campeonato")
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+    return data[0].nombre_campeonato;
+  } catch (error) {
+    throw new Error("error al obtener nombre " + error);
+  }
+};
