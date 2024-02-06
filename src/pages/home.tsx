@@ -1,9 +1,15 @@
-import TablaFixture from "../components/tabla-fixture";
+import { Suspense, lazy } from "react";
+
+import { CircularProgress } from "@mui/material";
+
+const LazyTablaFixture = lazy(() => import("../components/tabla-fixture"));
 
 export default function Home() {
   return (
     <div>
-      <TablaFixture />
+      <Suspense fallback={<CircularProgress />}>
+        <LazyTablaFixture />
+      </Suspense>
     </div>
   );
 }
