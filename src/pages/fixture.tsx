@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { fixtureStore } from "../store/fixture.store";
 import { GrupoStore } from "../store/grupoSotre.store";
 
+import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { ListFixture } from "../components/list-fixture.component";
 import { CampoStore } from "../store/campo.store";
@@ -48,6 +49,9 @@ export const Fixture = () => {
   const selectCampo = CampoStore((state) => state.selectCampo);
   const campoSelect = CampoStore((state) => state.campoSelect);
   const [horaInicial, setHoraInicial] = useState(new Date());
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     obtenerGrupo();
     obtenerCampos();
@@ -55,6 +59,7 @@ export const Fixture = () => {
     else obtenerPromocionGrupo(selectGrupo);
     return () => {};
   }, [vsPromocion, selectGrupo, numeroFechaJugados]);
+
   const handleGeneratePartido = () => {
     const promocionesAleatorias = [...promocionesPorGrupos];
     const totalPromociones = promocionesAleatorias.length;
@@ -146,10 +151,12 @@ export const Fixture = () => {
     if (campoSelect <= 0) return;
     else {
       addPartido(vsPromocion);
+      console.log(vsPromocion);
       setVsPromocion([]);
       setNumeroFechaJugados(0);
       setHoraInicial(new Date());
       toast.success("Partidos guardados");
+      navigate("/admin/home");
     }
   };
 
