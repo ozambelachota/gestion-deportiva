@@ -14,9 +14,9 @@ import { useEffect, useState } from "react";
 import { fixtureStore } from "../store/fixture.store";
 import { GrupoStore } from "../store/grupoSotre.store";
 
+import { Toaster, toast } from "sonner";
 import { ListFixture } from "../components/list-fixture.component";
 import { CampoStore } from "../store/campo.store";
-
 export const Fixture = () => {
   const grupos = GrupoStore((state) => state.grupos);
   const obtenerGrupo = GrupoStore((state) => state.obtenerGrupo);
@@ -53,7 +53,6 @@ export const Fixture = () => {
     obtenerCampos();
     if (selectGrupo <= 0) return;
     else obtenerPromocionGrupo(selectGrupo);
-    console.log(vsPromocion);
     return () => {};
   }, [vsPromocion, selectGrupo, numeroFechaJugados]);
   const handleGeneratePartido = () => {
@@ -131,7 +130,6 @@ export const Fixture = () => {
     });
 
     setVsPromocion(matches);
-    console.log(vsPromocion);
   };
 
   const handleChangeSelectGrupo = (event: any) => {
@@ -143,7 +141,16 @@ export const Fixture = () => {
 
   const handleSavePartido = () => {
     if (vsPromocion.length < 3) return;
-    else addPartido(vsPromocion);
+    if (numeroFechaJugados <= 0) return;
+    if (selectGrupo <= 0) return;
+    if (campoSelect <= 0) return;
+    else {
+      addPartido(vsPromocion);
+      setVsPromocion([]);
+      setNumeroFechaJugados(0);
+      setHoraInicial(new Date());
+      toast.success("Partidos guardados");
+    }
   };
 
   return (
@@ -218,9 +225,7 @@ export const Fixture = () => {
             type="number"
             size="small"
             value={numeroFechaJugados}
-            onChange={(e) =>
-              setNumeroFechaJugados(parseInt(e.target.value, 10))
-            }
+            onChange={(e) => setNumeroFechaJugados(parseInt(e.target.value))}
             sx={{ margin: "20px" }}
           />
         </div>
@@ -247,6 +252,7 @@ export const Fixture = () => {
         </div>
       </Box>
       <ListFixture vsPromocion={vsPromocion} />
+      <Toaster position="top-center" duration={4000} />
     </>
   );
 };

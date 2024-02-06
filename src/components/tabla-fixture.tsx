@@ -18,6 +18,7 @@ const TablaFixture: React.FC = () => {
   const partidos = fixtureStore((state) => state.fixture);
   const obtenerPartido = fixtureStore((state) => state.partidosPorFecha);
 
+  
   useEffect(() => {
     obtenerPartido();
     console.log(partidos);
