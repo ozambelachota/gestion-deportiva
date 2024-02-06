@@ -18,11 +18,9 @@ const TablaFixture: React.FC = () => {
   const partidos = fixtureStore((state) => state.fixture);
   const obtenerPartido = fixtureStore((state) => state.partidosPorFecha);
 
-  
   useEffect(() => {
     obtenerPartido();
-    console.log(partidos);
-  }, []);
+  }, [partidos]);
 
   // Función para agrupar los partidos por grupo_id
   const groupBy = (array: any[] | null, key: string) => {
