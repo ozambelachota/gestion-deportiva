@@ -19,7 +19,6 @@ export const CampoStore = create<campoType>((set) => ({
   campoSelect: 0,
   obtenrCampos: async () => {
     const campos = await obtenerTodosCampos();
-    console.log(campos);
     set({ campos });
   },
   selectCampo: (id: number) => {

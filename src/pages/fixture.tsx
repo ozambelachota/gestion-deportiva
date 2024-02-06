@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import { fixtureStore } from "../store/fixture.store";
 import { GrupoStore } from "../store/grupoSotre.store";
 
-import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { ListFixture } from "../components/list-fixture.component";
 import { CampoStore } from "../store/campo.store";
@@ -50,8 +49,6 @@ export const Fixture = () => {
   const campoSelect = CampoStore((state) => state.campoSelect);
   const [horaInicial, setHoraInicial] = useState(new Date());
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     obtenerGrupo();
     obtenerCampos();
@@ -86,7 +83,7 @@ export const Fixture = () => {
       const equipo1 = promocionesAleatorias[index].nombre_promocion;
 
       // Crea una nueva variable para la segunda hora
-      let horaSegundoPartido = addMinutes(horaActual, 30);
+      let horaSegundoPartido = addMinutes(horaActual, 25);
 
       let index2;
       do {
@@ -145,18 +142,27 @@ export const Fixture = () => {
   };
 
   const handleSavePartido = () => {
-    if (vsPromocion.length < 3) return;
-    if (numeroFechaJugados <= 0) return;
-    if (selectGrupo <= 0) return;
-    if (campoSelect <= 0) return;
-    else {
+    if (vsPromocion.length < 3) {
+      toast.error("Se requiere al menos 3 partidos");
+      return;
+    }
+    if (numeroFechaJugados <= 0) {
+      toast.error("Se requiere al menos una fecha jugada");
+      return;
+    }
+    if (selectGrupo <= 0) {
+      toast.error("Se requiere un grupo");
+      return;
+    }
+    if (campoSelect <= 0) {
+      toast.error("Se requiere un campo");
+      return;
+    } else {
       addPartido(vsPromocion);
-      console.log(vsPromocion);
       setVsPromocion([]);
       setNumeroFechaJugados(0);
       setHoraInicial(new Date());
       toast.success("Partidos guardados");
-      navigate("/admin/home");
     }
   };
 
