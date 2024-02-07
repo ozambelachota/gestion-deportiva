@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Fixture, PromocionParticipante } from "../types/fixture.api.type";
-import { toast } from "sonner";
 
 type ListFixtureProps = {
   vsPromocion: Fixture[];
@@ -34,10 +33,6 @@ export const ListFixture = ({
     setEditMode(null);
     const editedTeam1 = vsPromocion[index].promocion;
     const editedTeam2 = vsPromocion[index].vs_promocion;
-    if(editedTeam1==editedTeam2){
-      toast.error("Los equipos no pueden ser iguales");
-      return;
-    }
     onEdit(index, editedTeam1, editedTeam2);
   };
 

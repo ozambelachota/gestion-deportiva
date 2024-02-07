@@ -177,7 +177,19 @@ export const FixturePage = () => {
     const updatedMatches = [...vsPromocion];
     updatedMatches[index].promocion = equipo1;
     updatedMatches[index].vs_promocion = equipo2;
-    setVsPromocion(updatedMatches);
+
+    if (equipo1 == equipo2) {
+      toast.error("Los equipos no pueden ser iguales");
+      return;
+    } else if (
+      updatedMatches[index].promocion == updatedMatches[index].vs_promocion
+    ) {
+      toast.error("No se puede editar el partido");
+      return;
+    } else {
+      setVsPromocion(updatedMatches);
+      toast.success("Partido editado con exito");
+    }
   };
 
   const handleChangeSelectGrupo = (event: any) => {
