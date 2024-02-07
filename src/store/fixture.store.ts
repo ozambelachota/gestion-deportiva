@@ -12,7 +12,8 @@ import {
   PromocionParticipante,
 } from "../types/fixture.api.type";
 import { Deporte, Fixture } from "./../types/fixture.api.type";
-type Store = {
+
+type FixtureStore = {
   promocionParticipante: PromocionParticipante[];
   promocionesPorGrupos: PromocionParticipante[];
   grupo: GrupoPromocion[];
@@ -20,15 +21,21 @@ type Store = {
   fixture: Fixture[] | [] | null;
   fecha: Date;
   selectGrupo: number;
+  emparejamiento: "automatico" | "manual";
+  equipo1: string;
+  equipo2: string;
   obtenerPromociones: () => Promise<void>;
-  obtenerGrupo: () => Promise<void>;
   getDeporte: (id: number) => Promise<void>;
+  obtenerGrupo: () => Promise<void>;
   obtenerPromocionGrupo: (id: number) => Promise<void>;
   guardarPartido: (partido: Fixture[]) => Promise<void>;
   partidosPorFecha: () => Promise<void>;
+  setEmparejamiento: (tipo: "automatico" | "manual") => void;
+  setEquipo1: (equipo: string) => void;
+  setEquipo2: (equipo: string) => void;
 };
 
-export const fixtureStore = create<Store>((set) => ({
+export const fixtureStore = create<FixtureStore>()((set) => ({
   promocionParticipante: [
     {
       id: 0,
@@ -78,6 +85,9 @@ export const fixtureStore = create<Store>((set) => ({
   ],
   fecha: new Date(),
   selectGrupo: 1,
+  emparejamiento: "automatico",
+  equipo1: "",
+  equipo2: "",
   obtenerPromociones: async () => {
     const promociones = await obtenerPromocionalesParticipantes();
     set({ promocionParticipante: promociones });
@@ -101,5 +111,9 @@ export const fixtureStore = create<Store>((set) => ({
   partidosPorFecha: async () => {
     const partiods = await getPartidosFechaNoMayor();
     set({ fixture: partiods });
-  }
+  },
+  setEmparejamiento: (tipo: "automatico" | "manual") =>
+    set({ emparejamiento: tipo }),
+  setEquipo1: (equipo: string) => set({ equipo1: equipo }),
+  setEquipo2: (equipoId: string) => set({ equipo2: equipoId }),
 }));

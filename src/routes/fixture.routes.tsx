@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import TablaFixture from "../components/tabla-fixture";
 import Admin from "../pages/admin";
-import { Fixture } from "../pages/fixture";
+import { FixturePage } from "../pages/fixture";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import Promocion from "../pages/promocion";
@@ -15,7 +15,7 @@ const FixtureRoutes = () => {
       <Routes>
         <Route element={<ProtectedRouter />}>
           <Route path="/admin" element={<Admin />} />
-          <Route path="/admin/registrar-fixture" element={<Fixture />} />
+          <Route path="/admin/registrar-fixture" element={<FixturePage />} />
           <Route path="/registrar-promociones" element={<Promocion />} />
           <Route
             path="/registrar-promociones/create/:id"
