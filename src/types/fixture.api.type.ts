@@ -29,7 +29,6 @@ export interface PromocionParticipante {
   create_at: Date;
   nombre_promocion: string;
   estado: boolean;
-  fecha_admitido: Date | null;
   campeonato_id: number;
   grupo_id: number;
   tipo_id: number;

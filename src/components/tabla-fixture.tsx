@@ -1,9 +1,9 @@
 import {
+  Box,
   CircularProgress,
   Container,
   Grid,
   Paper,
-  Skeleton,
   Table,
   TableBody,
   TableCell,
@@ -23,11 +23,7 @@ const TablaFixture: React.FC = () => {
   const fixtures = fixtureStore((state) => state.fixture);
   const obtenerPartidos = fixtureStore((state) => state.partidosPorFecha);
 
-  const {
-    data: partidos,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { isLoading, isError } = useQuery({
     queryKey: ["partidos"],
     queryFn: () => getPartidosFechaNoMayor(),
   });
@@ -102,7 +98,7 @@ const TablaFixture: React.FC = () => {
   return (
     <div>
       <Grid container spacing={2}>
-        {partidos ? (
+        {fixtures && fixtures.length > 0 ? (
           Object.keys(partidosAgrupados).map((grupoId) => (
             <Grid item xs={12} md={6} key={grupoId}>
               <Typography
@@ -147,7 +143,18 @@ const TablaFixture: React.FC = () => {
             </Grid>
           ))
         ) : (
-          <Skeleton />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              height: "100vh",
+              width: "100%",
+            }}
+          >
+            <Typography variant="h4" color={"blueviolet"} margin={"4rem"}>
+              No hay partidos programados
+            </Typography>
+          </Box>
         )}
       </Grid>
     </div>
