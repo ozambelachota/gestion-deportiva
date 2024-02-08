@@ -2,7 +2,6 @@ import {
   Box,
   CircularProgress,
   Container,
-  Fade,
   Grid,
   Paper,
   Table,
@@ -143,38 +142,30 @@ const TablaFixture: React.FC = () => {
                   <TableBody>
                     {obtenerProximosPartidos(partidosAgrupados[grupoId]).map(
                       (partido) => (
-                        <Fade
-                          in={true}
-                          key={partido.id}
-                          style={{
-                            transitionDelay: "300ms",
+                        <TableRow
+                          sx={{
+                            backgroundColor:
+                              partido.tiempoRestante <= 0
+                                ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
+                                : partido.tiempoRestante < 10 * 60 * 1000
+                                ? backgroundColor || "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
+                                : undefined,
                           }}
                         >
-                          <TableRow
-                            sx={{
-                              backgroundColor:
-                                partido.tiempoRestante <= 0
-                                  ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
-                                  : partido.tiempoRestante < 10 * 60 * 1000
-                                  ? backgroundColor || "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
-                                  : undefined,
-                            }}
-                          >
-                            <TableCell sx={{ padding: "8px" }}>
-                              {partido.promocion}
-                            </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>VS</TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
-                              {partido.vs_promocion}
-                            </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
-                              {formatDate(partido.fecha_partido)}
-                            </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
-                              {partido.campo_id}
-                            </TableCell>
-                          </TableRow>
-                        </Fade>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {partido.promocion}
+                          </TableCell>
+                          <TableCell sx={{ padding: "8px" }}>VS</TableCell>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {partido.vs_promocion}
+                          </TableCell>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {formatDate(partido.fecha_partido)}
+                          </TableCell>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {partido.campo_id}
+                          </TableCell>
+                        </TableRow>
                       )
                     )}
                   </TableBody>
