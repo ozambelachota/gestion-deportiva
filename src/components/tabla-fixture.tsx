@@ -2,6 +2,7 @@ import {
   Box,
   CircularProgress,
   Container,
+  Fade,
   Grid,
   Paper,
   Table,
@@ -14,7 +15,7 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getPartidosFechaNoMayor } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import { Fixture } from "../types/fixture.api.type";
@@ -28,8 +29,20 @@ const TablaFixture: React.FC = () => {
     queryFn: () => getPartidosFechaNoMayor(),
   });
 
+  const [backgroundColor, setBackgroundColor] = useState<string | undefined>(
+    undefined
+  );
   useEffect(() => {
     obtenerPartidos();
+    const intervalId = setInterval(() => {
+      setBackgroundColor((prevColor) =>
+        prevColor === "rgba(255, 0, 0, 0.3)"
+          ? "rgba(0, 255, 0, 0.3)"
+          : "rgba(255, 0, 0, 0.3)"
+      );
+    }, 20000);
+
+    return () => clearInterval(intervalId);
   }, []);
   if (isError) {
     return (
@@ -70,14 +83,22 @@ const TablaFixture: React.FC = () => {
   };
 
   const obtenerProximosPartidos = (grupoPartidos: Fixture[]) => {
+    const fechaActual = new Date();
     return grupoPartidos
-      .filter((partido) => new Date(partido.fecha_partido) >= new Date())
       .sort(
         (a, b) =>
           new Date(a.fecha_partido).getTime() -
           new Date(b.fecha_partido).getTime()
       )
-      .slice(0, 3);
+      .map((partido) => {
+        const fechaPartido = new Date(partido.fecha_partido);
+        const tiempoRestante = fechaPartido.getTime() - fechaActual.getTime();
+
+        return {
+          ...partido,
+          tiempoRestante,
+        };
+      });
   };
 
   const partidosAgrupados = groupBy(fixtures, "grupo_id");
@@ -121,21 +142,38 @@ const TablaFixture: React.FC = () => {
                   <TableBody>
                     {obtenerProximosPartidos(partidosAgrupados[grupoId]).map(
                       (partido) => (
-                        <TableRow key={partido.id}>
-                          <TableCell sx={{ padding: "8px" }}>
-                            {partido.promocion}
-                          </TableCell>
-                          <TableCell sx={{ padding: "8px" }}>VS</TableCell>
-                          <TableCell sx={{ padding: "8px" }}>
-                            {partido.vs_promocion}
-                          </TableCell>
-                          <TableCell sx={{ padding: "8px" }}>
-                            {formatDate(partido.fecha_partido)}
-                          </TableCell>
-                          <TableCell sx={{ padding: "8px" }}>
-                            {partido.campo_id}
-                          </TableCell>
-                        </TableRow>
+                        <Fade
+                          in={true}
+                          key={partido.id}
+                          style={{
+                            transitionDelay: "300ms",
+                          }}
+                        >
+                          <TableRow
+                            sx={{
+                              backgroundColor:
+                                partido.tiempoRestante <= 0
+                                  ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
+                                  : partido.tiempoRestante < 15 * 60 * 1000
+                                  ? backgroundColor || "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
+                                  : undefined,
+                            }}
+                          >
+                            <TableCell sx={{ padding: "8px" }}>
+                              {partido.promocion}
+                            </TableCell>
+                            <TableCell sx={{ padding: "8px" }}>VS</TableCell>
+                            <TableCell sx={{ padding: "8px" }}>
+                              {partido.vs_promocion}
+                            </TableCell>
+                            <TableCell sx={{ padding: "8px" }}>
+                              {formatDate(partido.fecha_partido)}
+                            </TableCell>
+                            <TableCell sx={{ padding: "8px" }}>
+                              {partido.campo_id}
+                            </TableCell>
+                          </TableRow>
+                        </Fade>
                       )
                     )}
                   </TableBody>
