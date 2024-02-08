@@ -71,7 +71,7 @@ const TablaFixture: React.FC = () => {
 
   const obtenerProximosPartidos = (grupoPartidos: Fixture[]) => {
     return grupoPartidos
-      .filter((partido) => new Date(partido.fecha_partido) > new Date())
+      .filter((partido) => new Date(partido.fecha_partido) >= new Date())
       .sort(
         (a, b) =>
           new Date(a.fecha_partido).getTime() -
@@ -106,7 +106,7 @@ const TablaFixture: React.FC = () => {
                 mb={2}
                 sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
               >{`Grupo ${grupoId}`}</Typography>
-              
+
               <TableContainer component={Paper}>
                 <Table>
                   <TableHead>
