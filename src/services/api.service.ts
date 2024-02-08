@@ -95,7 +95,6 @@ export const getPartidosFechaNoMayor = async () => {
     if (error) {
       throw error;
     }
-
     return data;
   } catch (error) {
     console.error("Error al obtener partidos:", error);

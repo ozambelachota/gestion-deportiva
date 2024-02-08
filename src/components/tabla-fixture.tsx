@@ -1,6 +1,9 @@
 import {
+  CircularProgress,
+  Container,
   Grid,
   Paper,
+  Skeleton,
   Table,
   TableBody,
   TableCell,
@@ -9,19 +12,54 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
 import React, { useEffect } from "react";
+import { getPartidosFechaNoMayor } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import { Fixture } from "../types/fixture.api.type";
 
 const TablaFixture: React.FC = () => {
-  const partidos = fixtureStore((state) => state.fixture);
-  const obtenerPartido = fixtureStore((state) => state.partidosPorFecha);
+  const fixtures = fixtureStore((state) => state.fixture);
+  const obtenerPartidos = fixtureStore((state) => state.partidosPorFecha);
+
+  const {
+    data: partidos,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["partidos"],
+    queryFn: () => getPartidosFechaNoMayor(),
+  });
 
   useEffect(() => {
-    obtenerPartido();
-  }, [partidos]);
-
+    obtenerPartidos();
+  }, []);
+  if (isError) {
+    return (
+      <Typography color="error" variant="h5">
+        Error al obtener partidos
+      </Typography>
+    );
+  }
+  if (isLoading) {
+    return (
+      <Container
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress
+          size={"8em"}
+          variant="indeterminate"
+          color="success"
+        />
+      </Container>
+    );
+  }
   // Función para agrupar los partidos por grupo_id
   const groupBy = (array: any[] | null, key: string) => {
     if (!array) {
@@ -46,7 +84,7 @@ const TablaFixture: React.FC = () => {
       .slice(0, 3);
   };
 
-  const partidosAgrupados = groupBy(partidos, "grupo_id");
+  const partidosAgrupados = groupBy(fixtures, "grupo_id");
   const formatDate = (date: Date | string | null) => {
     if (!date) {
       return "";
@@ -64,49 +102,53 @@ const TablaFixture: React.FC = () => {
   return (
     <div>
       <Grid container spacing={2}>
-        {Object.keys(partidosAgrupados).map((grupoId) => (
-          <Grid item xs={12} md={6} key={grupoId}>
-            <Typography
-              variant="h6"
-              mb={2}
-              sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
-            >{`Grupo ${grupoId}`}</Typography>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Promoción</TableCell>
-                    <TableCell>VS</TableCell>
-                    <TableCell>Promoción</TableCell>
-                    <TableCell>Fecha</TableCell>
-                    <TableCell>Campo</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {obtenerProximosPartidos(partidosAgrupados[grupoId]).map(
-                    (partido) => (
-                      <TableRow key={partido.id}>
-                        <TableCell sx={{ padding: "8px" }}>
-                          {partido.promocion}
-                        </TableCell>
-                        <TableCell sx={{ padding: "8px" }}>VS</TableCell>
-                        <TableCell sx={{ padding: "8px" }}>
-                          {partido.vs_promocion}
-                        </TableCell>
-                        <TableCell sx={{ padding: "8px" }}>
-                          {formatDate(partido.fecha_partido)}
-                        </TableCell>
-                        <TableCell sx={{ padding: "8px" }}>
-                          {partido.campo_id}
-                        </TableCell>
-                      </TableRow>
-                    )
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        ))}
+        {partidos ? (
+          Object.keys(partidosAgrupados).map((grupoId) => (
+            <Grid item xs={12} md={6} key={grupoId}>
+              <Typography
+                variant="h6"
+                mb={2}
+                sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
+              >{`Grupo ${grupoId}`}</Typography>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Promoción</TableCell>
+                      <TableCell>VS</TableCell>
+                      <TableCell>Promoción</TableCell>
+                      <TableCell>Fecha</TableCell>
+                      <TableCell>Campo</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {obtenerProximosPartidos(partidosAgrupados[grupoId]).map(
+                      (partido) => (
+                        <TableRow key={partido.id}>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {partido.promocion}
+                          </TableCell>
+                          <TableCell sx={{ padding: "8px" }}>VS</TableCell>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {partido.vs_promocion}
+                          </TableCell>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {formatDate(partido.fecha_partido)}
+                          </TableCell>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {partido.campo_id}
+                          </TableCell>
+                        </TableRow>
+                      )
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+          ))
+        ) : (
+          <Skeleton />
+        )}
       </Grid>
     </div>
   );

@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { useState } from "react";
+import { Toaster, toast } from "sonner";
 import { Fixture, PromocionParticipante } from "../types/fixture.api.type";
 
 type ListFixtureProps = {
@@ -33,6 +34,10 @@ export const ListFixture = ({
     setEditMode(null);
     const editedTeam1 = vsPromocion[index].promocion;
     const editedTeam2 = vsPromocion[index].vs_promocion;
+    if (editedTeam1 === editedTeam2) {
+      toast.error("Los equipos no pueden ser iguales");
+      return;
+    }
     onEdit(index, editedTeam1, editedTeam2);
   };
 
@@ -111,6 +116,7 @@ export const ListFixture = ({
           </TableBody>
         </Table>
       </TableContainer>
+      <Toaster position="top-center" duration={3000} />
     </>
   );
 };

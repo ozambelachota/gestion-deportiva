@@ -109,8 +109,8 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
     set({ fixture: savePartido });
   },
   partidosPorFecha: async () => {
-    const partiods = await getPartidosFechaNoMayor();
-    set({ fixture: partiods });
+    const partidos = await getPartidosFechaNoMayor();
+    set({ fixture: partidos });
   },
   setEmparejamiento: (tipo: "automatico" | "manual") =>
     set({ emparejamiento: tipo }),
