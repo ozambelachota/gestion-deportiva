@@ -85,6 +85,10 @@ export const useFixturePage = () => {
       toast.error("Se requiere un grupo");
       return;
     }
+    if(numeroFechaJugados<=0){
+      toast.error("Se requiere un numero de fecha");
+      return;
+    }
 
     if (emparejamiento === "automatico") {
       // Genera partidos para un número par de equipos
