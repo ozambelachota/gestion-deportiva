@@ -18,7 +18,7 @@ export const obtenerGrupo = async () => {
   try {
     const { data: Grupo, error } = await clientApi
       .from("grupos_promociones")
-      .select();
+      .select().order("id", { ascending: true });
 
     if (error) throw error;
     return Grupo;
