@@ -18,7 +18,8 @@ export const obtenerGrupo = async () => {
   try {
     const { data: Grupo, error } = await clientApi
       .from("grupos_promociones")
-      .select().order("id", { ascending: true });
+      .select()
+      .order("id", { ascending: true });
 
     if (error) throw error;
     return Grupo;
@@ -40,11 +41,10 @@ export const signOut = async () => {
   if (error) return error;
 };
 
-export const obtenerDeporte = async (id: number) => {
+export const obtenerDeporte = async () => {
   const { data: deporte, error } = await clientApi
     .from("tipo_deporte")
-    .select("nombre_tipo")
-    .eq("id", id);
+    .select("*");
   if (error) throw error;
   return deporte;
 };

@@ -18,6 +18,7 @@ export interface Fixture {
   fecha_partido: Date;
   campo_id: number;
   grupo_id: number;
+  deporte_id: number; 
   n_fecha_jugada: number;
 }
 export interface GrupoPromocion {

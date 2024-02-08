@@ -2,7 +2,6 @@ import { create } from "zustand";
 import {
   getPartidosFechaNoMayor,
   insertFixturePartidos,
-  obtenerDeporte,
   obtenerGrupo,
   obtenerPromocionalesParticipantes,
   obtenerPromocionesPorGrupos,
@@ -11,21 +10,20 @@ import {
   GrupoPromocion,
   PromocionParticipante,
 } from "../types/fixture.api.type";
-import { Deporte, Fixture } from "./../types/fixture.api.type";
+import { Fixture } from "./../types/fixture.api.type";
 
 type FixtureStore = {
   promocionParticipante: PromocionParticipante[];
   promocionesPorGrupos: PromocionParticipante[];
   grupo: GrupoPromocion[];
-  deporte: Deporte[];
   fixture: Fixture[] | [] | null;
   fecha: Date;
   selectGrupo: number;
   emparejamiento: "automatico" | "manual";
   equipo1: string;
   equipo2: string;
+  vsPromocion: Fixture[];
   obtenerPromociones: () => Promise<void>;
-  getDeporte: (id: number) => Promise<void>;
   obtenerGrupo: () => Promise<void>;
   obtenerPromocionGrupo: (id: number) => Promise<void>;
   guardarPartido: (partido: Fixture[]) => Promise<void>;
@@ -33,6 +31,7 @@ type FixtureStore = {
   setEmparejamiento: (tipo: "automatico" | "manual") => void;
   setEquipo1: (equipo: string) => void;
   setEquipo2: (equipo: string) => void;
+  setVsPromcion: (vsPromocion: Fixture[]) => void;
 };
 
 export const fixtureStore = create<FixtureStore>()((set) => ({
@@ -66,12 +65,6 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
       nombre_grupo: "",
     },
   ],
-  deporte: [
-    {
-      id: 0,
-      nombre_tipo: "",
-    },
-  ],
   fixture: [
     {
       campo_id: 0,
@@ -79,6 +72,7 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
       grupo_id: 0,
       promocion: "",
       id: 0,
+      deporte_id: 0,
       vs_promocion: "",
       n_fecha_jugada: 0,
     },
@@ -88,13 +82,22 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
   emparejamiento: "automatico",
   equipo1: "",
   equipo2: "",
+  vsPromocion: [
+    {
+      promocion: "",
+      vs_promocion: "",
+      fecha_partido: new Date(),
+      grupo_id: 0,
+      campo_id: 0,
+      deporte_id: 0,
+      n_fecha_jugada: 0,
+      
+    }
+  ],
+
   obtenerPromociones: async () => {
     const promociones = await obtenerPromocionalesParticipantes();
     set({ promocionParticipante: promociones });
-  },
-  getDeporte: async (id: number) => {
-    const deporte = await obtenerDeporte(id);
-    set({ deporte });
   },
   obtenerGrupo: async () => {
     const grupo = await obtenerGrupo();
@@ -116,4 +119,6 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
     set({ emparejamiento: tipo }),
   setEquipo1: (equipo: string) => set({ equipo1: equipo }),
   setEquipo2: (equipoId: string) => set({ equipo2: equipoId }),
-}));
+  setVsPromcion: (vsPromocion: Fixture[]) => set({ vsPromocion: vsPromocion }),
+}
+));

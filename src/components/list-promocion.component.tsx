@@ -16,8 +16,7 @@ import { fixtureStore } from "../store/fixture.store";
 const ListPromociones = () => {
   const {
     promocionParticipante,
-    getDeporte,
-    deporte,
+
     obtenerPromociones,
     grupo,
     obtenerGrupo,
@@ -28,8 +27,7 @@ const ListPromociones = () => {
   useEffect(() => {
     obtenerPromociones();
     obtenerGrupo();
-    getDeporte(1);
-  }, [obtenerPromociones, obtenerGrupo, getDeporte]);
+  }, [obtenerPromociones, obtenerGrupo]);
 
   return (
     <>
@@ -66,7 +64,7 @@ const ListPromociones = () => {
                       : ""}
                   </TableCell>
                   <TableCell align="right">
-                    {deporte.map((deporte) => deporte.nombre_tipo)}
+                  
                   </TableCell>
                   <TableCell align="right">
                     {promocion.nombre_promocion}
