@@ -28,10 +28,10 @@ const TablaFixture: React.FC = () => {
     queryKey: ["partidos"],
     queryFn: () => getPartidosFechaNoMayor(),
   });
-
   const [backgroundColor, setBackgroundColor] = useState<string | undefined>(
-    undefined
+    "rgba(0, 255, 0, 0.3)"
   );
+
   useEffect(() => {
     obtenerPartidos();
     const intervalId = setInterval(() => {
@@ -44,6 +44,7 @@ const TablaFixture: React.FC = () => {
 
     return () => clearInterval(intervalId);
   }, []);
+
   if (isError) {
     return (
       <Typography color="error" variant="h5">
@@ -154,7 +155,7 @@ const TablaFixture: React.FC = () => {
                               backgroundColor:
                                 partido.tiempoRestante <= 0
                                   ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
-                                  : partido.tiempoRestante < 15 * 60 * 1000
+                                  : partido.tiempoRestante < 10 * 60 * 1000
                                   ? backgroundColor || "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
                                   : undefined,
                             }}
