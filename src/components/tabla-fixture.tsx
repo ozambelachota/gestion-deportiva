@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getPartidosFechaNoMayor } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import { Fixture } from "../types/fixture.api.type";
@@ -27,21 +27,9 @@ const TablaFixture: React.FC = () => {
     queryKey: ["partidos"],
     queryFn: () => getPartidosFechaNoMayor(),
   });
-  const [backgroundColor, setBackgroundColor] = useState<string | undefined>(
-    "rgba(0, 255, 0, 0.3)"
-  );
-
   useEffect(() => {
     obtenerPartidos();
-    const intervalId = setInterval(() => {
-      setBackgroundColor((prevColor) =>
-        prevColor === "rgba(255, 0, 0, 0.3)"
-          ? "rgba(0, 255, 0, 0.3)"
-          : "rgba(255, 0, 0, 0.3)"
-      );
-    }, 20000);
-
-    return () => clearInterval(intervalId);
+    return () => {};
   }, []);
 
   if (isError) {
@@ -118,7 +106,7 @@ const TablaFixture: React.FC = () => {
 
   return (
     <div>
-      <Grid sx={{ width: "100%",height: "100vh" }} container spacing={2}>
+      <Grid sx={{ width: "100%", height: "100vh" }} container spacing={2}>
         {fixtures && fixtures.length > 0 ? (
           Object.keys(partidosAgrupados).map((grupoId) => (
             <Grid item xs={12} md={6} key={grupoId}>
@@ -148,7 +136,7 @@ const TablaFixture: React.FC = () => {
                               partido.tiempoRestante <= 0
                                 ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
                                 : partido.tiempoRestante < 10 * 60 * 1000
-                                ? backgroundColor || "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
+                                ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
                                 : undefined,
                           }}
                         >
