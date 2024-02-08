@@ -20,24 +20,31 @@ function App() {
 
   return (
     <>
-      <Container maxWidth="lg">
-        <QueryClientProvider client={queryClient}>
-          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
-            <ThemeProvider theme={darkTheme}>
-              {user && (
-                <LayoutAdmin>
-                  <FixtureRoutes />
-                </LayoutAdmin>
-              )}
-              {!user && (
-                <Layout>
-                  <FixtureRoutes />
-                </Layout>
-              )}
-            </ThemeProvider>
-          </LocalizationProvider>
-        </QueryClientProvider>
-      </Container>
+      <div className="relative h-full w-full bg-slate-950">
+        <div className="absolute bottom-0 left-[-20%] right-0 top-[-10%] h-[500px] w-[500px] rounded-full bg-radial-gradient"></div>
+        <div className="absolute bottom-0 right-[-20%] top-[-10%] h-[500px] w-[500px] rounded-full bg-radial-gradient"></div>
+        <Container sx={{ width: "100%", height: "100vh" }} maxWidth="lg">
+          <QueryClientProvider client={queryClient}>
+            <LocalizationProvider
+              dateAdapter={AdapterDateFns}
+              adapterLocale={es}
+            >
+              <ThemeProvider theme={darkTheme}>
+                {user && (
+                  <LayoutAdmin>
+                    <FixtureRoutes />
+                  </LayoutAdmin>
+                )}
+                {!user && (
+                  <Layout>
+                    <FixtureRoutes />
+                  </Layout>
+                )}
+              </ThemeProvider>
+            </LocalizationProvider>
+          </QueryClientProvider>
+        </Container>
+      </div>
     </>
   );
 }

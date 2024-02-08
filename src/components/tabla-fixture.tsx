@@ -116,7 +116,7 @@ const TablaFixture: React.FC = () => {
                 sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
               >{`Grupo ${grupoId}`}</Typography>
 
-              <TableContainer component={Paper}>
+              <TableContainer className="rounded" component={Paper}>
                 <Table>
                   <TableHead>
                     <TableRow>

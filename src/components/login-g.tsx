@@ -9,6 +9,8 @@ const LoginWithGoogle = () => {
   const setUser = useUserStore((state) => state.setUserData);
   const navigate = useNavigate();
   const setRol = useUserStore((state) => state.setRol);
+  const username = useUserStore((state) => state.username);
+
   const handleLogin = async () => {
     try {
       const { error } = await clientApi.auth.signInWithOAuth({
@@ -48,7 +50,7 @@ const LoginWithGoogle = () => {
     return () => {
       authListener.data?.subscription;
     };
-  }, []);
+  }, [username]);
 
   return (
     <>
