@@ -61,8 +61,8 @@ const ListPromociones = () => {
                     {promocion.estado ? "Activo" : "Inactivo"}
                   </TableCell>
                   <TableCell align="right">
-                    {promocion.fecha_admitido
-                      ? new Date(promocion.fecha_admitido).toLocaleString()
+                    {promocion.create_at
+                      ? new Date(promocion.create_at).toLocaleString()
                       : ""}
                   </TableCell>
                   <TableCell align="right">
@@ -77,7 +77,7 @@ const ListPromociones = () => {
                   <TableCell align="right">
                     <Button
                       variant="contained"
-                      sx={{background:"#ff00dd"}}
+                      sx={{ background: "#ff00dd" }}
                       component={Link}
                       to={`create/${promocion.id}`}
                     >
