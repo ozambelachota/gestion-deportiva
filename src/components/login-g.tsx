@@ -21,7 +21,7 @@ const LoginWithGoogle = () => {
       if (error) {
         throw new Error("Ocurrió un error durante el inicio de sesión");
       } else {
-        console.log("Success");
+        navigate("/admin/home", { replace: true });
       }
     } catch (error) {
       console.error(error);
@@ -40,7 +40,6 @@ const LoginWithGoogle = () => {
           );
           const rol = await userAdmin(session.user.id);
           setRol(rol);
-          navigate("/admin/home", { replace: true });
         } else {
           navigate("/login", { replace: true });
         }

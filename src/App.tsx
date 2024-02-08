@@ -3,6 +3,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import es from "date-fns/locale/es";
+import { useEffect } from "react";
 import "./App.css";
 import Layout from "./pages/layout";
 import LayoutAdmin from "./pages/layout-admin";
@@ -18,6 +19,7 @@ const queryClient = new QueryClient();
 function App() {
   const user = useUserStore((state) => state.username);
 
+  useEffect(() => {}, [user]);
   return (
     <>
       <div className="relative h-full w-full bg-slate-950">
