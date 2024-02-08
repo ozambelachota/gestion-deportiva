@@ -58,7 +58,6 @@ const TablaFixture: React.FC = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          width: "100vw",
           height: "100vh",
         }}
       >
@@ -119,7 +118,7 @@ const TablaFixture: React.FC = () => {
 
   return (
     <div>
-      <Grid container spacing={2}>
+      <Grid sx={{ width: "100%",height: "100vh" }} container spacing={2}>
         {fixtures && fixtures.length > 0 ? (
           Object.keys(partidosAgrupados).map((grupoId) => (
             <Grid item xs={12} md={6} key={grupoId}>
