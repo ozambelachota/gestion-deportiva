@@ -106,7 +106,9 @@ const TablaFixture: React.FC = () => {
 
   return (
     <div className="w-full h-full">
-      <Typography textAlign={"center"} variant="h4">Futbol</Typography>
+      <Typography marginTop={"8px"} textAlign={"center"} variant="h5">
+        FUTBOL
+      </Typography>
       <Grid sx={{ width: "100%", height: "100vh" }} container spacing={2}>
         {fixtures && fixtures.length > 0 ? (
           Object.keys(partidosAgrupados).map((grupoId) => (

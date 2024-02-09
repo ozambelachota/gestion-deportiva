@@ -78,7 +78,7 @@ export const useFixturePage = () => {
       return;
     }
 
-    if(promocionesPorGrupos.length < 2){
+    if(promocionesFiltradas.length < 2){
       toast.error("Se requiere al menos dos promociones");
       return;
     }
