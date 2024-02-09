@@ -48,12 +48,13 @@ const LoginWithGoogle = () => {
     return () => {
       authListener.data?.subscription;
     };
-  }, [username,rol]);
+  }, [username, rol]);
 
   return (
     <>
       <Button
         onClick={handleLogin}
+        placeholder={"Google"}
         style={{
           backgroundColor: "green",
           color: "white",
