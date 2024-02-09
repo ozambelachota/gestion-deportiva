@@ -7,6 +7,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -65,6 +66,9 @@ function FormPromocionParticipante() {
 
   return (
     <>
+      <Typography variant="h4" textAlign={"center"}>
+        Inscripcion de nueva promoción
+      </Typography>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <Box m={2}>
           <Controller
@@ -95,7 +99,9 @@ function FormPromocionParticipante() {
                   label="Campeonato"
                   labelId="campeonato-id-label"
                 >
-                  <MenuItem selected disabled value={0}>Seleccionar campeonato</MenuItem>
+                  <MenuItem selected disabled value={0}>
+                    Seleccionar campeonato
+                  </MenuItem>
                   {campeonatos.map((campeonato) => (
                     <MenuItem key={campeonato.id} value={campeonato.id}>
                       {campeonato.nombre_campeonato}
@@ -115,7 +121,9 @@ function FormPromocionParticipante() {
               defaultValue={0}
               render={({ field }) => (
                 <Select {...field} label="Grupo" labelId="grupo-id-label">
-                  <MenuItem selected disabled value={0}>Seleccionar grupo</MenuItem>
+                  <MenuItem selected disabled value={0}>
+                    Seleccionar grupo
+                  </MenuItem>
                   {grupos.map((grupo) => (
                     <MenuItem key={grupo.id} value={grupo.id}>
                       {grupo.nombre_grupo}
@@ -135,7 +143,9 @@ function FormPromocionParticipante() {
               defaultValue={0}
               render={({ field }) => (
                 <Select {...field} label="Tipo deporte" labelId="tipo-id-label">
-                  <MenuItem selected disabled value={0}>Seleccionar deporte</MenuItem>
+                  <MenuItem selected disabled value={0}>
+                    Seleccionar deporte
+                  </MenuItem>
                   {deportes.map((deporte) => (
                     <MenuItem key={deporte.id} value={deporte.id}>
                       {deporte.nombre_tipo}

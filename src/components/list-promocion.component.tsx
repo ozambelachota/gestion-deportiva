@@ -31,11 +31,13 @@ const ListPromociones = () => {
     <>
       <Typography variant="h2">Promocionales afiliados</Typography>
       <Button
+        color="success"
+        sx={{ margin: "20px 0" }} 
         component={Link}
         to="/admin/promocion/create"
         variant="contained"
         startIcon={<Add />}
-      ></Button>
+      >INSCRIBIR NUEVO PARTICIPANTE</Button>
       <TableContainer component={Paper} style={{ width: "100%" }}>
         <Table aria-label="simple table">
           <TableHead>
