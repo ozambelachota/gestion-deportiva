@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getPartidosFechaNoMayor } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import { Fixture } from "../types/fixture.api.type";
@@ -114,6 +114,15 @@ function VoleyPage() {
       return "";
     }
   };
+  useEffect(() => {
+    const temporizador = setInterval(() => {
+      setHoraActual(new Date());
+    }, 60000); // Actualizar cada minuto
+
+    return () => clearInterval(temporizador);
+  }, []);
+
+  const [horaActual, setHoraActual] = useState(new Date());
 
   return (
     <div className="w-full h-full">
@@ -145,12 +154,14 @@ function VoleyPage() {
                         <TableRow
                           sx={{
                             backgroundColor:
-                              partido.tiempoRestante <= 0
-                                ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
-                                : partido.tiempoRestante < 10 * 60 * 1000
-                                ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
-                                : "transparent",
-                          }}
+                            partido.tiempoRestante <= 0
+                            ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
+                            : partido.tiempoRestante < 10 * 60 * 1000
+                            ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
+                            : horaActual.getTime() >
+                              new Date(partido.fecha_partido).getTime()
+                            ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
+                            : "transparent",  }}
                         >
                           <TableCell sx={{ padding: "8px" }}>
                             {partido.promocion}

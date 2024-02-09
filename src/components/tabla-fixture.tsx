@@ -22,7 +22,17 @@ import { Fixture } from "../types/fixture.api.type";
 const TablaFixture: React.FC = () => {
   const fixtures = fixtureStore((state) => state.fixture);
   const obtenerPartidos = fixtureStore((state) => state.partidosPorFecha);
+  const [horaActual, setHoraActual] = React.useState(new Date());
 
+  const filtrarPorTipo = (partidos: Fixture[] | null, tipoIds: number[]) => {
+    return (
+      partidos &&
+      partidos.filter((partido) => tipoIds.includes(partido.deporte_id))
+    );
+  };
+
+  // Filtrar partidos por tipo_id 2 (futbol) y 3 (voley)
+  const partidosFiltrados = filtrarPorTipo(fixtures, [1]);
   const { isLoading, isError } = useQuery({
     queryKey: ["partidos"],
     queryFn: () => getPartidosFechaNoMayor(),
@@ -32,6 +42,17 @@ const TablaFixture: React.FC = () => {
     return () => {};
   }, [fixtures]);
 
+  useEffect(() => {
+    const temporizador = setInterval(() => {
+      setHoraActual(new Date());
+    }, 60000); // Actualizar cada minuto
+
+    return () => clearInterval(temporizador);
+  }, [horaActual]);
+
+  if (!partidosFiltrados) {
+    return <div>No hay partidos disponibles</div>;
+  }
   if (isError) {
     return (
       <Typography color="error" variant="h5">
@@ -89,7 +110,7 @@ const TablaFixture: React.FC = () => {
       });
   };
 
-  const partidosAgrupados = groupBy(fixtures, "grupo_id");
+  const partidosAgrupados = groupBy(partidosFiltrados, "grupo_id");
   const formatDate = (date: Date | string | null) => {
     if (!date) {
       return "";
@@ -140,6 +161,9 @@ const TablaFixture: React.FC = () => {
                                 ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
                                 : partido.tiempoRestante < 10 * 60 * 1000
                                 ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
+                                : horaActual.getTime() >
+                                  new Date(partido.fecha_partido).getTime()
+                                ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
                                 : "transparent",
                           }}
                         >
