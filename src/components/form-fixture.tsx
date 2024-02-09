@@ -49,16 +49,16 @@ function FormFixture() {
         sx={{
           border: "1px solid #fff",
           borderRadius: "8px",
-          padding: "20px",
+          padding: "10px",
           display: "flex",
           flexDirection: "column",
-          gap: "20px",
+          gap: "10px",
           maxWidth: "600px", // Ajusta el valor según tus necesidades
           margin: "auto", // Centra la caja horizontalmente
         }}
       >
         {/* Primera fila */}
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div className="" style={{ display: "flex", alignItems: "center" }}>
           <RadioGroup
             row
             aria-label="tipo-emparejamiento"
