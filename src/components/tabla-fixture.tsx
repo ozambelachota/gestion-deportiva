@@ -45,7 +45,7 @@ const TablaFixture: React.FC = () => {
   useEffect(() => {
     const temporizador = setInterval(() => {
       setHoraActual(new Date());
-    }, 60000); // Actualizar cada minuto
+    }, 40000); // Actualizar cada minuto
 
     return () => clearInterval(temporizador);
   }, [horaActual]);
