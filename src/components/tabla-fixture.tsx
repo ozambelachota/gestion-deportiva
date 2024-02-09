@@ -105,7 +105,7 @@ const TablaFixture: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="w-full h-full">
       <Grid sx={{ width: "100%", height: "100vh" }} container spacing={2}>
         {fixtures && fixtures.length > 0 ? (
           Object.keys(partidosAgrupados).map((grupoId) => (
@@ -137,7 +137,7 @@ const TablaFixture: React.FC = () => {
                                 ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
                                 : partido.tiempoRestante < 10 * 60 * 1000
                                 ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
-                                : undefined,
+                                : "transparent",
                           }}
                         >
                           <TableCell sx={{ padding: "8px" }}>

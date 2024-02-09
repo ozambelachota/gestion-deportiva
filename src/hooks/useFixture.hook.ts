@@ -16,7 +16,7 @@ export const useFixturePage = () => {
   );
   const deporteSelect = DeporteStore((state) => state.deporteSelect);
 
-  const deportes = DeporteStore((state) => state.deporte);
+  const deportes = DeporteStore((state) => state.deportes);
 
   const getDeportes = DeporteStore((state) => state.getDeporte);
 
@@ -85,7 +85,7 @@ export const useFixturePage = () => {
       toast.error("Se requiere un grupo");
       return;
     }
-    if(numeroFechaJugados<=0){
+    if (numeroFechaJugados <= 0) {
       toast.error("Se requiere un numero de fecha");
       return;
     }
@@ -166,6 +166,10 @@ export const useFixturePage = () => {
     usedIndices.add(index);
     return index;
   };
+
+  const promocionesFiltradas = promocionesPorGrupos.filter(
+    (promocion) => promocion.tipo_id === deporteSelect
+  );
   const handleEdit = (index: number, equipo1: string, equipo2: string) => {
     const updatedMatches = [...vsPromocion];
     updatedMatches[index].promocion = equipo1;
@@ -249,5 +253,6 @@ export const useFixturePage = () => {
     setEquipo1,
     setEquipo2,
     promocionesPorGrupos,
+    promocionesFiltradas,
   };
 };

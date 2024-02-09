@@ -11,19 +11,16 @@ import {
 } from "@mui/material";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import DeporteStore from "../store/deporte.store";
 import { fixtureStore } from "../store/fixture.store";
 
 const ListPromociones = () => {
-  const {
-    promocionParticipante,
-
-    obtenerPromociones,
-    grupo,
-    obtenerGrupo,
-  } = fixtureStore();
-
+  const { promocionParticipante, obtenerPromociones, grupo, obtenerGrupo } =
+    fixtureStore();
+  const deporte = DeporteStore((state) => state.deporte);
   promocionParticipante.sort((a, b) => a.id - b.id);
 
+  const deporteSetId = DeporteStore((state) => state.getDeporteId);
   useEffect(() => {
     obtenerPromociones();
     obtenerGrupo();
@@ -50,6 +47,9 @@ const ListPromociones = () => {
               const grupoFiltter = grupo.filter(
                 (grupo) => grupo.id == promocion.grupo_id
               );
+
+              deporteSetId(promocion.tipo_id);
+
               return (
                 <TableRow key={promocion.id}>
                   <TableCell component="th" scope="row">
@@ -63,9 +63,7 @@ const ListPromociones = () => {
                       ? new Date(promocion.create_at).toLocaleString()
                       : ""}
                   </TableCell>
-                  <TableCell align="right">
-                  
-                  </TableCell>
+                  <TableCell align="right">{deporte.nombre_tipo}</TableCell>
                   <TableCell align="right">
                     {promocion.nombre_promocion}
                   </TableCell>

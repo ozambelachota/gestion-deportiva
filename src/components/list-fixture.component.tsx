@@ -53,6 +53,8 @@ export const ListFixture = ({
               <TableCell>Fecha</TableCell>
               <TableCell>CAMPO</TableCell>
               <TableCell>Ronda</TableCell>
+              <TableCell>GRUPO</TableCell>
+              <TableCell>Deporte</TableCell>
               <TableCell>Acciones</TableCell>
             </TableRow>
           </TableHead>
@@ -100,6 +102,8 @@ export const ListFixture = ({
                 </TableCell>
                 <TableCell>{promocion.campo_id}</TableCell>
                 <TableCell>{`ronda n° ${promocion.n_fecha_jugada}`}</TableCell>
+                <TableCell>{promocion.grupo_id}</TableCell>
+                <TableCell>{promocion.deporte_id}</TableCell>
                 <TableCell>
                   {editMode === index ? (
                     <Button onClick={() => handleSaveClick(index)}>

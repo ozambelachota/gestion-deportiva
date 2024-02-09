@@ -132,3 +132,16 @@ export const nombreCampeonato = async (id: number) => {
     throw new Error("error al obtener nombre " + error);
   }
 };
+
+export const deporteId = async (id: number) => {
+  try {
+    const { data, error } = await clientApi
+      .from("tipo_deporte")
+      .select("*")
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+    return data[0];
+  } catch (error) {
+    console.error(error);
+  }
+};

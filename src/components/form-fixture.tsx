@@ -38,8 +38,9 @@ function FormFixture() {
     fixture,
     equipo1,
     equipo2,
-    promocionesPorGrupos,
+    promocionesFiltradas,
   } = useFixturePage();
+
   return (
     <>
       <Typography variant="h4" textAlign={"center"}>
@@ -173,7 +174,7 @@ function FormFixture() {
                 size="small"
               >
                 <MenuItem value={""}>Seleccionar Equipo</MenuItem>
-                {promocionesPorGrupos.map(({ id, nombre_promocion }) => (
+                {promocionesFiltradas.map(({ id, nombre_promocion }) => (
                   <MenuItem key={id} value={nombre_promocion}>
                     {nombre_promocion}
                   </MenuItem>
@@ -191,7 +192,7 @@ function FormFixture() {
                 size="small"
               >
                 <MenuItem value={""}>Seleccionar Equipo</MenuItem>
-                {promocionesPorGrupos.map(({ id, nombre_promocion }) => (
+                {promocionesFiltradas.map(({ id, nombre_promocion }) => (
                   <MenuItem key={id} value={nombre_promocion}>
                     {nombre_promocion}
                   </MenuItem>
@@ -200,8 +201,6 @@ function FormFixture() {
             </FormControl>
           </div>
         )}
-
-        {/* Botones */}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Button
             sx={{ margin: "2px" }}
