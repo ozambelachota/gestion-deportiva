@@ -17,10 +17,8 @@ import { fixtureStore } from "../store/fixture.store";
 const ListPromociones = () => {
   const { promocionParticipante, obtenerPromociones, grupo, obtenerGrupo } =
     fixtureStore();
-  const deporte = DeporteStore((state) => state.deporte);
+  const deportes = DeporteStore((state) => state.deportes);
   promocionParticipante.sort((a, b) => a.id - b.id);
-
-  const deporteSetId = DeporteStore((state) => state.getDeporteId);
   useEffect(() => {
     obtenerPromociones();
     obtenerGrupo();
@@ -36,9 +34,9 @@ const ListPromociones = () => {
               <TableCell>N°</TableCell>
               <TableCell align="right">Estado</TableCell>
               <TableCell align="right">Fecha de Admisión</TableCell>
-              <TableCell align="right">Deporte</TableCell>
               <TableCell align="right">Nombre de la Promoción</TableCell>
-              <TableCell align="right">GRUPO</TableCell>
+              <TableCell align="right">Grupo</TableCell>
+              <TableCell align="right">Deporte</TableCell>
               <TableCell align="right">Acciones</TableCell>
             </TableRow>
           </TableHead>
@@ -48,8 +46,9 @@ const ListPromociones = () => {
                 (grupo) => grupo.id == promocion.grupo_id
               );
 
-              deporteSetId(promocion.tipo_id);
-
+              const deporte = deportes.filter(
+                (deporte) => deporte.id == promocion.tipo_id
+              );
               return (
                 <TableRow key={promocion.id}>
                   <TableCell component="th" scope="row">
@@ -63,12 +62,14 @@ const ListPromociones = () => {
                       ? new Date(promocion.create_at).toLocaleString()
                       : ""}
                   </TableCell>
-                  <TableCell align="right">{deporte.nombre_tipo}</TableCell>
                   <TableCell align="right">
                     {promocion.nombre_promocion}
                   </TableCell>
                   <TableCell align="right">
                     {grupoFiltter.map((grupo) => grupo.nombre_grupo)}
+                  </TableCell>
+                  <TableCell align="right">
+                    {deporte.map((deporte) => deporte.nombre_tipo)}
                   </TableCell>
                   <TableCell align="right">
                     <Button
