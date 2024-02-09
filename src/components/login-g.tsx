@@ -10,14 +10,13 @@ const LoginWithGoogle = () => {
   const navigate = useNavigate();
   const setRol = useUserStore((state) => state.setRol);
   const username = useUserStore((state) => state.username);
+  const rol = useUserStore((state) => state.rol);
 
   const handleLogin = async () => {
     try {
       const { error } = await clientApi.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo: "https://dancing-naiad-312762.netlify.app" },
       });
-
       if (error) {
         throw new Error("Ocurrió un error durante el inicio de sesión");
       } else {
@@ -49,7 +48,7 @@ const LoginWithGoogle = () => {
     return () => {
       authListener.data?.subscription;
     };
-  }, [username]);
+  }, [username,rol]);
 
   return (
     <>
