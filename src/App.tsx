@@ -9,6 +9,7 @@ import Layout from "./pages/layout";
 import LayoutAdmin from "./pages/layout-admin";
 import FixtureRoutes from "./routes/fixture.routes";
 import { useUserStore } from "./store/login.store";
+import { useNavigate } from "react-router-dom";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -21,8 +22,12 @@ const queryClient = new QueryClient();
 
 function App() {
   const user = useUserStore((state) => state.username);
-
-  useEffect(() => {}, [user]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(user){
+      navigate("/admin/home", { replace: true });
+    }
+  }, [user]);
   return (
     <>
       <Container sx={{ width: "100%", height: "100vh" }} maxWidth="lg">
