@@ -67,7 +67,7 @@ function FormPromocionParticipante() {
   return (
     <>
       <Typography variant="h4" textAlign={"center"}>
-        Inscripcion de nueva promoción
+        Inscripción de nueva promoción
       </Typography>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <Box m={2}>
