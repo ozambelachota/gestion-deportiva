@@ -52,10 +52,14 @@ const NavbarAdmin = () => {
           >
             Registrar Fixture
           </Button>
-          <Button color="inherit" component={Link} to="/registrar-promociones">
+          <Button
+            color="inherit"
+            component={Link}
+            to="admin/registrar-promociones"
+          >
             Registrar Promociones
           </Button>
-          <Button color="inherit" component={Link} to="/sancion">
+          <Button color="inherit" component={Link} to="admina/sancion">
             Jugadores Sancionados
           </Button>
           <Button color="inherit" onClick={handleMenuClick}>
