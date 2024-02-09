@@ -77,7 +77,7 @@ export const useFixturePage = () => {
       toast.error("Se requiere un campo");
       return;
     }
-    if (totalPromociones < 2) {
+    if (promocionesPorGrupos.length < 2) {
       toast.error("Se requiere al menos 2 equipos");
       return;
     }
