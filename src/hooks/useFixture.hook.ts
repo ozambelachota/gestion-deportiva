@@ -89,6 +89,10 @@ export const useFixturePage = () => {
       toast.error("Se requiere un numero de fecha");
       return;
     }
+    if (promocionesFiltradas.length == 0 || promocionesFiltradas == null) {
+      toast.error("No hay promociones para este deporte");
+      return;
+    }
 
     if (emparejamiento === "automatico") {
       // Genera partidos para un número par de equipos
