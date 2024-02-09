@@ -69,7 +69,7 @@ export const useFixturePage = () => {
     setEquipo2(event.target.value);
   };
   const handleGeneratePartido = () => {
-    const promocionesAleatorias = [...promocionesPorGrupos];
+    const promocionesAleatorias = [...promocionesFiltradas];
     const totalPromociones = promocionesAleatorias.length;
     const usedIndices = new Set<number>();
     let horaActual = new Date(horaInicial);
@@ -78,7 +78,7 @@ export const useFixturePage = () => {
       return;
     }
 
-    if(promocionesFiltradas.length < 2){
+    if (promocionesFiltradas.length < 2) {
       toast.error("Se requiere al menos dos promociones");
       return;
     }
