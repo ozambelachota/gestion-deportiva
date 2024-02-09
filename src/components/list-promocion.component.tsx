@@ -35,7 +35,6 @@ const ListPromociones = () => {
             <TableRow>
               <TableCell>N°</TableCell>
               <TableCell align="right">Estado</TableCell>
-              <TableCell align="right">Fecha de Admisión</TableCell>
               <TableCell align="right">Nombre de la Promoción</TableCell>
               <TableCell align="right">Grupo</TableCell>
               <TableCell align="right">Deporte</TableCell>
@@ -58,11 +57,6 @@ const ListPromociones = () => {
                   </TableCell>
                   <TableCell align="right">
                     {promocion.estado ? "Activo" : "Inactivo"}
-                  </TableCell>
-                  <TableCell align="right">
-                    {promocion.create_at
-                      ? new Date(promocion.create_at).toLocaleString()
-                      : ""}
                   </TableCell>
                   <TableCell align="right">
                     {promocion.nombre_promocion}
