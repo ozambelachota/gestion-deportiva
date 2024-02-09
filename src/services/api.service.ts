@@ -1,5 +1,9 @@
 import { clientApi } from "../api/client.api";
-import { Fixture, Promocional } from "../types/fixture.api.type";
+import {
+  Fixture,
+  PromocionParticipante,
+  Promocional,
+} from "../types/fixture.api.type";
 export const obtenerPromocionalesParticipantes = async () => {
   try {
     const { data: Promociones, error } = await clientApi
@@ -145,3 +149,29 @@ export const deporteId = async (id: number) => {
     console.error(error);
   }
 };
+export const insertPromocionParticipante = async (
+  promocionParticipante: PromocionParticipante
+) => {
+  try {
+    const { data, error } = await clientApi
+      .from("promocion_participante")
+      .insert(promocionParticipante);
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getCampeonatos = async () => {
+  try {
+    const { data, error } = await clientApi
+      .from("Campeonato")
+      .select("*")
+      .order("id", { ascending: true });
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}

@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import FormPromocionParticipante from "../components/form-promocion-participante";
 import TablaFixture from "../components/tabla-fixture";
 import Admin from "../pages/admin";
 import { FixturePage } from "../pages/fixture";
@@ -20,6 +21,10 @@ const FixtureRoutes = () => {
           <Route
             path="registrar-promociones/create/:id"
             element={<RegisterPromocion />}
+          />
+          <Route
+            path="promocion/create"
+            element={<FormPromocionParticipante />}
           />
           <Route path="sancion" element={<Sancion />} />
           <Route path="home" element={<TablaFixture />} />

@@ -1,3 +1,4 @@
+import { Add } from "@mui/icons-material";
 import {
   Button,
   Paper,
@@ -17,18 +18,24 @@ import { fixtureStore } from "../store/fixture.store";
 const ListPromociones = () => {
   const { promocionParticipante, obtenerPromociones, grupo, obtenerGrupo } =
     fixtureStore();
-    const deportes = DeporteStore((state) => state.deportes);
-    const getDeportes = DeporteStore((state) => state.getDeporte);
-    promocionParticipante.sort((a, b) => a.id - b.id);
+  const deportes = DeporteStore((state) => state.deportes);
+  const getDeportes = DeporteStore((state) => state.getDeporte);
+  promocionParticipante.sort((a, b) => a.id - b.id);
   useEffect(() => {
     obtenerPromociones();
-    getDeportes()
+    getDeportes();
     obtenerGrupo();
   }, []);
 
   return (
     <>
       <Typography variant="h2">Promocionales afiliados</Typography>
+      <Button
+        component={Link}
+        to="/admin/promocion/create"
+        variant="contained"
+        startIcon={<Add />}
+      ></Button>
       <TableContainer component={Paper} style={{ width: "100%" }}>
         <Table aria-label="simple table">
           <TableHead>
