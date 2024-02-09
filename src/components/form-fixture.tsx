@@ -156,7 +156,12 @@ function FormFixture() {
             type="number"
             size="small"
             value={numeroFechaJugados}
-            onChange={(e) => setNumeroFechaJugados(parseInt(e.target.value))}
+            onChange={(e) => {
+              const value = parseInt(e.target.value);
+              if (!isNaN(value) && value >= 0) {
+                setNumeroFechaJugados(value);
+              }
+            }}
             sx={{ margin: "20px" }}
           />
         </div>
