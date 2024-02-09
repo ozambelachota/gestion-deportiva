@@ -1,3 +1,4 @@
+import { AccountCircle } from "@mui/icons-material";
 import {
   AppBar,
   Button,
@@ -53,6 +54,7 @@ const Navbar = () => {
             border: "1px solid #fff",
           }}
         >
+          <AccountCircle />
           Iniciar sesión
         </Button>
       </Toolbar>
