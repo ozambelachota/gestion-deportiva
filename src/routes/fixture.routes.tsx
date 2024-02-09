@@ -9,6 +9,7 @@ import Promocion from "../pages/promocion";
 import { RegisterPromocion } from "../pages/register-promocion";
 import Sancion from "../pages/sancion";
 import ProtectedRouter from "./protected.routes";
+import VoleyPage from "../pages/voley";
 
 const FixtureRoutes = () => {
   return (
@@ -31,6 +32,7 @@ const FixtureRoutes = () => {
         </Route>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/voley" element={<VoleyPage />} />
         <Route path="*" element={<Navigate to={"/"} />} />
       </Routes>
     </>

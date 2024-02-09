@@ -14,12 +14,12 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { getPartidosFechaNoMayor } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import { Fixture } from "../types/fixture.api.type";
 
-const TablaFixture: React.FC = () => {
+function VoleyPage() {
   const fixtures = fixtureStore((state) => state.fixture);
   const obtenerPartidos = fixtureStore((state) => state.partidosPorFecha);
 
@@ -27,10 +27,21 @@ const TablaFixture: React.FC = () => {
     queryKey: ["partidos"],
     queryFn: () => getPartidosFechaNoMayor(),
   });
+
+  const filtrarPorTipo = (partidos: Fixture[] | null, tipoIds: number[]) => {
+    return (
+      partidos &&
+      partidos.filter((partido) => tipoIds.includes(partido.deporte_id))
+    );
+  };
+
+  // Filtrar partidos por tipo_id 2 y 3 (vóley)
+  const partidosFiltrados = filtrarPorTipo(fixtures, [2, 3]);
+
   useEffect(() => {
     obtenerPartidos();
     return () => {};
-  }, [fixtures]);
+  }, []);
 
   if (isError) {
     return (
@@ -89,7 +100,7 @@ const TablaFixture: React.FC = () => {
       });
   };
 
-  const partidosAgrupados = groupBy(fixtures, "grupo_id");
+  const partidosAgrupados = groupBy(partidosFiltrados, "grupo_id");
   const formatDate = (date: Date | string | null) => {
     if (!date) {
       return "";
@@ -106,7 +117,7 @@ const TablaFixture: React.FC = () => {
 
   return (
     <div className="w-full h-full">
-      <Typography textAlign={"center"} variant="h4">Futbol</Typography>
+      <Typography textAlign={"center"} variant="h4">Voley y Voley Mixto</Typography>
       <Grid sx={{ width: "100%", height: "100vh" }} container spacing={2}>
         {fixtures && fixtures.length > 0 ? (
           Object.keys(partidosAgrupados).map((grupoId) => (
@@ -179,6 +190,6 @@ const TablaFixture: React.FC = () => {
       </Grid>
     </div>
   );
-};
+}
 
-export default TablaFixture;
+export default VoleyPage;

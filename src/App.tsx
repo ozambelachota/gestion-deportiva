@@ -1,4 +1,4 @@
-import { Container, ThemeProvider, createTheme } from "@mui/material";
+import { Container, ThemeProvider, Typography, createTheme } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -31,6 +31,7 @@ function App() {
   return (
     <>
       <Container sx={{ width: "100%", height: "100vh" }} maxWidth="lg">
+        <Typography color={"white"} textAlign={"center"} variant="h4">EXAFAM FIXTURE</Typography>
         <QueryClientProvider client={queryClient}>
           <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
             <ThemeProvider theme={darkTheme}>

@@ -1,11 +1,5 @@
 import { AccountCircle } from "@mui/icons-material";
-import {
-  AppBar,
-  Button,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { AppBar, Button, Toolbar, useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -30,20 +24,32 @@ const Navbar = () => {
           flexDirection: isMobile ? "column" : "row", // Alineación vertical en dispositivos móviles
         }}
       >
-        <Typography
-          variant="h6"
+        <Button
+          color="inherit"
           component={Link}
           to="/"
           sx={{
-            color: "white",
-            textDecoration: "none",
             padding: isMobile ? "10px 0" : "10px",
-            fontSize: isMobile ? "1.2rem" : "1.5rem",
-            textAlign: isMobile ? "center" : "left", // Alineación centrada en dispositivos móviles
+            fontSize: isMobile ? "1rem" : "1.2rem",
+            border: "1px solid #fff",
+            margin: "2px",
           }}
         >
-          Exafam Fixture
-        </Typography>
+          Futbol
+        </Button>
+        <Button
+          color="inherit"
+          component={Link}
+          to="/voley"
+          sx={{
+            padding: isMobile ? "10px 0" : "10px",
+            fontSize: isMobile ? "1rem" : "1.2rem",
+            border: "1px solid #fff",
+            margin: "2px",
+          }}
+        >
+          Voley y Voley Mixto
+        </Button>
         <Button
           color="inherit"
           component={Link}
@@ -52,6 +58,7 @@ const Navbar = () => {
             padding: isMobile ? "10px 0" : "10px",
             fontSize: isMobile ? "1rem" : "1.2rem",
             border: "1px solid #fff",
+            margin: "2px",
           }}
         >
           <AccountCircle />
