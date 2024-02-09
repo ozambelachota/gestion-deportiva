@@ -77,6 +77,11 @@ export const useFixturePage = () => {
       toast.error("Se requiere un campo");
       return;
     }
+
+    if(promocionesPorGrupos.length < 2){
+      toast.error("Se requiere al menos dos promociones");
+      return;
+    }
     if (deporteSelect <= 0) {
       toast.error("debe seleccionar un deporte");
       return;
