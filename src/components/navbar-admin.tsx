@@ -59,7 +59,7 @@ const NavbarAdmin = () => {
           >
             Registrar Promociones
           </Button>
-          <Button color="inherit" component={Link} to="admina/sancion">
+          <Button color="inherit" component={Link} to="admin/sancion">
             Jugadores Sancionados
           </Button>
           <Button color="inherit" onClick={handleMenuClick}>
