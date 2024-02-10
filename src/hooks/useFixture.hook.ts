@@ -82,11 +82,6 @@ export const useFixturePage = () => {
       toast.error("Se requiere un campo");
       return;
     }
-
-    if (promocionesFiltradas.length < 2) {
-      toast.error("Se requiere al menos dos promociones");
-      return;
-    }
     if (deporteSelect <= 0) {
       toast.error("debe seleccionar un deporte");
       return;
@@ -99,13 +94,8 @@ export const useFixturePage = () => {
       toast.error("Se requiere un numero de fecha");
       return;
     }
-    if (promocionesFiltradas.length == 0 || promocionesFiltradas == null) {
-      toast.error("No hay promociones para este deporte");
-      return;
-    }
 
     if (emparejamiento === "automatico") {
-      // Genera partidos para un número par de equipos
       for (let i = 0; i < totalPromociones - (totalPromociones % 2); i += 2) {
         const index1 = getRandomIndex(totalPromociones, usedIndices);
         const equipo1 = promocionesAleatorias[index1].nombre_promocion;

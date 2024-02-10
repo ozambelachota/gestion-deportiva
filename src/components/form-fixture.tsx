@@ -35,7 +35,6 @@ function FormFixture() {
     handleSavePartido,
     handleChangeEquipo1,
     handleChangeEquipo2,
-    fixture,
     equipo1,
     equipo2,
     promocionesFiltradas,
@@ -215,7 +214,7 @@ function FormFixture() {
             }}
             disabled={!selectGrupo}
           >
-            {!fixture ? "Generar siguiente partido" : "Generar primera fecha"}
+            Generar partido
           </Button>
           <Button
             onClick={handleSavePartido}
