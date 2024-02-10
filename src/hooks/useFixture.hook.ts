@@ -61,6 +61,7 @@ export const useFixturePage = () => {
     numeroFechaJugados,
     deporteSelect,
     campoSelect,
+    emparejamiento,
   ]);
   const handleChangeEmparejamiento = (event: any) => {
     setEmparejamiento(event.target.value);
@@ -74,7 +75,7 @@ export const useFixturePage = () => {
     setEquipo2(event.target.value);
   };
   const handleGeneratePartido = () => {
-    const promocionesAleatorias = [...promocionesPorGrupos];
+    const promocionesAleatorias = [...promocionesFiltradas];
     const totalPromociones = promocionesAleatorias.length;
     const usedIndices = new Set<number>();
     let horaActual = new Date(horaInicial);
@@ -99,7 +100,7 @@ export const useFixturePage = () => {
       for (let i = 0; i < totalPromociones - (totalPromociones % 2); i += 2) {
         const index1 = getRandomIndex(totalPromociones, usedIndices);
         const equipo1 = promocionesAleatorias[index1].nombre_promocion;
-        const horaSegundoPartido = addMinutes(horaActual, 25);
+        const horaSegundoPartido = addMinutes(horaActual, 30);
 
         const index2 = getRandomIndex(totalPromociones, usedIndices);
         const equipo2 = promocionesAleatorias[index2].nombre_promocion;
