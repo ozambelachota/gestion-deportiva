@@ -55,8 +55,13 @@ export const useFixturePage = () => {
     if (selectGrupo <= 0) return;
     else obtenerPromocionGrupo(selectGrupo);
     return () => {};
-  }, [vsPromocion, selectGrupo, numeroFechaJugados]);
-
+  }, [
+    vsPromocion,
+    selectGrupo,
+    numeroFechaJugados,
+    deporteSelect,
+    campoSelect,
+  ]);
   const handleChangeEmparejamiento = (event: any) => {
     setEmparejamiento(event.target.value);
   };
@@ -140,7 +145,6 @@ export const useFixturePage = () => {
 
       toast.success("Partidos generados con éxito");
     } else if (emparejamiento === "manual") {
-      // Tu lógica de emparejamiento manual sigue sin cambios
       if (equipo1 === equipo2) {
         toast.error("Los equipos no pueden ser iguales");
         return;
@@ -163,7 +167,7 @@ export const useFixturePage = () => {
       toast.success("Partido generado con éxito");
     }
 
-    setVsPromocion([...matches]);
+    setVsPromocion(matches);
   };
 
   const getRandomIndex = (max: number, usedIndices: Set<number>) => {
@@ -209,24 +213,22 @@ export const useFixturePage = () => {
     if (numeroFechaJugados <= 0) {
       toast.error("Se requiere al menos una fecha jugada");
       return;
-    }
-    if (selectGrupo <= 0) {
+    } else if (selectGrupo <= 0) {
       toast.error("Se requiere un grupo");
       return;
-    }
-    if (campoSelect <= 0) {
+    } else if (campoSelect <= 0) {
       toast.error("Se requiere un campo");
       return;
-    }
-    if (deporteSelect <= 0) {
+    } else if (deporteSelect <= 0) {
       toast.error("debe seleccionar un deporte");
       return;
+    } else {
+      addPartido(vsPromocion);
+      setVsPromocion([]);
+      setNumeroFechaJugados(0);
+      setHoraInicial(new Date());
+      toast.success("Partidos guardados");
     }
-    addPartido(vsPromocion);
-    setVsPromocion([]);
-    setNumeroFechaJugados(0);
-    setHoraInicial(new Date());
-    toast.success("Partidos guardados");
   };
 
   return {
