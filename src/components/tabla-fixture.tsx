@@ -94,6 +94,10 @@ const TablaFixture: React.FC = () => {
   const obtenerProximosPartidos = (grupoPartidos: Fixture[]) => {
     const fechaActual = new Date();
     return grupoPartidos
+      .filter(
+        (partido) =>
+          new Date(partido.fecha_partido).getTime() >= fechaActual.getTime()
+      )
       .sort(
         (a, b) =>
           new Date(a.fecha_partido).getTime() -

@@ -199,28 +199,33 @@ export const useFixturePage = () => {
   const handleChangeSelectCampo = (event: any) => {
     selectCampo(event.target.value as number);
   };
-
-  const handleSavePartido = () => {
-    if (numeroFechaJugados <= 0) {
-      toast.error("Se requiere al menos una fecha jugada");
-      return;
-    } else if (selectGrupo <= 0) {
-      toast.error("Se requiere un grupo");
-      return;
-    } else if (campoSelect <= 0) {
-      toast.error("Se requiere un campo");
-      return;
-    } else if (deporteSelect <= 0) {
-      toast.error("debe seleccionar un deporte");
-      return;
-    } else {
-      addPartido(vsPromocion);
-      setVsPromocion([]);
-      setNumeroFechaJugados(0);
-      setHoraInicial(new Date());
-      toast.success("Partidos guardados");
+  const handleSavePartido = async () => {
+    try {
+      if (numeroFechaJugados <= 0) {
+        toast.error("Se requiere al menos una fecha jugada");
+        return;
+      } else if (selectGrupo <= 0) {
+        toast.error("Se requiere un grupo");
+        return;
+      } else if (campoSelect <= 0) {
+        toast.error("Se requiere un campo");
+        return;
+      } else if (deporteSelect <= 0) {
+        toast.error("Debe seleccionar un deporte");
+        return;
+      } else {
+        await addPartido(vsPromocion);
+        setVsPromocion([]);
+        setNumeroFechaJugados(0);
+        setHoraInicial(new Date());
+        toast.success("Partidos guardados");
+      }
+    } catch (error) {
+      console.error("Error al guardar partidos:", error);
+      toast.error("Error al guardar partidos. Consulta la consola para más detalles.");
     }
   };
+  
 
   return {
     emparejamiento,
