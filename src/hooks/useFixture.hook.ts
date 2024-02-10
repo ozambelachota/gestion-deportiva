@@ -69,7 +69,7 @@ export const useFixturePage = () => {
     setEquipo2(event.target.value);
   };
   const handleGeneratePartido = () => {
-    const promocionesAleatorias = [...promocionesFiltradas];
+    const promocionesAleatorias = [...promocionesPorGrupos];
     const totalPromociones = promocionesAleatorias.length;
     const usedIndices = new Set<number>();
     let horaActual = new Date(horaInicial);
