@@ -206,10 +206,6 @@ export const useFixturePage = () => {
   };
 
   const handleSavePartido = () => {
-    if (vsPromocion.length < 3 && emparejamiento === "automatico") {
-      toast.error("Se requiere al menos 3 partidos");
-      return;
-    }
     if (numeroFechaJugados <= 0) {
       toast.error("Se requiere al menos una fecha jugada");
       return;
@@ -225,13 +221,12 @@ export const useFixturePage = () => {
     if (deporteSelect <= 0) {
       toast.error("debe seleccionar un deporte");
       return;
-    } else {
-      addPartido(vsPromocion);
-      setVsPromocion([]);
-      setNumeroFechaJugados(0);
-      setHoraInicial(new Date());
-      toast.success("Partidos guardados");
     }
+    addPartido(vsPromocion);
+    setVsPromocion([]);
+    setNumeroFechaJugados(0);
+    setHoraInicial(new Date());
+    toast.success("Partidos guardados");
   };
 
   return {
