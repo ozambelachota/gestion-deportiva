@@ -9,7 +9,6 @@ function FixtureCreate() {
   return (
     <>
       <FormFixture />
-      <FormFixture />
       <ListFixture
         vsPromocion={vsPromocion}
         promociones={promocionesFiltradas}
