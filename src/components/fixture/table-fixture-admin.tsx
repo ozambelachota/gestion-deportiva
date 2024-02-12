@@ -27,7 +27,6 @@ export function TableFixtureAdmin() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell align="right">Fecha</TableCell>
             <TableCell align="right">Equipo 1</TableCell>
             <TableCell align="right">VS</TableCell>
             <TableCell align="right">Equipo 2</TableCell>
@@ -41,9 +40,6 @@ export function TableFixtureAdmin() {
               key={fixture.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell align="right">
-                {fixture?.fecha_partido.toISOString()}
-              </TableCell>
               <TableCell align="right">{fixture?.promocion}</TableCell>
               <TableCell align="right">vs</TableCell>
               <TableCell align="right">{fixture.vs_promocion}</TableCell>
@@ -51,7 +47,7 @@ export function TableFixtureAdmin() {
                 {fixture.por_jugar == true ? "Por jugar" : "Finalizado"}
               </TableCell>
               <TableCell align="right">
-                <Button variant="contained" >Terminar Partido</Button>
+                <Button variant="contained">Terminar Partido</Button>
               </TableCell>
             </TableRow>
           ))}
