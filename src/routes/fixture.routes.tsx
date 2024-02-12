@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import FixtureCreate from "../components/fixture/fixture-create";
 import FormPromocionParticipante from "../components/form-promocion-participante";
 import TablaFixture from "../components/tabla-fixture";
 import Admin from "../pages/admin";
@@ -8,8 +9,8 @@ import Login from "../pages/login";
 import Promocion from "../pages/promocion";
 import { RegisterPromocion } from "../pages/register-promocion";
 import Sancion from "../pages/sancion";
-import ProtectedRouter from "./protected.routes";
 import VoleyPage from "../pages/voley";
+import ProtectedRouter from "./protected.routes";
 
 const FixtureRoutes = () => {
   return (
@@ -23,6 +24,7 @@ const FixtureRoutes = () => {
             path="registrar-promociones/create/:id"
             element={<RegisterPromocion />}
           />
+          <Route path="fixture/create" element={<FixtureCreate />} />
           <Route
             path="promocion/create"
             element={<FormPromocionParticipante />}

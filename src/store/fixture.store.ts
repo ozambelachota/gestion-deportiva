@@ -1,3 +1,4 @@
+import { getPartidos } from './../services/api.service';
 import { create } from "zustand";
 import {
   getPartidosFechaNoMayor,
@@ -32,6 +33,7 @@ type FixtureStore = {
   setEquipo1: (equipo: string) => void;
   setEquipo2: (equipo: string) => void;
   setVsPromcion: (vsPromocion: Fixture[]) => void;
+  obtenerPartidos: () => Promise<void>;
 };
 
 export const fixtureStore = create<FixtureStore>()((set) => ({
@@ -122,5 +124,12 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
   setEquipo1: (equipo: string) => set({ equipo1: equipo }),
   setEquipo2: (equipoId: string) => set({ equipo2: equipoId }),
   setVsPromcion: (vsPromocion: Fixture[]) => set({ vsPromocion: vsPromocion }),
+  obtenerPartidos: async () => {
+    const partidos = await getPartidos();
+    if(!partidos || partidos.length > 0){
+      set({ fixture: partidos });
+    }
+  }
 }
+
 ));

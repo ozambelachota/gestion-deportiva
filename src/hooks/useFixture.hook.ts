@@ -48,12 +48,16 @@ export const useFixturePage = () => {
   const selectCampo = CampoStore((state) => state.selectCampo);
   const campoSelect = CampoStore((state) => state.campoSelect);
   const [horaInicial, setHoraInicial] = useState(new Date());
-  useEffect(() => {
-    obtenerGrupo();
-    obtenerCampos();
-    getDeportes();
+
+  async function cargarDatos() {
+    await obtenerGrupo();
+    await obtenerCampos();
+    await getDeportes();
     if (selectGrupo <= 0) return;
-    else obtenerPromocionGrupo(selectGrupo);
+    else await obtenerPromocionGrupo(selectGrupo);
+  }
+  useEffect(() => {
+    cargarDatos();
     return () => {};
   }, [
     vsPromocion,
@@ -113,7 +117,7 @@ export const useFixturePage = () => {
           campo_id: campoSelect,
           deporte_id: deporteSelect,
           n_fecha_jugada: numeroFechaJugados,
-          por_jugar:true,
+          por_jugar: true,
         });
 
         horaActual = horaSegundoPartido;
@@ -132,7 +136,7 @@ export const useFixturePage = () => {
           campo_id: campoSelect,
           deporte_id: deporteSelect,
           n_fecha_jugada: numeroFechaJugados,
-          por_jugar:true,
+          por_jugar: true,
         });
       }
 
@@ -155,7 +159,7 @@ export const useFixturePage = () => {
         n_fecha_jugada: numeroFechaJugados,
         deporte_id: deporteSelect,
         fecha_partido: horaActual,
-        por_jugar:true,
+        por_jugar: true,
       });
 
       toast.success("Partido generado con éxito");
@@ -225,10 +229,11 @@ export const useFixturePage = () => {
       }
     } catch (error) {
       console.error("Error al guardar partidos:", error);
-      toast.error("Error al guardar partidos. Consulta la consola para más detalles.");
+      toast.error(
+        "Error al guardar partidos. Consulta la consola para más detalles."
+      );
     }
   };
-  
 
   return {
     emparejamiento,

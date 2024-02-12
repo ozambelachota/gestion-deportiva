@@ -175,3 +175,15 @@ export const getCampeonatos = async () => {
     console.error(error);
   }
 }
+export const getPartidos = async () => {
+  try {
+    const { data, error } = await clientApi
+      .from("fixture_exafam")
+      .select("*")
+      .order("id", { ascending: true });
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
