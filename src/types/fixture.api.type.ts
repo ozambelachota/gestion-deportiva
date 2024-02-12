@@ -20,6 +20,7 @@ export interface Fixture {
   grupo_id: number;
   deporte_id: number; 
   n_fecha_jugada: number;
+  por_jugar: boolean;
 }
 export interface GrupoPromocion {
   id: number;

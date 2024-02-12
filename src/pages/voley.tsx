@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getPartidosFechaNoMayor } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import { Fixture } from "../types/fixture.api.type";
@@ -84,6 +84,7 @@ function VoleyPage() {
   const obtenerProximosPartidos = (grupoPartidos: Fixture[]) => {
     const fechaActual = new Date();
     return grupoPartidos
+      .filter((partido) => partido.por_jugar === true)  
       .sort(
         (a, b) =>
           new Date(a.fecha_partido).getTime() -
@@ -114,15 +115,7 @@ function VoleyPage() {
       return "";
     }
   };
-  useEffect(() => {
-    const temporizador = setInterval(() => {
-      setHoraActual(new Date());
-    }, 40000); // Actualizar cada minuto
 
-    return () => clearInterval(temporizador);
-  }, []);
-
-  const [horaActual, setHoraActual] = useState(new Date());
 
   return (
     <div className="w-full h-full">
@@ -158,7 +151,7 @@ function VoleyPage() {
                             ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
                             : partido.tiempoRestante < 10 * 60 * 1000
                             ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
-                            : horaActual.getTime() >
+                            : new Date().getTime() >
                               new Date(partido.fecha_partido).getTime()
                             ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
                             : "transparent",  }}

@@ -75,6 +75,7 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
       deporte_id: 0,
       vs_promocion: "",
       n_fecha_jugada: 0,
+      por_jugar: false,
     },
   ],
   fecha: new Date(),
@@ -91,6 +92,7 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
       campo_id: 0,
       deporte_id: 0,
       n_fecha_jugada: 0,
+      por_jugar: false,
       
     }
   ],

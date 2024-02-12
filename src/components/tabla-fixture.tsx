@@ -14,16 +14,14 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { getPartidosFechaNoMayor } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
-import { Fixture } from "../types/fixture.api.type";
+import type { Fixture } from "../types/fixture.api.type";
 
 const TablaFixture: React.FC = () => {
   const fixtures = fixtureStore((state) => state.fixture);
   const obtenerPartidos = fixtureStore((state) => state.partidosPorFecha);
-  const [horaActual, setHoraActual] = React.useState(new Date());
-
   const filtrarPorTipo = (partidos: Fixture[] | null, tipoIds: number[]) => {
     return (
       partidos &&
@@ -41,14 +39,6 @@ const TablaFixture: React.FC = () => {
     obtenerPartidos();
     return () => {};
   }, [fixtures]);
-
-  useEffect(() => {
-    const temporizador = setInterval(() => {
-      setHoraActual(new Date());
-    }, 40000); // Actualizar cada minuto
-
-    return () => clearInterval(temporizador);
-  }, [horaActual]);
 
   if (!partidosFiltrados) {
     return <div>No hay partidos disponibles</div>;
@@ -94,6 +84,7 @@ const TablaFixture: React.FC = () => {
   const obtenerProximosPartidos = (grupoPartidos: Fixture[]) => {
     const fechaActual = new Date();
     return grupoPartidos
+      .filter((partido) => partido.por_jugar === true)
       .sort(
         (a, b) =>
           new Date(a.fecha_partido).getTime() -
@@ -161,7 +152,7 @@ const TablaFixture: React.FC = () => {
                                 ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
                                 : partido.tiempoRestante < 10 * 60 * 1000
                                 ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
-                                : horaActual.getTime() >
+                                : new Date().getTime() >
                                   new Date(partido.fecha_partido).getTime()
                                 ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
                                 : "transparent",

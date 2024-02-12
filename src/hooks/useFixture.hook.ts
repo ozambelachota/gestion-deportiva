@@ -113,6 +113,7 @@ export const useFixturePage = () => {
           campo_id: campoSelect,
           deporte_id: deporteSelect,
           n_fecha_jugada: numeroFechaJugados,
+          por_jugar:true,
         });
 
         horaActual = horaSegundoPartido;
@@ -131,6 +132,7 @@ export const useFixturePage = () => {
           campo_id: campoSelect,
           deporte_id: deporteSelect,
           n_fecha_jugada: numeroFechaJugados,
+          por_jugar:true,
         });
       }
 
@@ -153,6 +155,7 @@ export const useFixturePage = () => {
         n_fecha_jugada: numeroFechaJugados,
         deporte_id: deporteSelect,
         fecha_partido: horaActual,
+        por_jugar:true,
       });
 
       toast.success("Partido generado con éxito");
