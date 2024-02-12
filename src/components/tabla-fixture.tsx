@@ -121,6 +121,14 @@ const TablaFixture: React.FC = () => {
       <Typography marginTop={"8px"} textAlign={"center"} variant="h5">
         FUTBOL
       </Typography>
+      <div className="flex justify-center space-x-8 mt-4">
+        <Typography variant="h6" sx={{ textAlign: "center" }}>
+          Campo 1 : PARQUE TUPAC
+        </Typography>
+        <Typography variant="h6" sx={{ textAlign: "center" }}>
+          Campo 2 : COLEGIO FAUSTINO MALDONADO
+        </Typography>
+      </div>
       <Grid sx={{ width: "100%", height: "100vh" }} container spacing={2}>
         {fixtures && fixtures.length > 0 ? (
           Object.keys(partidosAgrupados).map((grupoId) => (

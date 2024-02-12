@@ -34,8 +34,6 @@ function VoleyPage() {
       partidos.filter((partido) => tipoIds.includes(partido.deporte_id))
     );
   };
-
-  // Filtrar partidos por tipo_id 2 y 3 (vóley)
   const partidosFiltrados = filtrarPorTipo(fixtures, [2, 3]);
 
   useEffect(() => {
@@ -84,7 +82,7 @@ function VoleyPage() {
   const obtenerProximosPartidos = (grupoPartidos: Fixture[]) => {
     const fechaActual = new Date();
     return grupoPartidos
-      .filter((partido) => partido.por_jugar === true)  
+      .filter((partido) => partido.por_jugar === true)
       .sort(
         (a, b) =>
           new Date(a.fecha_partido).getTime() -
@@ -116,10 +114,11 @@ function VoleyPage() {
     }
   };
 
-
   return (
     <div className="w-full h-full">
-      <Typography textAlign={"center"} variant="h4">Voley y Voley Mixto</Typography>
+      <Typography textAlign={"center"} variant="h4">
+        Voley y Voley Mixto
+      </Typography>
       <Grid sx={{ width: "100%", height: "100vh" }} container spacing={2}>
         {fixtures && fixtures.length > 0 ? (
           Object.keys(partidosAgrupados).map((grupoId) => (
@@ -147,14 +146,15 @@ function VoleyPage() {
                         <TableRow
                           sx={{
                             backgroundColor:
-                            partido.tiempoRestante <= 0
-                            ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
-                            : partido.tiempoRestante < 10 * 60 * 1000
-                            ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
-                            : new Date().getTime() >
-                              new Date(partido.fecha_partido).getTime()
-                            ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
-                            : "transparent",  }}
+                              partido.tiempoRestante <= 0
+                                ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
+                                : partido.tiempoRestante < 10 * 60 * 1000
+                                ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
+                                : new Date().getTime() >
+                                  new Date(partido.fecha_partido).getTime()
+                                ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
+                                : "transparent",
+                          }}
                         >
                           <TableCell sx={{ padding: "8px" }}>
                             {partido.promocion}
