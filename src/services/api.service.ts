@@ -199,3 +199,13 @@ export const getResult = async () => {
     console.error(error);
   }
 };
+
+export const getTablaPosiciones = async () => {
+  try {
+    const { data, error } = await clientApi.from("tabla_posicion").select("*").order("puntos", { ascending: true });
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

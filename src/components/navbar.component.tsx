@@ -4,13 +4,12 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
-
   return (
     <AppBar
       position="static"
       sx={{
         margin: "5px",
-        backgroundColor: "darkgreen",
+        backgroundColor: "#001F3F", // Color azul noche
         borderBottom: "1px solid #fff",
         borderRadius: "5px",
       }}
@@ -29,8 +28,8 @@ const Navbar = () => {
           component={Link}
           to="/resultado"
           sx={{
-            padding: isMobile ? "10px 0" : "10px",
-            fontSize: isMobile ? "1rem" : "1.2rem",
+            padding: isMobile ? "5px 0" : "8px", // Ajuste en el padding para hacerlo más pequeño
+            fontSize: isMobile ? "0.7rem" : "1rem", // Ajuste en el tamaño de la fuente
             border: "1px solid #fff",
             margin: "2px",
           }}
@@ -40,10 +39,23 @@ const Navbar = () => {
         <Button
           color="inherit"
           component={Link}
+          to="/psoicion"
+          sx={{
+            padding: isMobile ? "5px 0" : "8px",
+            fontSize: isMobile ? "0.7rem" : "1rem",
+            border: "1px solid #fff",
+            margin: "2px",
+          }}
+        >
+          Tabla de posiciones
+        </Button>
+        <Button
+          color="inherit"
+          component={Link}
           to="/"
           sx={{
-            padding: isMobile ? "10px 0" : "10px",
-            fontSize: isMobile ? "1rem" : "1.2rem",
+            padding: isMobile ? "5px 0" : "8px",
+            fontSize: isMobile ? "0.7rem" : "1rem",
             border: "1px solid #fff",
             margin: "2px",
           }}
@@ -55,8 +67,8 @@ const Navbar = () => {
           component={Link}
           to="/voley"
           sx={{
-            padding: isMobile ? "10px 0" : "10px",
-            fontSize: isMobile ? "1rem" : "1.2rem",
+            padding: isMobile ? "5px 0" : "8px",
+            fontSize: isMobile ? "0.7rem" : "1rem",
             border: "1px solid #fff",
             margin: "2px",
           }}
@@ -68,8 +80,8 @@ const Navbar = () => {
           component={Link}
           to="/login"
           sx={{
-            padding: isMobile ? "10px 0" : "10px",
-            fontSize: isMobile ? "1rem" : "1.2rem",
+            padding: isMobile ? "5px 0" : "8px",
+            fontSize: isMobile ? "0.7rem" : "1rem",
             border: "1px solid #fff",
             margin: "2px",
           }}
