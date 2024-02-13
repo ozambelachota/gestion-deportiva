@@ -39,7 +39,7 @@ const Navbar = () => {
         <Button
           color="inherit"
           component={Link}
-          to="/psoicion"
+          to="/posicion"
           sx={{
             padding: isMobile ? "5px 0" : "8px",
             fontSize: isMobile ? "0.7rem" : "1rem",
