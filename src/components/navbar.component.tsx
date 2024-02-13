@@ -27,6 +27,19 @@ const Navbar = () => {
         <Button
           color="inherit"
           component={Link}
+          to="/resultado"
+          sx={{
+            padding: isMobile ? "10px 0" : "10px",
+            fontSize: isMobile ? "1rem" : "1.2rem",
+            border: "1px solid #fff",
+            margin: "2px",
+          }}
+        >
+          Resultados fecha anterior
+        </Button>
+        <Button
+          color="inherit"
+          component={Link}
           to="/"
           sx={{
             padding: isMobile ? "10px 0" : "10px",
