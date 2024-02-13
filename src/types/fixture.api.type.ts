@@ -18,7 +18,7 @@ export interface Fixture {
   fecha_partido: Date;
   campo_id: number;
   grupo_id: number;
-  deporte_id: number; 
+  deporte_id: number;
   n_fecha_jugada: number;
   por_jugar: boolean;
 }
@@ -77,4 +77,12 @@ export interface Promocional {
   nombre_promocional: string;
   apellido_promocional: string;
   id_promocion_participante: number;
+}
+
+export interface Resultado {
+  id?: number;
+  create_at: Date;
+  fixture_id: number;
+  resultado: string;
+  ganador_id: number | null;
 }

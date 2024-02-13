@@ -174,7 +174,7 @@ export const getCampeonatos = async () => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 export const getPartidos = async () => {
   try {
     const { data, error } = await clientApi
@@ -186,4 +186,16 @@ export const getPartidos = async () => {
   } catch (error) {
     console.error(error);
   }
-}
+};
+export const getResult = async () => {
+  try {
+    const { data, error } = await clientApi
+      .from("resultado_fixture")
+      .select("*")
+      .order("fixture_id", { ascending: true });
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

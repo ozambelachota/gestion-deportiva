@@ -11,6 +11,7 @@ import { RegisterPromocion } from "../pages/register-promocion";
 import Sancion from "../pages/sancion";
 import VoleyPage from "../pages/voley";
 import ProtectedRouter from "./protected.routes";
+import ResultPage from "../pages/resultado";
 
 const FixtureRoutes = () => {
   return (
@@ -32,6 +33,7 @@ const FixtureRoutes = () => {
           <Route path="sancion" element={<Sancion />} />
           <Route path="home" element={<TablaFixture />} />
         </Route>
+        <Route path="/resultado" element={<ResultPage />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/voley" element={<VoleyPage />} />
