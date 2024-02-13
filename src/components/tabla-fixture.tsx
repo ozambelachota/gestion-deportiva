@@ -123,10 +123,10 @@ const TablaFixture: React.FC = () => {
       </Typography>
       <div className="flex justify-center space-x-8 mt-4">
         <Typography variant="h6" sx={{ textAlign: "center" }}>
-          Campo 1 : PARQUE TUPAC
+          Campo 1 : COLEGIO FAUSTINO MALDONADO
         </Typography>
         <Typography variant="h6" sx={{ textAlign: "center" }}>
-          Campo 2 : COLEGIO FAUSTINO MALDONADO
+          Campo 2 : PARQUE TUPAC
         </Typography>
       </div>
       <Grid sx={{ width: "100%", height: "100vh" }} container spacing={2}>
