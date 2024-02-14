@@ -19,7 +19,7 @@ import { getPartidosFechaNoMayor } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import type { Fixture } from "../types/fixture.api.type";
 
-const TablaFixture: React.FC = () => {
+const TablaFixture = () => {
   const fixtures = fixtureStore((state) => state.fixture);
   const obtenerPartidos = fixtureStore((state) => state.partidosPorFecha);
   const filtrarPorTipo = (partidos: Fixture[] | null, tipoIds: number[]) => {
@@ -153,6 +153,7 @@ const TablaFixture: React.FC = () => {
                     {obtenerProximosPartidos(partidosAgrupados[grupoId]).map(
                       (partido) => (
                         <TableRow
+                          key={partido.id}
                           sx={{
                             backgroundColor:
                               partido.tiempoRestante <= 0

@@ -9,9 +9,6 @@ export const obtenerPromocionalesParticipantes = async () => {
     const { data: Promociones, error } = await clientApi
       .from("promocion_participante")
       .select();
-
-    console.log(Promociones);
-    console.log(error);
     if (error) throw error;
     return Promociones;
   } catch (error) {

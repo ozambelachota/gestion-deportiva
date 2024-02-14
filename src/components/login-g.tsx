@@ -19,7 +19,6 @@ const LoginWithGoogle = () => {
       });
       if (error) {
         throw new Error("Ocurrió un error durante el inicio de sesión");
-      } else {
       }
     } catch (error) {
       console.error(error);
@@ -27,26 +26,32 @@ const LoginWithGoogle = () => {
   };
 
   useEffect(() => {
-    const authListener = clientApi.auth.onAuthStateChange(
-      async (event, session) => {
+    const auth = clientApi.auth.onAuthStateChange(async (event, session) => {
+      console.log(event);
+      if (event === "INITIAL_SESSION") {
         if (session) {
           setUser(
-            session.user.user_metadata?.full_name,
-            session.user.user_metadata?.picture,
+            session.user.user_metadata.full_name,
+            session.user.user_metadata.picture,
             event,
             session.user.id
           );
-          const rol = await userAdmin(session.user.id);
-          setRol(rol);
-          navigate("/admin/home", { replace: true });
-        } else {
-          navigate("/login", { replace: true });
+          setRol(await userAdmin(session.user.id));
         }
       }
-    );
+      if (event === "SIGNED_IN") {
+        if (rol) {
+          navigate("/admin/home", { replace: true });
+        }
+      }
+
+      if (event === "SIGNED_OUT") {
+        navigate("/", { replace: true });
+      }
+    });
 
     return () => {
-      authListener.data?.subscription;
+      auth.data.subscription.unsubscribe();
     };
   }, [username, rol]);
 
