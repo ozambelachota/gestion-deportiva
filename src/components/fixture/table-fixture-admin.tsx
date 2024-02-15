@@ -7,6 +7,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { fixtureStore } from "../../store/fixture.store";
 
 export function TableFixtureAdmin() {
@@ -21,7 +22,10 @@ export function TableFixtureAdmin() {
   useEffect(() => {
     cargarDatos();
   }, [fixutres]);
-
+  const navigate = useNavigate();
+  const handleResult = (idFixture: number) => {
+    navigate(`/admin/result/${idFixture}`);
+  };
   return (
     <div>
       <Table>
@@ -48,6 +52,14 @@ export function TableFixtureAdmin() {
               </TableCell>
               <TableCell align="right">
                 <Button variant="contained">Terminar Partido</Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    handleResult(fixture.id as number);
+                  }}
+                >
+                  Poner Resultado
+                </Button>
               </TableCell>
             </TableRow>
           ))}
