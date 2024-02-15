@@ -17,7 +17,7 @@ import TablaPosicionPage from "../pages/tabla-posicion";
 const FixtureRoutes = () => {
   return (
     <>
-      <Routes>
+      <Routes  >
         <Route path="/admin/*" element={<ProtectedRouter />}>
           <Route path="home" element={<Admin />} />
           <Route path="registrar-fixture" element={<FixturePage />} />

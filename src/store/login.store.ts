@@ -1,5 +1,6 @@
 import { create } from "zustand";
-
+import { persist } from "zustand/middleware";
+ 
 interface UserState {
   username: string;
   id_user: string;
@@ -18,15 +19,21 @@ interface UserStore extends UserState {
   setRol: (rol: string | undefined) => void;
 }
 
-export const useUserStore = create<UserStore>((set) => ({
-  username: "",
-  profilePicture: "",
-  login: "",
-  id_user: "",
-  rol: "",
-  setUserData: (username, profilePicture, login, id_user) =>
-    set({ username, profilePicture, login, id_user }),
-  setRol: (rol: string | undefined) => {
-    set({ rol });
-  },
-}));
+export const useUserStore = create<UserStore, [["zustand/persist", UserState]]>(
+  persist(
+    (set) => ({
+      username: "",
+      profilePicture: "",
+      login: "",
+      id_user: "",
+      rol: "",
+      setUserData: (username, profilePicture, login, id_user) =>
+        set({ username, profilePicture, login, id_user }),
+      setRol: (rol) => set({ rol }),
+    }),
+    {
+      name: "userStore", 
+      getStorage: () => sessionStorage, 
+    }
+  )
+);
