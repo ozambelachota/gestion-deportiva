@@ -1,9 +1,9 @@
-import { Button } from "@supabase/ui";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { clientApi } from "../api/client.api";
 import { userAdmin } from "../services/api.service";
 import { useUserStore } from "../store/login.store";
+import { Button } from "@supabase/ui";
 
 const LoginWithGoogle = () => {
   const setUser = useUserStore((state) => state.setUserData);
@@ -27,7 +27,6 @@ const LoginWithGoogle = () => {
 
   useEffect(() => {
     const auth = clientApi.auth.onAuthStateChange(async (event, session) => {
-      console.log(event);
       if (event === "INITIAL_SESSION") {
         if (session) {
           setUser(
