@@ -53,6 +53,8 @@ export function TableFixtureAdmin() {
               <TableCell align="right">
                 <Button variant="contained">Terminar Partido</Button>
                 <Button
+                  sx={{ marginLeft: "20px" }}
+                  color="secondary"
                   variant="contained"
                   onClick={() => {
                     handleResult(fixture.id as number);
