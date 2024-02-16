@@ -27,9 +27,7 @@ function ResultFixtureFormPage() {
     ResultadStoreForm();
   useEffect(() => {
     obtenerPromociones();
-    console.log(id);
     buscarPartido(Number(id));
-    console.log(partido);
   }, [partido]);
 
   const equiposFilter = equipos.filter((promocion) => {
