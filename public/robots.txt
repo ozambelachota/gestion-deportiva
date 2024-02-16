@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /admin/registrar-fixture
+Disallow: /admin/registrar-promociones
+Disallow: /admin/registrar-promociones/create
+Disallow: /admin/fixture/create
+Disallow: /admin/promocion/create
+Disallow: /admin/result-fixture
+Disallow: /admin/sancion/create
+Disallow: /admin/sancion
+Disallow: /admin/home
+Disallow: /resultado
+Disallow: /posicion
+Disallow: /voley
