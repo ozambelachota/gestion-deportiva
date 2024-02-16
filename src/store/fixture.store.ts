@@ -1,6 +1,6 @@
-import { getPartidos } from './../services/api.service';
 import { create } from "zustand";
 import {
+  getPartidoId,
   getPartidosFechaNoMayor,
   insertFixturePartidos,
   obtenerGrupo,
@@ -11,6 +11,7 @@ import {
   GrupoPromocion,
   PromocionParticipante,
 } from "../types/fixture.api.type";
+import { getPartidos } from "./../services/api.service";
 import { Fixture } from "./../types/fixture.api.type";
 
 type FixtureStore = {
@@ -24,6 +25,7 @@ type FixtureStore = {
   equipo1: string;
   equipo2: string;
   vsPromocion: Fixture[];
+  partido: Fixture;
   obtenerPromociones: () => Promise<void>;
   obtenerGrupo: () => Promise<void>;
   obtenerPromocionGrupo: (id: number) => Promise<void>;
@@ -34,9 +36,22 @@ type FixtureStore = {
   setEquipo2: (equipo: string) => void;
   setVsPromcion: (vsPromocion: Fixture[]) => void;
   obtenerPartidos: () => Promise<void>;
+  buscarPartido: (id: number) => Promise<void>;
+  setFecha: (fecha: Date) => void;
 };
 
 export const fixtureStore = create<FixtureStore>()((set) => ({
+  partido: {
+    id: 0,
+    fecha_partido: new Date(),
+    grupo_id: 0,
+    promocion: "",
+    deporte_id: 0,
+    vs_promocion: "",
+    por_jugar: false,
+    n_fecha_jugada: 0,
+    campo_id: 0,
+  },
   promocionParticipante: [
     {
       id: 0,
@@ -95,8 +110,7 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
       deporte_id: 0,
       n_fecha_jugada: 0,
       por_jugar: false,
-      
-    }
+    },
   ],
 
   obtenerPromociones: async () => {
@@ -126,10 +140,15 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
   setVsPromcion: (vsPromocion: Fixture[]) => set({ vsPromocion: vsPromocion }),
   obtenerPartidos: async () => {
     const partidos = await getPartidos();
-    if(!partidos || partidos.length > 0){
+    if (!partidos || partidos.length > 0) {
       set({ fixture: partidos });
     }
-  }
-}
-
-));
+  },
+  setFecha: (fecha: Date) => set({ fecha }),
+  buscarPartido: async (id: number) => {
+    const partido = await getPartidoId(id);
+    if (partido!==null) {
+      set({ partido });
+    }
+  },
+}));

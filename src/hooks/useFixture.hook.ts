@@ -47,7 +47,9 @@ export const useFixturePage = () => {
   const obtenerCampos = CampoStore((state) => state.obtenrCampos);
   const selectCampo = CampoStore((state) => state.selectCampo);
   const campoSelect = CampoStore((state) => state.campoSelect);
-  const [horaInicial, setHoraInicial] = useState(new Date());
+  
+  const fecha = fixtureStore((state) => state.fecha);
+  const setFecha = fixtureStore((state) => state.setFecha);
 
   async function cargarDatos() {
     await obtenerGrupo();
@@ -82,7 +84,7 @@ export const useFixturePage = () => {
     const promocionesAleatorias = [...promocionesFiltradas];
     const totalPromociones = promocionesAleatorias.length;
     const usedIndices = new Set<number>();
-    let horaActual = new Date(horaInicial);
+    let horaActual = new Date(fecha);
     if (campoSelect < 0) {
       toast.error("Se requiere un campo");
       return;
@@ -224,7 +226,7 @@ export const useFixturePage = () => {
         await addPartido(vsPromocion);
         setVsPromocion([]);
         setNumeroFechaJugados(0);
-        setHoraInicial(new Date());
+        setFecha(new Date());
         toast.success("Partidos guardados");
       }
     } catch (error) {
@@ -242,7 +244,8 @@ export const useFixturePage = () => {
     numeroFechaJugados,
     selectGrupo,
     campoSelect,
-    horaInicial,
+    fecha,
+    setFecha,
     vsPromocion,
     grupos,
     campos,
@@ -250,7 +253,6 @@ export const useFixturePage = () => {
     selectDeporte,
     handleChangeSelectGrupo,
     handleChangeSelectCampo,
-    setHoraInicial,
     setNumeroFechaJugados,
     handleGeneratePartido,
     handleEdit,

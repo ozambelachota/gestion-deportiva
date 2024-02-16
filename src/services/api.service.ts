@@ -4,6 +4,7 @@ import {
   PromocionParticipante,
   Promocional,
 } from "../types/fixture.api.type";
+import { Resultado } from "./../types/fixture.api.type";
 export const obtenerPromocionalesParticipantes = async () => {
   try {
     const { data: Promociones, error } = await clientApi
@@ -199,10 +200,36 @@ export const getResult = async () => {
 
 export const getTablaPosiciones = async () => {
   try {
-    const { data, error } = await clientApi.from("tabla_posicion").select("*").order("puntos", { ascending: true });
+    const { data, error } = await clientApi
+      .from("tabla_posicion")
+      .select("*")
+      .order("puntos", { ascending: true });
     if (error) throw new Error(error.message);
     return data;
   } catch (error) {
     console.error(error);
   }
+};
+
+export const getPartidoId = async (id: number) => {
+  try {
+    const { data, error } = await clientApi
+      .from("fixture_exafam")
+      .select("*")
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+    return data[0];
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const insertedResult = async (result: Resultado) => {
+  try {
+    const { data, error } = await clientApi
+      .from("resultado_fixture")
+      .insert(result);
+    if (error) throw error;
+    return data;
+  } catch (error) {}
 };

@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import FixtureCreate from "../components/fixture/fixture-create";
+import ResultFixtureFormPage from "../components/fixture/result-fixture-form";
 import FormPromocionParticipante from "../components/form-promocion-participante";
 import TablaFixture from "../components/tabla-fixture";
 import Admin from "../pages/admin";
@@ -8,16 +9,16 @@ import Home from "../pages/home";
 import Login from "../pages/login";
 import Promocion from "../pages/promocion";
 import { RegisterPromocion } from "../pages/register-promocion";
+import ResultPage from "../pages/resultado";
 import Sancion from "../pages/sancion";
+import TablaPosicionPage from "../pages/tabla-posicion";
 import VoleyPage from "../pages/voley";
 import ProtectedRouter from "./protected.routes";
-import ResultPage from "../pages/resultado";
-import TablaPosicionPage from "../pages/tabla-posicion";
 
 const FixtureRoutes = () => {
   return (
     <>
-      <Routes  >
+      <Routes>
         <Route path="/admin/*" element={<ProtectedRouter />}>
           <Route path="home" element={<Admin />} />
           <Route path="registrar-fixture" element={<FixturePage />} />
@@ -31,6 +32,11 @@ const FixtureRoutes = () => {
             path="promocion/create"
             element={<FormPromocionParticipante />}
           />
+          <Route
+            path="result-fixture/:id"
+            element={<ResultFixtureFormPage />}
+          />
+          <Route path="sancion/create" element={<Sancion />} />
           <Route path="sancion" element={<Sancion />} />
           <Route path="home" element={<TablaFixture />} />
         </Route>

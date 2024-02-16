@@ -22,14 +22,14 @@ function FormFixture() {
     numeroFechaJugados,
     selectGrupo,
     campoSelect,
-    horaInicial,
+    fecha,
+    setFecha,
     grupos,
     campos,
     handleChangeEmparejamiento,
     selectDeporte,
     handleChangeSelectGrupo,
     handleChangeSelectCampo,
-    setHoraInicial,
     setNumeroFechaJugados,
     handleGeneratePartido,
     handleSavePartido,
@@ -141,14 +141,14 @@ function FormFixture() {
           <DatePicker
             label="Fecha del primer partido"
             sx={{ flexGrow: 1, margin: "10px" }}
-            value={horaInicial}
-            onChange={(date) => setHoraInicial(date as Date)}
+            value={fecha}
+            onChange={(date) => setFecha(date as Date)}
           />
           <TimePicker
             label="Hora del primer partido"
             sx={{ flexGrow: 1, margin: "10px" }}
-            value={horaInicial}
-            onChange={(date) => setHoraInicial(date as Date)}
+            value={fecha}
+            onChange={(date) => setFecha(date as Date)}
           />
           <TextField
             label="Número de Fechas Jugadas"
@@ -220,6 +220,7 @@ function FormFixture() {
             onClick={handleSavePartido}
             sx={{ padding: "4px" }}
             variant="contained"
+            disabled={!selectGrupo}
           >
             Guardar fixture
           </Button>

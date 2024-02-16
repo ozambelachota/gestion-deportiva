@@ -24,7 +24,7 @@ export function TableFixtureAdmin() {
   }, [fixutres]);
   const navigate = useNavigate();
   const handleResult = (idFixture: number) => {
-    navigate(`/admin/result/${idFixture}`);
+    navigate(`/admin/result-fixture/${idFixture}`);
   };
   return (
     <div>

@@ -84,8 +84,8 @@ export interface Promocional {
 
 export interface Resultado {
   id?: number;
-  create_at: Date;
-  fixture_id: number;
+  create_at?: Date;
+  fixture_id: number; 
   resultado: string;
   ganador_id: number | null;
 }

@@ -16,6 +16,11 @@ const LoginWithGoogle = () => {
     try {
       const { error } = await clientApi.auth.signInWithOAuth({
         provider: "google",
+
+        options: {
+          redirectTo: "https://exafam-fixture.netlify.app/admin/home",
+        },
+
       });
       if (error) {
         throw new Error("Ocurrió un error durante el inicio de sesión");
