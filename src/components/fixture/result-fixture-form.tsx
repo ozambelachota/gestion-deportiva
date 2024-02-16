@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { fixtureStore } from "../../store/fixture.store";
 import { ResultadStoreForm } from "../../store/resultado.store";
@@ -20,6 +20,7 @@ function ResultFixtureFormPage() {
   const partido = fixtureStore((state) => state.partido);
   const buscarPartido = fixtureStore((state) => state.buscarPartido);
   const { id } = useParams();
+  const navigate = useNavigate();
   const obtenerPromociones = fixtureStore((state) => state.obtenerPromociones);
   const equipos = fixtureStore((state) => state.promocionParticipante);
   const { ganador, setGanador, resultado, setResult, insertResult } =
@@ -44,6 +45,7 @@ function ResultFixtureFormPage() {
       return;
     }
     if (partido.id) {
+      navigate("/admin/registrar-fixture");
       insertResult({
         fixture_id: partido.id,
         resultado: resultado,
