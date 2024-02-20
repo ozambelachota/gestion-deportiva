@@ -35,7 +35,9 @@ const LoginWithGoogle = () => {
           session.user.id
         );
         setRol(await userAdmin(session.user.id));
-        navigate("/admin/home");
+        if (event === "INITIAL_SESSION") {
+          navigate("/admin/home");
+        }
       }
     });
 
