@@ -27,25 +27,15 @@ const LoginWithGoogle = () => {
 
   useEffect(() => {
     const auth = clientApi.auth.onAuthStateChange(async (event, session) => {
-      if (event === "INITIAL_SESSION") {
-        if (session) {
-          setUser(
-            session.user.user_metadata.full_name,
-            session.user.user_metadata.picture,
-            event,
-            session.user.id
-          );
-          setRol(await userAdmin(session.user.id));
-        }
-      }
-      if (event === "SIGNED_IN") {
-        if (rol) {
-          navigate("/admin/home", { replace: true });
-        }
-      }
-
-      if (event === "SIGNED_OUT") {
-        navigate("/", { replace: true });
+      if (session) {
+        setUser(
+          session.user.user_metadata.full_name,
+          session.user.user_metadata.picture,
+          event,
+          session.user.id
+        );
+        setRol(await userAdmin(session.user.id));
+        navigate("/admin/home");
       }
     });
 
