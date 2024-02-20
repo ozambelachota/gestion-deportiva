@@ -1,9 +1,9 @@
+import { Button } from "@supabase/ui";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { clientApi } from "../api/client.api";
 import { userAdmin } from "../services/api.service";
 import { useUserStore } from "../store/login.store";
-import { Button } from "@supabase/ui";
 
 const LoginWithGoogle = () => {
   const setUser = useUserStore((state) => state.setUserData);
@@ -16,11 +16,6 @@ const LoginWithGoogle = () => {
     try {
       const { error } = await clientApi.auth.signInWithOAuth({
         provider: "google",
-
-        options: {
-          redirectTo: "https://exafam-fixture.netlify.app/admin/home",
-        },
-
       });
       if (error) {
         throw new Error("Ocurrió un error durante el inicio de sesión");
