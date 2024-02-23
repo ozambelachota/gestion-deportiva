@@ -138,6 +138,7 @@ function VoleyPage() {
                       <TableCell>Promoción</TableCell>
                       <TableCell>Fecha</TableCell>
                       <TableCell>Campo</TableCell>
+                      <TableCell>Deporte</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -169,6 +170,10 @@ function VoleyPage() {
                           <TableCell sx={{ padding: "8px" }}>
                             {partido.campo_id}
                           </TableCell>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {partido.deporte_id==2? "Voley":"Voley Mixto"}
+                            
+                            </TableCell>
                         </TableRow>
                       )
                     )}
