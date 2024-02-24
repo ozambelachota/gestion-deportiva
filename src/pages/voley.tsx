@@ -155,9 +155,9 @@ function VoleyPage() {
                                   new Date(partido.fecha_partido).getTime()
                                 ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
                                 : partido.deporte_id === 2
-                                ? "rgba(0, 0, 255, 0.1)" // Azul para Voley
+                                ? "rgba(173, 216, 230, 0.5)" // Celeste para Voley
                                 : partido.deporte_id === 3
-                                ? "rgba(255, 165, 0, 0.1)" // Naranja para Voley Mixto
+                                ? "rgba(0, 0, 255, 0.5)" // Azul para Voley Mixto
                                 : "transparent",
                           }}
                         >

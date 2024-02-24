@@ -14,6 +14,18 @@ import { useEffect } from "react";
 import { PosicionStore } from "../store/PosicionStore";
 import { fixtureStore } from "../store/fixture.store";
 import { type TablaPosicion } from "../types/fixture.api.type";
+
+
+const colorPalette = [
+  "#4285f4",
+  "#34a853",
+  "#fbbc05",
+  "#ea4335",
+  "#673ab7",
+  "#e91e63",
+  "#795548",
+];
+
 const TablaPosicionPage: React.FC = () => {
   const tablaPosicion = PosicionStore((state) => state.tablaPosicion);
   const uploadTablaPosicion = PosicionStore(
@@ -52,7 +64,7 @@ const TablaPosicionPage: React.FC = () => {
 
   return (
     <div className="w-full h-full">
-      {Object.keys(groupsTabla).map((grupoId) => (
+      {Object.keys(groupsTabla).map((grupoId, index) => (
         <Grid container spacing={2} key={grupoId}>
           <Grid item xs={12}>
             <Typography marginTop={"8px"} textAlign={"center"} variant="h5">
@@ -60,7 +72,9 @@ const TablaPosicionPage: React.FC = () => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <TableContainer component={Paper} className="rounded">
+            <TableContainer component={Paper} className="rounded" sx={{
+              background: colorPalette[index],
+            }}>
               <Table size="small" stickyHeader>
                 <TableHead>
                   <TableRow>
