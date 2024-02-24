@@ -18,6 +18,15 @@ import { useEffect } from "react";
 import { getPartidosFechaNoMayor } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import type { Fixture } from "../types/fixture.api.type";
+const colorPalette = [
+  "#4285f4",
+  "#34a853",
+  "#fbbc05",
+  "#ea4335",
+  "#673ab7",
+  "#e91e63",
+  "#795548",
+];
 
 const TablaFixture = () => {
   const fixtures = fixtureStore((state) => state.fixture);
@@ -131,14 +140,31 @@ const TablaFixture = () => {
       </div>
       <Grid sx={{ width: "100%", height: "100vh" }} container spacing={2}>
         {fixtures && fixtures.length > 0 ? (
-          Object.keys(partidosAgrupados).map((grupoId) => (
+          Object.keys(partidosAgrupados).map((grupoId, index) => (
             <Grid item xs={12} md={6} key={grupoId}>
               <Typography
                 variant="h6"
                 mb={2}
-                sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
+                sx={{
+                  fontSize: {
+                    xs: "1.5rem",
+                    md: "2rem",
+                    color: colorPalette[index],
+                  },
+                }}
               >{`Grupo ${grupoId}`}</Typography>
-              <TableContainer className="rounded" component={Paper}>
+              <TableContainer
+                className="rounded "
+                component={Paper}
+                sx={{
+                  backgroundColor: colorPalette[index],
+                  "&:hover": {
+                    backgroundColor: colorPalette[index],
+                    opacity: [0.9, 0.8, 0.7],
+                  },
+                  color: "",
+                }}
+              >
                 <Table>
                   <TableHead>
                     <TableRow>

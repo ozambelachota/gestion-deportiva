@@ -172,7 +172,6 @@ function VoleyPage() {
                           </TableCell>
                           <TableCell sx={{ padding: "8px" }}>
                             {partido.deporte_id==2? "Voley":"Voley Mixto"}
-                            
                             </TableCell>
                         </TableRow>
                       )
