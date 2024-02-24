@@ -154,6 +154,10 @@ function VoleyPage() {
                                 : new Date().getTime() >
                                   new Date(partido.fecha_partido).getTime()
                                 ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
+                                : partido.deporte_id === 2
+                                ? "rgba(0, 0, 255, 0.1)" // Azul para Voley
+                                : partido.deporte_id === 3
+                                ? "rgba(255, 165, 0, 0.1)" // Naranja para Voley Mixto
                                 : "transparent",
                           }}
                         >
@@ -171,8 +175,8 @@ function VoleyPage() {
                             {partido.campo_id}
                           </TableCell>
                           <TableCell sx={{ padding: "8px" }}>
-                            {partido.deporte_id==2? "Voley":"Voley Mixto"}
-                            </TableCell>
+                            {partido.deporte_id == 2 ? "Voley" : "Voley Mixto"}
+                          </TableCell>
                         </TableRow>
                       )
                     )}
