@@ -22,7 +22,7 @@ function TablaGolesComponent() {
   useEffect(() => {
     getGoles();
     getPromociones();
-  }, [goles, promocionParticipante]);
+  }, []);
 
   const groupByPromocion = (array: any[], key: string) => {
     if (!array) {
@@ -43,7 +43,12 @@ function TablaGolesComponent() {
       {Object.keys(groupsGoles).map((promocionId) => (
         <div key={promocionId}>
           <Typography variant="h4">
-            Tabla de goleadores - Promoción {promocionParticipante.map(promocion => promocion.id === Number(promocionId) ? promocion.nombre_promocion : '')}
+            Tabla de goleadores - Promoción{" "}
+            {promocionParticipante.map((promocion) =>
+              promocion.id === Number(promocionId)
+                ? promocion.nombre_promocion
+                : ""
+            )}
           </Typography>
           <TableContainer component={Paper}>
             <Table>

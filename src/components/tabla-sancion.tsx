@@ -22,7 +22,7 @@ function TablaSancion() {
     getSanciones();
     getPromociones();
     getTipoSancion();
-  }, [sancion, promociones]);
+  }, []);
 
   return (
     <>
@@ -45,7 +45,9 @@ function TablaSancion() {
               const promocion = promociones.find(
                 (promocion) => promocion.id === sancion.promocion_id
               );
-              const tipoId = tipo.find((tipo) => sancion.tipo_sancion === tipo.id);
+              const tipoId = tipo.find(
+                (tipo) => sancion.tipo_sancion === tipo.id
+              );
               return (
                 <TableRow key={sancion.id}>
                   <TableCell align="center">
