@@ -26,6 +26,7 @@ export const RegisterPromocion = () => {
         nombre_promocional,
         apellido_promocional,
         id_promocion_participante: parseInt(id as string),
+        n_goles: 0,
       });
       navigate("/");
     }
