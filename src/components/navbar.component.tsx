@@ -29,7 +29,7 @@ const Navbar = () => {
           to="/resultado"
           sx={{
             padding: isMobile ? "5px 0" : "8px", // Ajuste en el padding para hacerlo más pequeño
-            fontSize: isMobile ? "0.7rem" : "1rem", // Ajuste en el tamaño de la fuente
+            fontSize: isMobile ? "0.7rem" : "0.8rem", // Ajuste en el tamaño de la fuente
             border: "1px solid #fff",
             margin: "2px",
           }}
@@ -42,7 +42,7 @@ const Navbar = () => {
           to="/posicion"
           sx={{
             padding: isMobile ? "5px 0" : "8px",
-            fontSize: isMobile ? "0.7rem" : "1rem",
+            fontSize: isMobile ? "0.7rem" : "0.8rem",
             border: "1px solid #fff",
             margin: "2px",
           }}
@@ -55,7 +55,7 @@ const Navbar = () => {
           to="/"
           sx={{
             padding: isMobile ? "5px 0" : "8px",
-            fontSize: isMobile ? "0.7rem" : "1rem",
+            fontSize: isMobile ? "0.7rem" : "0.8rem",
             border: "1px solid #fff",
             margin: "2px",
           }}
@@ -68,7 +68,7 @@ const Navbar = () => {
           to="/voley"
           sx={{
             padding: isMobile ? "5px 0" : "8px",
-            fontSize: isMobile ? "0.7rem" : "1rem",
+            fontSize: isMobile ? "0.7rem" : "0.8rem",
             border: "1px solid #fff",
             margin: "2px",
           }}
@@ -78,10 +78,23 @@ const Navbar = () => {
         <Button
           color="inherit"
           component={Link}
+          to="/goles-sancion"
+          sx={{
+            padding: isMobile ? "5px 0" : "8px",
+            fontSize: isMobile ? "0.7rem" : "0.8rem",
+            border: "1px solid #fff",
+            margin: "2px",
+          }}
+        >
+          goleadores y sancionados
+        </Button>
+        <Button
+          color="inherit"
+          component={Link}
           to="/login"
           sx={{
             padding: isMobile ? "5px 0" : "8px",
-            fontSize: isMobile ? "0.7rem" : "1rem",
+            fontSize: isMobile ? "0.7rem" : "0.8rem",
             border: "1px solid #fff",
             margin: "2px",
           }}

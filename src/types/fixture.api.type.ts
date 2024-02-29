@@ -60,10 +60,11 @@ export interface ListaSancion {
   fecha_final_sancion: Date;
   monto_sancion: number;
   estado_pagado: boolean;
-  cant_tarjeta_amarillas: number;
-  cant_tarjeta_rojas: number;
+  cant_tarjeta_amarilla: number;
+  cant_tarjeta_roja: number;
   promocion_id: number;
   tipo_sancion: number;
+  nombre_promocion: string;
 }
 
 export interface PresidenteMesa {
@@ -80,12 +81,19 @@ export interface Promocional {
   nombre_promocional: string;
   apellido_promocional: string;
   id_promocion_participante: number;
+  n_goles: number;
 }
 
 export interface Resultado {
   id?: number;
   create_at?: Date;
-  fixture_id: number; 
+  fixture_id: number;
   resultado: string;
   ganador_id: number | null;
 }
+
+export interface TipoSancion  {
+  id?: number;
+  nombre_tipo: string; 
+  cantidad_fecha: number;
+} 

@@ -233,3 +233,41 @@ export const insertedResult = async (result: Resultado) => {
     return data;
   } catch (error) {}
 };
+
+export const getGoles = async () => {
+  try {
+    const { data, error } = await clientApi
+      .from("promocionales")
+      .select("*")
+      .order("id", { ascending: true });
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+export const getSanciones = async () => {
+  try {
+    const { data, error } = await clientApi
+      .from("lista_jugador_sancionado")
+      .select("*")
+      .order("id", { ascending: true });
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const tipoSanciones = async () => {
+  try {
+    const { data, error } = await clientApi
+      .from("tipo_sancion")
+      .select("*")
+      .order("id", { ascending: true });
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}

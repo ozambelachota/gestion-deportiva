@@ -5,6 +5,7 @@ import FormPromocionParticipante from "../components/form-promocion-participante
 import TablaFixture from "../components/tabla-fixture";
 import Admin from "../pages/admin";
 import { FixturePage } from "../pages/fixture";
+import GolSancionPage from "../pages/gol-sancion";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import Promocion from "../pages/promocion";
@@ -45,6 +46,7 @@ const FixtureRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/voley" element={<VoleyPage />} />
+        <Route path="/goles-sancion" element={<GolSancionPage />} />
         <Route path="*" element={<Navigate to={"/"} />} />
       </Routes>
     </>
