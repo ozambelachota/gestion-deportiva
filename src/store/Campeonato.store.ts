@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { getCampeonatos } from "../services/api.service";
 import { Campeonato } from "./../types/fixture.api.type";
 
-interface campeonatoType {
+interface CampeonatoType {
   campeonatos: Campeonato[];
   campeonato: Campeonato;
   campeonatoParticipante: number;
@@ -10,7 +10,7 @@ interface campeonatoType {
   setCampeonatoParticipante: (campeonato: number) => void;
   getCampeonato: () => Promise<void>;
 }
-export const CampeonatoStore = create<campeonatoType>((set) => ({
+export const CampeonatoStore = create<CampeonatoType>((set) => ({
   campeonatos: [
     {
       id: 0,

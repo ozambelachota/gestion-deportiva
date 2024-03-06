@@ -6,7 +6,7 @@ export interface Campeonato {
   user_id: string;
 }
 
-export interface campo {
+export interface Campo {
   id_campo: number;
   nombre_campo: string;
 }
@@ -92,8 +92,18 @@ export interface Resultado {
   ganador_id: number | null;
 }
 
-export interface TipoSancion  {
+export interface TipoSancion {
   id?: number;
-  nombre_tipo: string; 
+  nombre_tipo: string;
   cantidad_fecha: number;
-} 
+}
+
+export interface VoleyPosicion {
+  id?: number;
+  promocion: number;
+  deporte_id: number;
+  puntos: number;
+  partidos_g: number;
+  partidos_p: number;
+  partidos_j: number;
+}

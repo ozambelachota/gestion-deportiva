@@ -25,4 +25,9 @@ If you are developing a production application, we recommend updating the config
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-  
+
+``` sql
+
+select  ls.nombre_promocion ,pp.nombre_promocion promocion, ls.cant_tarjeta_amarilla nta, ls.cant_tarjeta_roja ntr  from lista_jugador_sancionado ls inner join promocion_participante pp on pp.id = ls.promocion_id
+
+```

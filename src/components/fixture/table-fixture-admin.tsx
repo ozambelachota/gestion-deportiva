@@ -48,7 +48,7 @@ export function TableFixtureAdmin() {
               <TableCell align="right">vs</TableCell>
               <TableCell align="right">{fixture.vs_promocion}</TableCell>
               <TableCell align="right">
-                {fixture.por_jugar == true ? "Por jugar" : "Finalizado"}
+                {fixture.por_jugar === true ? "Por jugar" : "Finalizado"}
               </TableCell>
               <TableCell align="right">
                 <Button variant="contained">Terminar Partido</Button>

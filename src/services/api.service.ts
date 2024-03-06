@@ -9,7 +9,9 @@ export const obtenerPromocionalesParticipantes = async () => {
   try {
     const { data: Promociones, error } = await clientApi
       .from("promocion_participante")
-      .select();
+      .select("*");
+
+      console.log(Promociones)
     if (error) throw error;
     return Promociones;
   } catch (error) {
@@ -179,6 +181,8 @@ export const getPartidos = async () => {
       .from("fixture_exafam")
       .select("*")
       .order("id", { ascending: true });
+
+      
     if (error) throw new Error(error.message);
     return data;
   } catch (error) {
@@ -265,6 +269,18 @@ export const tipoSanciones = async () => {
       .from("tipo_sancion")
       .select("*")
       .order("id", { ascending: true });
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+export const voley = async () => {
+  try {
+    const { data, error } = await clientApi
+      .from("Voley_posicion")
+      .select("*")
+    console.log(data)
     if (error) throw new Error(error.message);
     return data;
   } catch (error) {

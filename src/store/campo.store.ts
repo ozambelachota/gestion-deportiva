@@ -1,15 +1,15 @@
 import { create } from "zustand";
 import { obtenerTodosCampos } from "../services/api.service";
-import { campo } from "./../types/fixture.api.type";
+import { Campo } from "./../types/fixture.api.type";
 
-interface campoType {
-  campos: campo[];
+interface CampoType {
+  campos: Campo[];
   campoSelect: number;
   obtenrCampos: () => Promise<void>;
   selectCampo: (id: number) => void;
 }
 
-export const CampoStore = create<campoType>((set) => ({
+export const CampoStore = create<CampoType>()((set) => ({
   campos: [
     {
       id_campo: 0,

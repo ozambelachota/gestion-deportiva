@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import { getPartidosFechaNoMayor } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import { Fixture } from "../types/fixture.api.type";
+import TablaPosicionVoley from "../components/tabla-posicion-voley.component";
 
 function VoleyPage() {
   const fixtures = fixtureStore((state) => state.fixture);
@@ -30,8 +31,7 @@ function VoleyPage() {
 
   const filtrarPorTipo = (partidos: Fixture[] | null, tipoIds: number[]) => {
     return (
-      partidos &&
-      partidos.filter((partido) => tipoIds.includes(partido.deporte_id))
+      partidos?.filter((partido) => tipoIds.includes(partido.deporte_id))
     );
   };
   const partidosFiltrados = filtrarPorTipo(fixtures, [2, 3]);
@@ -67,7 +67,7 @@ function VoleyPage() {
     );
   }
   // Función para agrupar los partidos por grupo_id
-  const groupBy = (array: any[] | null, key: string) => {
+  const groupBy = (array: any[] | null | undefined, key: string) => {
     if (!array) {
       return {};
     }
@@ -145,6 +145,7 @@ function VoleyPage() {
                     {obtenerProximosPartidos(partidosAgrupados[grupoId]).map(
                       (partido) => (
                         <TableRow
+                        key={partido.id}
                           sx={{
                             backgroundColor:
                               partido.tiempoRestante <= 0
@@ -200,6 +201,7 @@ function VoleyPage() {
           </Box>
         )}
       </Grid>
+      <TablaPosicionVoley />
     </div>
   );
 }

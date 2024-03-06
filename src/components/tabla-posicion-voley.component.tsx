@@ -11,36 +11,21 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect } from "react";
-import { PosicionStore } from "../store/PosicionStore";
 import { fixtureStore } from "../store/fixture.store";
-import { type TablaPosicion } from "../types/fixture.api.type";
+import voleyStore from "../store/voley.store";
+import { VoleyPosicion } from "../types/fixture.api.type";
+const colorPalette = ["#38598b", "#385170"];
+function TablaPosicionVoley() {
+  const voleyPositions = voleyStore((state) => state.voley);
+  const getVoleyPositions = voleyStore((state) => state.getVoley);
 
-const colorPalette = [
-  "#4285f4",
-  "#34a853",
-  "#fbbc05",
-  "#ea4335",
-  "#673ab7",
-  "#e91e63",
-  "#795548",
-];
-
-const TablaPosicionPage: React.FC = () => {
-  const tablaPosicion = PosicionStore((state) => state.tablaPosicion);
-  const uploadTablaPosicion = PosicionStore(
-    (state) => state.uploadTablaPosicion
-  );
   const promociones = fixtureStore((state) => state.promocionParticipante);
   const getPromociones = fixtureStore((state) => state.obtenerPromociones);
   useEffect(() => {
     getPromociones();
-    uploadTablaPosicion();
+    getVoleyPositions();
   }, []);
-
-  const promocionesFilter = promociones.filter(
-    (promocion) => promocion.tipo_id === 1
-  );
-  const groupBy = (array: TablaPosicion[] | null, key: string) => {
+  const groupBy = (array: VoleyPosicion[] | null, key: string) => {
     if (!array) {
       return {};
     }
@@ -49,7 +34,7 @@ const TablaPosicionPage: React.FC = () => {
       if (b.puntos !== a.puntos) {
         return b.puntos - a.puntos; // Ordenar por puntos de mayor a menor
       } else {
-        return b.diferencia_goles - a.diferencia_goles; // Si los puntos son iguales, ordenar por diferencia de goles
+        return b.partidos_g - a.partidos_g; // Si los puntos son iguales, ordenar por diferencia de goles
       }
     });
 
@@ -58,18 +43,19 @@ const TablaPosicionPage: React.FC = () => {
       // rome-ignore lint/suspicious/noAssignInExpressions: <explanation>
       (result[groupKey] = result[groupKey] || []).push(currentValue);
       return result;
-    }, {} as { [key: string]: TablaPosicion[] });
+    }, {} as { [key: string]: VoleyPosicion[] });
   };
 
-  const groupsTabla = groupBy(tablaPosicion, "grupo_id");
+  const groupsTabla = groupBy(voleyPositions, "deporte_id"); // Group by deporte_id instead of grupo_id
 
   return (
-    <div className="w-full h-full">
-      {Object.keys(groupsTabla).map((grupoId, index) => (
-        <Grid container spacing={2} key={grupoId}>
+    <div className="w-full h-full mt-4">
+      {Object.keys(groupsTabla).map((deporteId, index) => (
+        <Grid container spacing={2} key={deporteId}>
           <Grid item xs={12}>
             <Typography marginTop={"8px"} textAlign={"center"} variant="h5">
-              Tabla de Posiciones - Grupo {grupoId}
+              Tabla de Posiciones -
+              {deporteId == "2" ? "Voley Femenino" : "Voley Mixto"}
             </Typography>
           </Grid>
           <Grid item xs={12}>
@@ -78,6 +64,7 @@ const TablaPosicionPage: React.FC = () => {
               className="rounded"
               sx={{
                 background: colorPalette[index],
+                color: "blueviolet",
               }}
             >
               <Table size="small" stickyHeader>
@@ -85,14 +72,14 @@ const TablaPosicionPage: React.FC = () => {
                   <TableRow>
                     <TableCell>Equipo</TableCell>
                     <TableCell>Puntos</TableCell>
-                    <TableCell>Goles a favor</TableCell>
-                    <TableCell>Goles en contra</TableCell>
-                    <TableCell>Diferencia de goles</TableCell>
+                    <TableCell>Partidos Ganados</TableCell>
+                    <TableCell>Partidos Pertidos</TableCell>
+                    <TableCell>N° de partidos jugados</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {groupsTabla[grupoId].map((equipo) => {
-                    const filter = promocionesFilter.filter(
+                  {groupsTabla[deporteId].map((equipo) => {
+                    const filter = promociones.filter(
                       (promocion) => promocion.id === equipo.promocion
                     );
                     return (
@@ -103,9 +90,9 @@ const TablaPosicionPage: React.FC = () => {
                           )}
                         </TableCell>
                         <TableCell>{equipo.puntos}</TableCell>
-                        <TableCell>{equipo.goles_f}</TableCell>
-                        <TableCell>{equipo.goles_e}</TableCell>
-                        <TableCell>{equipo.diferencia_goles}</TableCell>
+                        <TableCell>{equipo.partidos_g}</TableCell>
+                        <TableCell>{equipo.partidos_p}</TableCell>
+                        <TableCell>{equipo.partidos_j}</TableCell>
                       </TableRow>
                     );
                   })}
@@ -131,6 +118,6 @@ const TablaPosicionPage: React.FC = () => {
       )}
     </div>
   );
-};
+}
 
-export default TablaPosicionPage;
+export default TablaPosicionVoley;

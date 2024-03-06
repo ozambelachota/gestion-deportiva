@@ -2,12 +2,12 @@ import { create } from "zustand";
 import { getTablaPosiciones } from "../services/api.service";
 import type { TablaPosicion } from "../types/fixture.api.type";
 
-interface posicionType {
+interface PosicionType {
   tablaPosicion: TablaPosicion[];
   uploadTablaPosicion: () => Promise<void>;
 }
 
-export const PosicionStore = create<posicionType>()((set) => ({
+export const PosicionStore = create<PosicionType>()((set) => ({
   tablaPosicion: [
     {
       id: 0,
