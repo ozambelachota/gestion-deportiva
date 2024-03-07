@@ -51,7 +51,7 @@ const Navbar = () => {
   ];
 
   return (
-    <AppBar position="static" className="w-full" color="primary">
+    <AppBar position="sticky" className="w-full " color="secondary">
       <Toolbar
         sx={{
           display: "flex",

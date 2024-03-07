@@ -68,7 +68,7 @@ function ResultPage() {
           </Typography>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow sx={{ fontWeight: "bold", backgroundColor: "green" }}>
                 <TableCell>Promoción</TableCell>
                 <TableCell>VS</TableCell>
                 <TableCell>Promoción</TableCell>

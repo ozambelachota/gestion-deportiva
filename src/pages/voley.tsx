@@ -3,7 +3,6 @@ import {
   CircularProgress,
   Container,
   Grid,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -15,10 +14,10 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
 import { useEffect } from "react";
+import TablaPosicionVoley from "../components/tabla-posicion-voley.component";
 import { getPartidosFechaNoMayor } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import { Fixture } from "../types/fixture.api.type";
-import TablaPosicionVoley from "../components/tabla-posicion-voley.component";
 
 function VoleyPage() {
   const fixtures = fixtureStore((state) => state.fixture);
@@ -30,8 +29,9 @@ function VoleyPage() {
   });
 
   const filtrarPorTipo = (partidos: Fixture[] | null, tipoIds: number[]) => {
-    return (
-      partidos?.filter((partido) => tipoIds.includes(partido.deporte_id))
+    return partidos?.filter(
+      (partido) =>
+        tipoIds.includes(partido.deporte_id) && partido.por_jugar === true
     );
   };
   const partidosFiltrados = filtrarPorTipo(fixtures, [2, 3]);
@@ -119,7 +119,7 @@ function VoleyPage() {
       <Typography textAlign={"center"} variant="h4">
         Voley y Voley Mixto
       </Typography>
-      <Grid sx={{ width: "100%", height: "100vh" }} container spacing={2}>
+      <Grid sx={{ width: "100%", height: "100%" }} container spacing={2}>
         {fixtures && fixtures.length > 0 ? (
           Object.keys(partidosAgrupados).map((grupoId) => (
             <Grid item xs={12} md={6} key={grupoId}>
@@ -128,11 +128,12 @@ function VoleyPage() {
                 mb={2}
                 sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
               >{`Grupo ${grupoId}`}</Typography>
-
-              <TableContainer className="rounded" component={Paper}>
+              <TableContainer
+                className="rounded w-full h-full"
+              >
                 <Table>
                   <TableHead>
-                    <TableRow>
+                    <TableRow sx={{backgroundColor:"black"}} >
                       <TableCell>Promoción</TableCell>
                       <TableCell>VS</TableCell>
                       <TableCell>Promoción</TableCell>
@@ -145,7 +146,7 @@ function VoleyPage() {
                     {obtenerProximosPartidos(partidosAgrupados[grupoId]).map(
                       (partido) => (
                         <TableRow
-                        key={partido.id}
+                          key={partido.id}
                           sx={{
                             backgroundColor:
                               partido.tiempoRestante <= 0
