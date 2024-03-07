@@ -27,7 +27,7 @@ const LoginForm: React.FC = () => {
 
   const handleLoginResult = (user: any, error: any) => {
     if (error) {
-      console.error("Error during login:", error.message);
+      return error;
     }
     if (user) {
       console.log(user);

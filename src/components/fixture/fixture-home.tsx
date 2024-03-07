@@ -1,7 +1,7 @@
+import { Add } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { TableFixtureAdmin } from "./table-fixture-admin";
-import { Add } from "@mui/icons-material";
 
 function FixtureHome() {
   return (
@@ -11,9 +11,10 @@ function FixtureHome() {
       </Typography>
       <Button
         variant="contained"
-        sx={{ margin: "20px 0" }}
+        sx={{ margin: "20px 0", display: "flex", justifyContent: "center" }}
         component={Link}
         startIcon={<Add />}
+        color="success"
         to="/admin/fixture/create"
       >
         Crear Fixture

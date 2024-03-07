@@ -1,5 +1,7 @@
+import { Download } from "@mui/icons-material";
 import {
   Box,
+  Button,
   Grid,
   Paper,
   Table,
@@ -10,11 +12,12 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useEffect } from "react";
 import { PosicionStore } from "../store/PosicionStore";
 import { fixtureStore } from "../store/fixture.store";
 import { type TablaPosicion } from "../types/fixture.api.type";
-
+import PDFGenerator from "./report/components/tabla-reporte.component";
 const colorPalette = [
   "#4285f4",
   "#34a853",
@@ -65,6 +68,29 @@ const TablaPosicionPage: React.FC = () => {
 
   return (
     <div className="w-full h-full">
+      <PDFDownloadLink
+        document={
+          <PDFGenerator
+            groupsTabla={groupsTabla}
+            promocionesFilter={promocionesFilter}
+          />
+        }
+        fileName="tbl_posicion"
+      >
+        {({ loading, error }) => {
+          if(error){
+            return <div>{error.message}</div>
+          }
+          
+          return loading ? (
+            "Cargando..."
+          ) : (
+            <Button>
+              <Download /> Descargar
+            </Button>
+          );
+        }}
+      </PDFDownloadLink>
       {Object.keys(groupsTabla).map((grupoId, index) => (
         <Grid container spacing={2} key={grupoId}>
           <Grid item xs={12}>
