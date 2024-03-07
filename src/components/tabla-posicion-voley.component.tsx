@@ -49,7 +49,7 @@ function TablaPosicionVoley() {
   const groupsTabla = groupBy(voleyPositions, "deporte_id"); // Group by deporte_id instead of grupo_id
 
   return (
-    <div className="w-full h-full mt-4">
+    <div className="w-full h-full mt-2">
       {Object.keys(groupsTabla).map((deporteId, index) => (
         <Grid container spacing={2} key={deporteId}>
           <Grid item xs={12}>
