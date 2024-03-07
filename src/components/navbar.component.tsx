@@ -1,19 +1,57 @@
-import { AccountCircle } from "@mui/icons-material";
-import { AppBar, Button, Toolbar, useMediaQuery } from "@mui/material";
-import { Link } from "react-router-dom";
+import {
+  AccountCircle,
+  CalendarMonth as CalendarMonthIcon,
+  Menu as MenuIcon,
+  SportsSoccer as SportsSoccerIcon,
+  SportsVolleyball as SportsVolleyballIcon,
+} from "@mui/icons-material";
+import AlignVerticalBottomIcon from "@mui/icons-material/AlignVerticalBottom";
+import {
+  AppBar,
+  Button,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  useMediaQuery,
+} from "@mui/material";
+import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = (open: boolean) => () => {
+    setDrawerOpen(open);
+  };
+
+  const menuItems = [
+    {
+      text: "Resultados fecha anterior",
+      to: "/resultado",
+      icon: <CalendarMonthIcon />,
+    },
+    {
+      text: "Tabla de posiciones",
+      to: "/posicion",
+      icon: <AlignVerticalBottomIcon />,
+    },
+    { text: "Futbol", to: "/", icon: <SportsSoccerIcon /> },
+    {
+      text: "Voley y Voley Mixto",
+      to: "/voley",
+      icon: <SportsVolleyballIcon />,
+    },
+    { text: "Goleadores y sancionados", to: "/goles-sancion" },
+    { text: "Iniciar sesión", to: "/login", icon: <AccountCircle /> },
+  ];
+
   return (
-    <AppBar
-      position="static"
-      sx={{
-        margin: "5px",
-        backgroundColor: "#001F3F", // Color azul noche
-        borderBottom: "1px solid #fff",
-        borderRadius: "5px",
-      }}
-    >
+    <AppBar position="static" className="w-full" color="primary">
       <Toolbar
         sx={{
           display: "flex",
@@ -23,85 +61,60 @@ const Navbar = () => {
           flexDirection: isMobile ? "column" : "row", // Alineación vertical en dispositivos móviles
         }}
       >
-        <Button
-          color="inherit"
-          component={Link}
-          to="/resultado"
+        {isMobile && (
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={toggleDrawer(true)}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
+        <Drawer
+          anchor="left"
+          open={drawerOpen}
+          onClose={toggleDrawer(false)}
           sx={{
-            padding: isMobile ? "5px 0" : "8px", // Ajuste en el padding para hacerlo más pequeño
-            fontSize: isMobile ? "0.7rem" : "0.8rem", // Ajuste en el tamaño de la fuente
-            border: "1px solid #fff",
-            margin: "2px",
+            width: isMobile ? "100%" : "auto",
           }}
         >
-          Resultados fecha anterior
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/posicion"
-          sx={{
-            padding: isMobile ? "5px 0" : "8px",
-            fontSize: isMobile ? "0.7rem" : "0.8rem",
-            border: "1px solid #fff",
-            margin: "2px",
-          }}
-        >
-          Tabla de posiciones
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/"
-          sx={{
-            padding: isMobile ? "5px 0" : "8px",
-            fontSize: isMobile ? "0.7rem" : "0.8rem",
-            border: "1px solid #fff",
-            margin: "2px",
-          }}
-        >
-          Futbol
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/voley"
-          sx={{
-            padding: isMobile ? "5px 0" : "8px",
-            fontSize: isMobile ? "0.7rem" : "0.8rem",
-            border: "1px solid #fff",
-            margin: "2px",
-          }}
-        >
-          Voley y Voley Mixto
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/goles-sancion"
-          sx={{
-            padding: isMobile ? "5px 0" : "8px",
-            fontSize: isMobile ? "0.7rem" : "0.8rem",
-            border: "1px solid #fff",
-            margin: "2px",
-          }}
-        >
-          goleadores y sancionados
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
-          to="/login"
-          sx={{
-            padding: isMobile ? "5px 0" : "8px",
-            fontSize: isMobile ? "0.7rem" : "0.8rem",
-            border: "1px solid #fff",
-            margin: "2px",
-          }}
-        >
-          <AccountCircle />
-          Iniciar sesión
-        </Button>
+          <List>
+            {menuItems.map((item) => (
+              <ListItem
+                key={item.text}
+                component={RouterLink}
+                to={item.to}
+                onClick={toggleDrawer(false)}
+              >
+                {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
+                <ListItemText primary={item.text} />
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+        {!isMobile && (
+          <>
+            {menuItems.map((item) => (
+              <Button
+                key={item.text}
+                color="inherit"
+                component={RouterLink}
+                to={item.to}
+                sx={{
+                  padding: "5px 0",
+                  fontSize: "0.8rem",
+                  border: "1px solid #fff",
+                  margin: "2px",
+                }}
+              >
+                {item.icon}
+                {item.text}
+              </Button>
+            ))}
+          </>
+        )}
       </Toolbar>
     </AppBar>
   );

@@ -7,6 +7,9 @@ import { nombreCampeonato } from "../services/api.service";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
+    background: {
+      default: "#191f2c",
+    },
   },
 });
 
@@ -21,6 +24,9 @@ const Layout = ({ children }: props) => {
   });
   return (
     <ThemeProvider theme={darkTheme}>
+      <Typography color={"white"} textAlign={"center"} variant="h4">
+        EXAFAM Calendario
+      </Typography>
       <CssBaseline />
       {isLoading && <LinearProgress color="success" />}
       {isError && <div>Error</div>}
