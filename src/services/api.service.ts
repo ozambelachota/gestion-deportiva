@@ -1,6 +1,7 @@
 import { clientApi } from "../api/client.api";
 import {
   Fixture,
+  ListaSancion,
   PromocionParticipante,
   Promocional,
 } from "../types/fixture.api.type";
@@ -291,6 +292,38 @@ export const getPromocionales = async () => {
       .order("id", { ascending: true });
     if (error) throw new Error(error.message);
     return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const insertedJugadorSancionado = async (
+  jugadorSancionado: ListaSancion
+) => {
+  try {
+    if (jugadorSancionado.tipo_sancion == 0) {
+      await clientApi.from("lista_jugador_sancionado").insert({
+        ...jugadorSancionado,
+        tipo_sancion: null,
+      });
+    }
+    const { data, error } = await clientApi
+      .from("lista_jugador_sancionado")
+      .insert(jugadorSancionado);
+
+    if (error) throw error;
+    return data;
+  } catch (error) {}
+};
+
+export const jugadorSancionadoById = async (id: number) => {
+  try {
+    const { data, error } = await clientApi
+      .from("lista_jugador_sancionado")
+      .select("*")
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+    return data[0];
   } catch (error) {
     console.error(error);
   }

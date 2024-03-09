@@ -53,13 +53,13 @@ export interface ListaDeuda {
   promocion_id: number;
 }
 export interface ListaSancion {
-  id?: number;
+  id?: number; 
   motivo_sancion: string;
   estado_sancion: boolean;
   fecha_inicio_sancion: Date;
-  fecha_final_sancion: Date;
+  fecha_fin_sancion: Date;
   monto_sancion: number;
-  estado_pagado: boolean;
+  estado_pago_sancion: boolean;
   cant_tarjeta_amarilla: number;
   cant_tarjeta_roja: number;
   promocion_id: number;
