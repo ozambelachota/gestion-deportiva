@@ -21,12 +21,12 @@ function FormEditSaancionComponent({ id }: Props) {
   const tipoSancion = useSancionGolStore((state) => state.tipoSancion);
   const getTipoSancion = useSancionGolStore((state) => state.getTipoSancion);
   const sancionadoId = useSancionGolStore((state) => state.sancionadoId);
+  const [sancionado, setSancionado] = useState<ListaSancion>(sancionadoId);
   useEffect(() => {
     jugadorSancionadoById(id);
     getTipoSancion();
-  }, [sancionadoId]);
+  }, [sancionadoId,sancionado]);
 
-  const [sancionado, setSancionado] = useState<ListaSancion>(sancionadoId);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -43,7 +43,8 @@ function FormEditSaancionComponent({ id }: Props) {
             variant="filled"
             disabled
             className="my-3"
-            value={sancionadoId.nombre_promocion}
+            value={sancionado.nombre_promocion}
+            onChange={handleInputChange}
           />
         </FormControl>
         <FormControl fullWidth className="my-2">
@@ -61,7 +62,8 @@ function FormEditSaancionComponent({ id }: Props) {
             name="cant_tarjeta_amarilla"
             variant="standard"
             type="number"
-            value={sancionadoId.cant_tarjeta_amarilla}
+            value={sancionado.cant_tarjeta_amarilla}
+            onChange={handleInputChange}
           />
         </FormControl>
         <FormControl fullWidth className="my-2">
@@ -70,7 +72,8 @@ function FormEditSaancionComponent({ id }: Props) {
             name="cant_tarjeta_roja"
             variant="standard"
             type="number"
-            value={sancionadoId.cant_tarjeta_roja}
+            value={sancionado.cant_tarjeta_roja}
+            onChange={handleInputChange}
           />
         </FormControl>
       </form>

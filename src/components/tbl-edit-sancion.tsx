@@ -58,9 +58,14 @@ function TablaEditSancion() {
             },
           }}
           pageSizeOptions={[5]}
+          loading={listSancion.length === 0}
           checkboxSelection
         />
-        <Modal className="" open={open} onClose={() => setOpen(false)}>
+        <Modal
+          className="w-full h-full"
+          open={open}
+          onClose={() => setOpen(false)}
+        >
           <FormEditSaancionComponent id={selectedRow} />
         </Modal>
       </Box>
