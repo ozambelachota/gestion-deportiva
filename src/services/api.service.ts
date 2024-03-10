@@ -328,3 +328,23 @@ export const jugadorSancionadoById = async (id: number) => {
     console.error(error);
   }
 };
+export const updateJugadorSancionado = async (
+  jugadorSancionado: ListaSancion
+) => {
+  try {
+    if (jugadorSancionado.tipo_sancion == 0) {
+      await clientApi.from("lista_jugador_sancionado").update({
+        ...jugadorSancionado,
+        tipo_sancion: null,
+      });
+    }
+    const { data, error } = await clientApi
+      .from("lista_jugador_sancionado")
+      .update(jugadorSancionado)
+      .eq("id", jugadorSancionado.id);
+
+    console.log(data, error?.message);
+    if (error) throw error;
+    return data;
+  } catch (error) {}
+};

@@ -1,8 +1,8 @@
-import { Box, Button, Modal, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSancionGolStore } from "../store/sancion-gol.store";
-import FormEditSaancionComponent from "./edit-form-sancion.component";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", flex: 1 },
@@ -15,13 +15,16 @@ const columns: GridColDef[] = [
 function TablaEditSancion() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRow, setSelectedRow] = useState(0);
-  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const listSancion = useSancionGolStore((state) => state.sancion);
   const getSanciones = useSancionGolStore((state) => state.getSancion);
   useEffect(() => {
     getSanciones();
   }, [listSancion]);
+
+  useEffect(() => {}, []);
+
   const filteredRows = listSancion.filter((row) =>
     row.nombre_promocion.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -29,19 +32,24 @@ function TablaEditSancion() {
     setSearchTerm(e.target.value);
   };
 
-  const handleOpenModal = () => {
-    setOpen(true);
+  const handleClickEdit = () => {
+    console.log(selectedRow);
+    if (selectedRow) {
+      navigate(`/admin/sancion/edit/${selectedRow}`);
+    }
   };
   return (
     <>
-      <Box margin={2}>
+      <Box margin={3}>
         <TextField
           label="Buscar por nombre"
           variant="outlined"
           value={searchTerm}
           onChange={handleSearchChange}
         />
-        <Button onClick={handleOpenModal}>Editar</Button>
+        <Button disabled={!selectedRow} onClick={handleClickEdit}>
+          Editar
+        </Button>
         <DataGrid
           rows={filteredRows}
           columns={columns}
@@ -61,13 +69,6 @@ function TablaEditSancion() {
           loading={listSancion.length === 0}
           checkboxSelection
         />
-        <Modal
-          className="w-full h-full"
-          open={open}
-          onClose={() => setOpen(false)}
-        >
-          <FormEditSaancionComponent id={selectedRow} />
-        </Modal>
       </Box>
     </>
   );

@@ -5,6 +5,7 @@ import {
   getSanciones,
   insertedJugadorSancionado,
   jugadorSancionadoById,
+  updateJugadorSancionado,
 } from "../services/api.service";
 import type {
   ListaSancion,
@@ -28,6 +29,8 @@ interface SancionGolState {
   insertJugadorSancion: (sancion: ListaSancion) => Promise<void>;
   jugadorSancionadoById: (id: number) => Promise<void>;
   sancionadoId: ListaSancion;
+  updateJugadorSancion: (sancion: ListaSancion) => Promise<void>;
+  setEditarSancion: (sancion: ListaSancion) => void;
 }
 
 export const useSancionGolStore = create<SancionGolState>((set) => ({
@@ -51,7 +54,7 @@ export const useSancionGolStore = create<SancionGolState>((set) => ({
   },
   jugadorSancionadoById: async (id: number) => {
     const jugadorSancionado = await jugadorSancionadoById(id);
-    if (!jugadorSancionado) return;
+    if (!jugadorSancionado || id <= 0) return;
     set({ sancionadoId: jugadorSancionado });
   },
   sancionadoId: {
@@ -97,5 +100,14 @@ export const useSancionGolStore = create<SancionGolState>((set) => ({
     console.log(sancion);
     if (!sancion) return;
     set({ jugadorSancionado: sancion });
+  },
+  updateJugadorSancion: async (sancion: ListaSancion) => {
+    if (!sancion) return;
+    const jugador = await updateJugadorSancionado(sancion);
+    if (!jugador) return;
+    set({ sancionadoId: jugador });
+  },
+  setEditarSancion: (jugador: ListaSancion) => {
+    set({ sancionadoId: jugador });
   },
 }));

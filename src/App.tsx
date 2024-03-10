@@ -1,15 +1,8 @@
-import {
-  Container,
-  ThemeProvider,
-  createTheme,
-} from "@mui/material";
+import { Container, ThemeProvider, createTheme } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import es from "date-fns/locale/es";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./App.css";
 import Layout from "./pages/layout";
 import LayoutAdmin from "./pages/layout-admin";
 import FixtureRoutes from "./routes/fixture.routes";
@@ -26,12 +19,6 @@ const queryClient = new QueryClient();
 
 function App() {
   const user = useUserStore((state) => state.username);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (user) {
-      navigate("/admin/home", { replace: true });
-    }
-  }, [user]);
   return (
     <>
       <QueryClientProvider client={queryClient}>

@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import FormEditSaancionComponent from "../components/edit-form-sancion.component";
 import FixtureCreate from "../components/fixture/fixture-create";
 import ResultFixtureFormPage from "../components/fixture/result-fixture-form";
 import FormPromocionParticipante from "../components/form-promocion-participante";
@@ -39,6 +40,10 @@ const FixtureRoutes = () => {
           />
           <Route path="sancion/create" element={<Sancion />} />
           <Route path="sancion" element={<Sancion />} />
+          <Route
+            path="sancion/edit/:id"
+            element={<FormEditSaancionComponent />}
+          />
           <Route path="home" element={<TablaFixture />} />
         </Route>
         <Route path="/resultado" element={<ResultPage />} />

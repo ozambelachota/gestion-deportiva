@@ -21,7 +21,7 @@ import type { Fixture } from "../types/fixture.api.type";
 const colorPalette = [
   "#4285f4",
   "#34a853",
-  "#fbbc05",
+  "#7E6363",
   "#ea4335",
   "#673ab7",
   "#e91e63",

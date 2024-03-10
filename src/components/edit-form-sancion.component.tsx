@@ -1,83 +1,216 @@
 import {
-  Box,
+  Button,
+  ButtonGroup,
   FormControl,
+  InputLabel,
   MenuItem,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 import { useSancionGolStore } from "../store/sancion-gol.store";
 import { ListaSancion } from "../types/fixture.api.type";
 
-interface Props {
-  id: number;
+interface FormUpdate {
+  nombre_promocion: string;
+  motivo_sancion: string;
+  cant_tarjeta_amarilla: number;
+  cant_tarjeta_roja: number;
+  tipo_sancion: number;
 }
 
-function FormEditSaancionComponent({ id }: Props) {
+function FormEditSaancionComponent() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const jugadorSancionadoById = useSancionGolStore(
     (state) => state.jugadorSancionadoById
+  );
+  const updatingJugadorSancionado = useSancionGolStore(
+    (state) => state.updateJugadorSancion
   );
   const tipoSancion = useSancionGolStore((state) => state.tipoSancion);
   const getTipoSancion = useSancionGolStore((state) => state.getTipoSancion);
   const sancionadoId = useSancionGolStore((state) => state.sancionadoId);
-  const [sancionado, setSancionado] = useState<ListaSancion>(sancionadoId);
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<FormUpdate>({
+    values: {
+      nombre_promocion: sancionadoId.nombre_promocion,
+      cant_tarjeta_amarilla: sancionadoId.cant_tarjeta_amarilla,
+      cant_tarjeta_roja: sancionadoId.cant_tarjeta_roja,
+      tipo_sancion: sancionadoId.tipo_sancion,
+      motivo_sancion: sancionadoId.motivo_sancion,
+    },
+  });
   useEffect(() => {
-    jugadorSancionadoById(id);
     getTipoSancion();
-  }, [sancionadoId,sancionado]);
 
+    if (id) {
+      jugadorSancionadoById(Number(id));
+    }
+  }, [id]);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setSancionado({ ...sancionado, [name]: value });
+  const onUpdateJugadorSancionado: SubmitHandler<FormUpdate> = (data) => {
+    console.log(data);
+    if (data.cant_tarjeta_amarilla < sancionadoId.cant_tarjeta_amarilla) {
+      toast.error(
+        "La cantidad de tarjetas amarillas no puede ser menor a la actual"
+      );
+      return;
+    }
+    if (data.cant_tarjeta_roja < sancionadoId.cant_tarjeta_roja) {
+      toast.error(
+        "La cantidad de tarjetas rojas no puede ser menor a la actual"
+      );
+      return;
+    }
+    onUpdate({
+      ...sancionadoId,
+      cant_tarjeta_amarilla: data.cant_tarjeta_amarilla,
+      cant_tarjeta_roja: data.cant_tarjeta_roja,
+      motivo_sancion: data.motivo_sancion,
+      tipo_sancion: data.tipo_sancion,
+    });
+    toast.success("Jugador sancionado editado");
   };
 
+  const onUpdate = async (jugador: ListaSancion) => {
+    if (jugador == sancionadoId) {
+      toast.error("No se puede editar porque no hay cambios");
+      return;
+    }
+    updatingJugadorSancionado(jugador);
+  };
   return (
-    <Box className="bg-slate-900 flex  flex-col m-2 my-4 justify-center items-center w-full h-full">
-      <Typography variant="h4">Editando al jugador sancionado</Typography>
-      <form>
+    <div className="bg-slate-900 flex flex-col justify-center items-center w-full h-full m-0">
+      <Typography variant="h5">Editando al jugador sancionado</Typography>
+      <form onSubmit={handleSubmit(onUpdateJugadorSancionado)}>
         <FormControl fullWidth className="my-2">
-          <TextField
+          <Controller
             name="nombre_promocion"
-            variant="filled"
-            disabled
-            className="my-3"
-            value={sancionado.nombre_promocion}
-            onChange={handleInputChange}
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Nombre Promocion"
+                disabled
+                name="nombre_promocion"
+                variant="standard"
+              />
+            )}
           />
         </FormControl>
         <FormControl fullWidth className="my-2">
-          <Select name="sancionado_id">
-            <MenuItem value={0}>Ninguno</MenuItem>
-            {tipoSancion.map((tipo) => (
-              <MenuItem key={tipo.id} value={sancionadoId.id}>
-                {tipo.nombre_tipo + "-" + tipo.cantidad_fecha}
-              </MenuItem>
-            ))}
-          </Select>
+          <Controller
+            name="motivo_sancion"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                label="Motivo Sancion"
+                {...field}
+                name="motivo_sancion"
+                variant="standard"
+              />
+            )}
+          />
         </FormControl>
         <FormControl fullWidth className="my-2">
-          <TextField
+          <Controller
+            name="tipo_sancion"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <>
+                <InputLabel id="lbl-tipo-sancion">Tipo Sancion</InputLabel>
+                <Select
+                  {...field}
+                  label="Tipo Sancion"
+                  labelId="lbl-tipo-sancion"
+                  name="tipo_sancion"
+                >
+                  <MenuItem value={0}>Ninguno</MenuItem>
+                  {tipoSancion.map((tipo) => (
+                    <MenuItem key={tipo.id} value={tipo.id}>
+                      {tipo.nombre_tipo + "-" + tipo.cantidad_fecha}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </>
+            )}
+          />
+        </FormControl>
+        <FormControl fullWidth className="my-2">
+          <Controller
             name="cant_tarjeta_amarilla"
-            variant="standard"
-            type="number"
-            value={sancionado.cant_tarjeta_amarilla}
-            onChange={handleInputChange}
+            control={control}
+            rules={{ required: true, min: 0 }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Cant. Tarjetas Amarillas"
+                variant="standard"
+              />
+            )}
           />
         </FormControl>
+        {errors && (
+          <Typography color={"red"}>
+            {errors.cant_tarjeta_amarilla?.message}
+          </Typography>
+        )}
         <FormControl fullWidth className="my-2">
-          <TextField
-            id="cant_tarjeta_roja"
+          <Controller
             name="cant_tarjeta_roja"
-            variant="standard"
-            type="number"
-            value={sancionado.cant_tarjeta_roja}
-            onChange={handleInputChange}
+            control={control}
+            rules={{
+              required: true,
+              min: 0,
+              validate: (value) => value >= sancionadoId.cant_tarjeta_roja,
+            }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Cant. Tarjetas Rojas"
+                variant="standard"
+              />
+            )}
           />
         </FormControl>
+        {errors && (
+          <Typography color={"red"}>
+            {errors.cant_tarjeta_roja?.message}
+          </Typography>
+        )}
+        <ButtonGroup>
+          <Button
+            color="success"
+            className="m-4"
+            variant="contained"
+            type="submit"
+          >
+            Actualizar
+          </Button>
+          <Button
+            className="m-4"
+            color="secondary"
+            variant="contained"
+            onClick={() => {
+              navigate("/admin/sancion");
+            }}
+          >
+            Cancelar
+          </Button>
+        </ButtonGroup>
       </form>
-    </Box>
+      <Toaster position="top-center" duration={4000} theme="dark" />
+    </div>
   );
 }
 
