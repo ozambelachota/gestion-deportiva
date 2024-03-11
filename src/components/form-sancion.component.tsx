@@ -44,15 +44,26 @@ function FormSancionComponent() {
   const promocionalesPorPromocionParticipante = useSancionGolStore(
     (state) => state.obtenerPromocionalesPorParticipante
   );
-  const { control, handleSubmit, reset, setValue } = useForm<FormData>();
+  const { control, handleSubmit, reset, setValue } = useForm<FormData>({
+    defaultValues: {
+      grupo_id: 0,
+      cant_tarjeta_amarilla: 0,
+      cant_tarjeta_roja: 0,
+      nombre_promocion: "",
+      promocion_id: 0,
+      tipo_sancion: 0,
+      motivo_sancion: "",
+    },
+  });
 
   useEffect(() => {
     getGrupos();
     getTipoSancion();
+    console.log(promcionesPartcipantes, promocionales);
   }, [promocionales, promcionesPartcipantes]);
 
   const onInsertJugadorSancion: SubmitHandler<FormData> = (data) => {
-    if (data.cant_tarjeta_amarilla <= 0) {
+    if (Number(data.cant_tarjeta_amarilla) < 0) {
       toast.error(
         "Se requiere una cantidad de tarjetas amarillas mayor a cero"
       );
@@ -62,7 +73,7 @@ function FormSancionComponent() {
       toast.error("Se requiere una promoción");
       return;
     }
-    if (data.cant_tarjeta_roja < 0) {
+    if (Number(data.cant_tarjeta_roja) < 0) {
       toast.error("Se requiere una cantidad de tarjetas rojas mayor a cero");
       return;
     }
@@ -72,12 +83,11 @@ function FormSancionComponent() {
     }
     console.log(data);
     onSave({
-      
       ...sancion,
-      tipo_sancion: data.tipo_sancion,
+      tipo_sancion: Number(data.tipo_sancion),
       promocion_id: data.promocion_id,
-      cant_tarjeta_amarilla: data.cant_tarjeta_amarilla,
-      cant_tarjeta_roja: data.cant_tarjeta_roja,
+      cant_tarjeta_amarilla: Number(data.cant_tarjeta_amarilla),
+      cant_tarjeta_roja: Number(data.cant_tarjeta_roja),
       motivo_sancion: data.motivo_sancion,
       nombre_promocion: data.nombre_promocion,
     });
@@ -116,7 +126,7 @@ function FormSancionComponent() {
                         }
                       }}
                     >
-                      <MenuItem value={0} disabled selected>
+                      <MenuItem value={0} disabled>
                         Seleccionar grupo
                       </MenuItem>
                       {grupos.map((grupo) => (
@@ -146,14 +156,12 @@ function FormSancionComponent() {
                       label="Seleccionar promocion participante"
                       onChange={(e) => {
                         setValue("promocion_id", Number(e.target.value));
-                        if (Number(e.target.value) > 0) {
-                          promocionalesPorPromocionParticipante(
-                            Number(e.target.value)
-                          );
-                        }
+                        promocionalesPorPromocionParticipante(
+                          Number(e.target.value)
+                        );
                       }}
                     >
-                      <MenuItem value={0} disabled selected>
+                      <MenuItem value={0} disabled>
                         Seleccionar promocion participante
                       </MenuItem>
                       {promcionesPartcipantes &&
@@ -181,20 +189,19 @@ function FormSancionComponent() {
                     <Select
                       {...field}
                       labelId="select-promocional"
-                      label="Seleccionar promocional "
+                      label="Seleccionar promocional"
                     >
                       <MenuItem value={0} disabled>
                         Seleccionar promocional
                       </MenuItem>
-                      {promocionales &&
-                        promocionales.map((promocional) => (
-                          <MenuItem
-                            key={promocional.id}
-                            value={promocional.nombre_promocional}
-                          >
-                            {promocional.nombre_promocional}
-                          </MenuItem>
-                        ))}
+                      {promocionales.map((promocional) => (
+                        <MenuItem
+                          key={promocional.id}
+                          value={promocional.nombre_promocional}
+                        >
+                          {promocional.nombre_promocional}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </>
                 )}
@@ -215,9 +222,12 @@ function FormSancionComponent() {
                       {...field}
                       labelId="select-tipo-sancion"
                       label="Seleccionar tipo de sancion"
+                      onChange={(e) => {
+                        setValue("tipo_sancion", Number(e.target.value));
+                      }}
                     >
-                      <MenuItem value={0} selected>
-                        ninguno
+                      <MenuItem value={0} disabled>
+                        Ninguno
                       </MenuItem>
                       {tipoSanciones.map((sancion) => (
                         <MenuItem key={sancion.id} value={sancion.id}>
@@ -229,7 +239,7 @@ function FormSancionComponent() {
                 )}
               />
             </FormControl>
-          </Grid>
+          </Grid>{" "}
           <Grid item md={6} xs={12}>
             <FormControl fullWidth>
               <Controller
@@ -240,6 +250,15 @@ function FormSancionComponent() {
                     {...field}
                     type="number"
                     label="Cant. Tarjeta Amarillas"
+                    onChange={(e) => {
+                      if (
+                        e.target.value == "" ||
+                        e.target.name == undefined
+                      ) {
+                        setValue("cant_tarjeta_amarilla", 0);
+                      }
+                      setValue("cant_tarjeta_amarilla", Number(e.target.value));
+                    }}
                   />
                 )}
               />
@@ -270,7 +289,6 @@ function FormSancionComponent() {
               />
             </FormControl>
           </Grid>
-
           <Grid item md={6} xs={12}>
             <FormControl fullWidth>
               <Controller
@@ -281,6 +299,15 @@ function FormSancionComponent() {
                     {...field}
                     type="number"
                     label="Cant. Tarjeta Rojas"
+                    onChange={(e) => {
+                      if (
+                        e.target.value == "" ||
+                        e.target.name == undefined
+                      ) {
+                        setValue("cant_tarjeta_roja", 0);
+                      }
+                      setValue("cant_tarjeta_roja", Number(e.target.value));
+                    }}
                   />
                 )}
               />
@@ -289,7 +316,7 @@ function FormSancionComponent() {
           <Grid item md={6} xs={12}>
             <FormControl fullWidth>
               <Button variant="contained" color="primary" type="submit">
-                activar sancion
+                Insertar Jugador
               </Button>
             </FormControl>
           </Grid>

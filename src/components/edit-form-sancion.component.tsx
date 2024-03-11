@@ -65,12 +65,6 @@ function FormEditSaancionComponent() {
       );
       return;
     }
-    if (data.cant_tarjeta_roja < sancionadoId.cant_tarjeta_roja) {
-      toast.error(
-        "La cantidad de tarjetas rojas no puede ser menor a la actual"
-      );
-      return;
-    }
     if (data.cant_tarjeta_amarilla < 0) {
       toast.error(
         "Se requiere una cantidad de tarjetas amarillas mayor a cero"
@@ -133,7 +127,6 @@ function FormEditSaancionComponent() {
           <Controller
             name="tipo_sancion"
             control={control}
-            rules={{ required: true }}
             render={({ field }) => (
               <>
                 <InputLabel id="lbl-tipo-sancion">Tipo Sancion</InputLabel>
@@ -158,7 +151,7 @@ function FormEditSaancionComponent() {
           <Controller
             name="cant_tarjeta_amarilla"
             control={control}
-            rules={{ required: true, min: 0 }}
+            rules={{ required: true }}
             render={({ field }) => (
               <TextField
                 {...field}
@@ -177,10 +170,6 @@ function FormEditSaancionComponent() {
           <Controller
             name="cant_tarjeta_roja"
             control={control}
-            rules={{
-              required: true,
-              min: 0,
-            }}
             render={({ field }) => (
               <TextField
                 {...field}

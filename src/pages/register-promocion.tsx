@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { PromocionStore } from "../store/promocionales.store";
 interface FormData {
@@ -16,11 +16,18 @@ interface FormData {
   n_goles: number;
 }
 export const RegisterPromocion = () => {
-  const { control, handleSubmit, setValue, reset } = useForm<FormData>();
+  const { control, handleSubmit, setValue, reset } = useForm<FormData>(
+    {
+      defaultValues:
+      {
+        nombre_promocional: "",
+        n_goles: 0
+      }
+    }
+  );
 
   const { id } = useParams();
   const agregarPromocion = PromocionStore((state) => state.agregarPromocion);
-  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     const { nombre_promocional, n_goles } = data;
@@ -40,7 +47,6 @@ export const RegisterPromocion = () => {
         n_goles: n_goles,
       });
       reset();
-      navigate("/");
     }
   };
 
@@ -78,6 +84,9 @@ export const RegisterPromocion = () => {
                       required
                       fullWidth
                       id="nombrePromocional"
+                      onChange={(e) => {
+                        setValue("nombre_promocional", e.target.value);
+                      }}
                       label="Nombre Promocional"
                     />
                   )}
@@ -99,7 +108,6 @@ export const RegisterPromocion = () => {
                         if (Number(e.target.value) == 0) {
                           setValue("n_goles", 0);
                         }
-                        setValue("n_goles", Number(e.target.value));
                       }}
                     />
                   )}
