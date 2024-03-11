@@ -23,8 +23,7 @@ export const RegisterPromocion = () => {
     else {
       console.log(data);
       agregarPromocion({
-        nombre_promocional,
-        apellido_promocional,
+        nombre_promocional: nombre_promocional+" "+apellido_promocional,
         id_promocion_participante: parseInt(id as string),
         n_goles: 0,
       });

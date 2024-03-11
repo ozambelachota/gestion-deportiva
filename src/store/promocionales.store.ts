@@ -13,7 +13,6 @@ export const PromocionStore = create<promocionType>((set) => ({
   promocion: {
     id: 0,
     nombre_promocional: "",
-    apellido_promocional: "",
     id_promocion_participante: 0,
     n_goles: 0,
   },

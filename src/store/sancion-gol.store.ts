@@ -16,6 +16,11 @@ import { tipoSanciones } from "./../services/api.service";
 
 interface SancionGolState {
   tipoSancion: TipoSancion[];
+  grupoSelect: number;
+  promocionParticipanteSelect: number;
+  setSelectProomocionParticipante: (id: number) => void;
+
+  setGrupoSelect: (id: number) => void;
   selectedPromocional: string;
   sancion: ListaSancion[];
   setSelectedPromocional: (promocional: string) => void;
@@ -29,15 +34,27 @@ interface SancionGolState {
   insertJugadorSancion: (sancion: ListaSancion) => Promise<void>;
   jugadorSancionadoById: (id: number) => Promise<void>;
   sancionadoId: ListaSancion;
+  setSancionJugador: (sancion: ListaSancion) => void;
   updateJugadorSancion: (sancion: ListaSancion) => Promise<void>;
   setEditarSancion: (sancion: ListaSancion) => void;
 }
 
 export const useSancionGolStore = create<SancionGolState>((set) => ({
   tipoSancion: [],
+  grupoSelect: 0,
   sancion: [],
   goleadoor: [],
   promocionales: [],
+  promocionParticipanteSelect: 0,
+  setSelectProomocionParticipante: (id: number) => {
+    set({ promocionParticipanteSelect: id });
+  },
+  setSancionJugador: (jugador: ListaSancion) => {
+    set({ jugadorSancionado: jugador });
+  },
+  setGrupoSelect: (id: number) => {
+    set({ grupoSelect: id });
+  },
   jugadorSancionado: {
     id: 0,
     promocion_id: 0,

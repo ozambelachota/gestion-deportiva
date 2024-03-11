@@ -79,7 +79,6 @@ export interface Deporte {
 export interface Promocional {
   id?: number;
   nombre_promocional: string;
-  apellido_promocional: string;
   id_promocion_participante: number;
   n_goles: number;
 }

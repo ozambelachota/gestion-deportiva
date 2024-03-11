@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { useSancionGolStore } from "../store/sancion-gol.store";
@@ -71,6 +71,13 @@ function FormEditSaancionComponent() {
       );
       return;
     }
+    if (data.cant_tarjeta_amarilla < 0) {
+      toast.error(
+        "Se requiere una cantidad de tarjetas amarillas mayor a cero"
+      );
+      return;
+    }
+
     onUpdate({
       ...sancionadoId,
       cant_tarjeta_amarilla: data.cant_tarjeta_amarilla,
@@ -78,6 +85,7 @@ function FormEditSaancionComponent() {
       motivo_sancion: data.motivo_sancion,
       tipo_sancion: data.tipo_sancion,
     });
+    console.log(data);
     toast.success("Jugador sancionado editado");
   };
 
@@ -172,7 +180,6 @@ function FormEditSaancionComponent() {
             rules={{
               required: true,
               min: 0,
-              validate: (value) => value >= sancionadoId.cant_tarjeta_roja,
             }}
             render={({ field }) => (
               <TextField
