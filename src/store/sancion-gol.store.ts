@@ -19,15 +19,9 @@ import { tipoSanciones } from "./../services/api.service";
 
 interface SancionGolState {
   tipoSancion: TipoSancion[];
-  grupoSelect: number;
-  promocionParticipanteSelect: number;
   promocionesPartipantes: PromocionParticipante[];
-  setSelectProomocionParticipante: (id: number) => void;
   obtenerPromocionalesPorParticipante: (id: number) => Promise<void>;
-  setGrupoSelect: (id: number) => void;
-  selectedPromocional: string;
   sancion: ListaSancion[];
-  setSelectedPromocional: (promocional: string) => void;
   jugadorSancionado: ListaSancion;
   goleadoor: Promocional[];
   getSancion: () => Promise<void>;
@@ -73,17 +67,10 @@ export const useSancionGolStore = create<SancionGolState>((set) => ({
     if (!promocionales) return;
     set({ promocionales });
   },
-  setSelectProomocionParticipante: (id: number) => {
-    set({ promocionParticipanteSelect: id });
-  },
   setSancionJugador: (jugador: ListaSancion) => {
     set({ jugadorSancionado: jugador });
   },
-  setGrupoSelect: (id: number) => {
-    set({ grupoSelect: id });
-  },
   jugadorSancionado: {
-    id: 0,
     promocion_id: 0,
     nombre_promocion: "",
     tipo_sancion: 0,
@@ -114,10 +101,6 @@ export const useSancionGolStore = create<SancionGolState>((set) => ({
     fecha_inicio_sancion: new Date(),
     monto_sancion: 0,
     motivo_sancion: "",
-  },
-  selectedPromocional: "",
-  setSelectedPromocional: (promocional: string) => {
-    set({ selectedPromocional: promocional });
   },
   obtenerPromocionales: async () => {
     const promocionales = await getPromocionales();

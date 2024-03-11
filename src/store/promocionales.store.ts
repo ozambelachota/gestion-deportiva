@@ -1,7 +1,10 @@
 import { create } from "zustand";
-import { insertPromocionParticipante, insertarPromociones } from "../services/api.service";
+import {
+  insertPromocionParticipante,
+  insertarPromociones,
+} from "../services/api.service";
 import { Promocional } from "../types/fixture.api.type";
-import { PromocionParticipante } from './../types/fixture.api.type';
+import { PromocionParticipante } from "./../types/fixture.api.type";
 
 type promocionType = {
   promocion: Promocional;
@@ -28,9 +31,8 @@ export const PromocionStore = create<promocionType>((set) => ({
   agregarPromocion: async (promocion: Promocional) => {
     try {
       if (promocion) {
-        const { error } = await insertarPromociones(promocion);
-        set({ promocion });
-        console.log(error);
+        const promocionData = await insertarPromociones(promocion);
+        if (promocionData) set({ promocion: promocionData });
       } else {
         console.log("error al enviar");
       }
@@ -41,14 +43,15 @@ export const PromocionStore = create<promocionType>((set) => ({
   setPromocionParticipante: async (promocion: PromocionParticipante) => {
     try {
       if (promocion) {
-        const promocionParticipanteData = await insertPromocionParticipante(promocion);
+        const promocionParticipanteData = await insertPromocionParticipante(
+          promocion
+        );
 
-        if(promocionParticipanteData) set({ promocionParticipante:promocion });
+        if (promocionParticipanteData)
+          set({ promocionParticipante: promocion });
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error);
     }
-  }
-
+  },
 }));

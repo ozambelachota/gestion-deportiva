@@ -72,7 +72,7 @@ export const insertarPromociones = async (promocional: Promocional) => {
       .from("promocionales")
       .insert(promocional);
     if (error) throw error;
-    return { newPromocional, error };
+    return newPromocional;
   } catch (error) {
     throw new Error("error al agregar promocion " + error);
   }
@@ -314,17 +314,26 @@ export const insertedJugadorSancionado = async (
 ) => {
   try {
     if (jugadorSancionado.tipo_sancion == 0) {
-      await clientApi.from("lista_jugador_sancionado").insert({
-        ...jugadorSancionado,
-        tipo_sancion: null,
-      });
-    }
-    const { data, error } = await clientApi
-      .from("lista_jugador_sancionado")
-      .insert(jugadorSancionado);
+      console.log(jugadorSancionado);
+      const { error, data } = await clientApi
+        .from("lista_jugador_sancionado")
+        .insert({
+          ...jugadorSancionado,
+          tipo_sancion: null,
+        });
+      console.log(data, error);
+      if (error) throw error;
+      return data;
+    } else {
+      const { data, error } = await clientApi
+        .from("lista_jugador_sancionado")
+        .insert(jugadorSancionado);
 
-    if (error) throw error;
-    return data;
+      console.log(data, error);
+
+      if (error) throw error;
+      return data;
+    }
   } catch (error) {}
 };
 
@@ -361,7 +370,10 @@ export const updateJugadorSancionado = async (
   } catch (error) {}
 };
 
-export const promocionesParticipantesByGrupoId = async (id: number, tipoId:number) => {
+export const promocionesParticipantesByGrupoId = async (
+  id: number,
+  tipoId: number
+) => {
   try {
     const { data, error } = await clientApi
       .from("promocion_participante")

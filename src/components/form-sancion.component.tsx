@@ -10,7 +10,6 @@ import {
 import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
-import { fixtureStore } from "../store/fixture.store";
 import { GrupoStore } from "../store/grupoSotre.store";
 import { useSancionGolStore } from "../store/sancion-gol.store";
 import { ListaSancion } from "../types/fixture.api.type";
@@ -28,52 +27,29 @@ interface FormData {
 function FormSancionComponent() {
   const grupos = GrupoStore((state) => state.grupos);
   const getGrupos = GrupoStore((state) => state.obtenerGrupo);
-  const sancionn = useSancionGolStore((state) => state.jugadorSancionado);
-  const setGrupoSelect = useSancionGolStore((state) => state.setGrupoSelect);
+  const sancion = useSancionGolStore((state) => state.jugadorSancionado);
   const getTipoSancion = useSancionGolStore((state) => state.getTipoSancion);
   const tipoSanciones = useSancionGolStore((state) => state.tipoSancion);
-  const getPromocionParticipante = fixtureStore(
-    (state) => state.obtenerPromociones
-  );
   const promcionesPartcipantes = useSancionGolStore(
     (state) => state.promocionesPartipantes
   );
   const promoionesParticipantesPorGrupo = useSancionGolStore(
     (state) => state.getPromocionesParticipantesPorGrupo
   );
-
   const promocionales = useSancionGolStore((state) => state.promocionales);
 
-  const selectPromocionParticipante = useSancionGolStore(
-    (state) => state.promocionParticipanteSelect
-  );
-  const setSelectPromocionParticipante = useSancionGolStore(
-    (state) => state.setSelectProomocionParticipante
-  );
   const insertarSancionJugador = useSancionGolStore(
     (state) => state.insertJugadorSancion
   );
   const promocionalesPorPromocionParticipante = useSancionGolStore(
     (state) => state.obtenerPromocionalesPorParticipante
   );
-  const grupoSelect = useSancionGolStore((state) => state.grupoSelect);
-  const { control, handleSubmit, reset } = useForm<FormData>({
-    values: {
-      grupo_id: grupoSelect,
-      cant_tarjeta_amarilla: 0,
-      cant_tarjeta_roja: 0,
-      nombre_promocion: "",
-      promocion_id: selectPromocionParticipante,
-      tipo_sancion: 0,
-      motivo_sancion: "",
-    },
-  });
+  const { control, handleSubmit, reset, setValue } = useForm<FormData>();
 
   useEffect(() => {
     getGrupos();
     getTipoSancion();
-    getPromocionParticipante();
-  }, [selectPromocionParticipante]);
+  }, [promocionales, promcionesPartcipantes]);
 
   const onInsertJugadorSancion: SubmitHandler<FormData> = (data) => {
     if (data.cant_tarjeta_amarilla <= 0) {
@@ -90,8 +66,14 @@ function FormSancionComponent() {
       toast.error("Se requiere una cantidad de tarjetas rojas mayor a cero");
       return;
     }
+    if (data.promocion_id === 0) {
+      toast.error("Se requiere una promoción");
+      return;
+    }
+    console.log(data);
     onSave({
-      ...sancionn,
+      
+      ...sancion,
       tipo_sancion: data.tipo_sancion,
       promocion_id: data.promocion_id,
       cant_tarjeta_amarilla: data.cant_tarjeta_amarilla,
@@ -116,33 +98,22 @@ function FormSancionComponent() {
           <Grid item md={6} xs={12}>
             <FormControl fullWidth>
               <Controller
-                name="motivo_sancion"
-                control={control}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Motivo de la sanción"
-                    fullWidth
-                  />
-                )}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item md={6} xs={12}>
-            <FormControl fullWidth>
-              <Controller
                 name="grupo_id"
                 control={control}
                 render={({ field }) => (
                   <>
                     <InputLabel id="select-grupo">Seleccionar grupo</InputLabel>
                     <Select
-                      labelId="select-grupo"
                       {...field}
+                      labelId="select-grupo"
                       label="Seleccionar grupo"
                       onChange={(e) => {
-                        setGrupoSelect(Number(e.target.value));
-                        promoionesParticipantesPorGrupo(Number(e.target.value));
+                        setValue("grupo_id", Number(e.target.value));
+                        if (Number(e.target.value) > 0) {
+                          promoionesParticipantesPorGrupo(
+                            Number(e.target.value)
+                          );
+                        }
                       }}
                     >
                       <MenuItem value={0} disabled selected>
@@ -170,11 +141,11 @@ function FormSancionComponent() {
                       Seleccionar promocion participante
                     </InputLabel>
                     <Select
-                      labelId="select-promocion-participante"
                       {...field}
+                      labelId="select-promocion-participante"
                       label="Seleccionar promocion participante"
                       onChange={(e) => {
-                        setSelectPromocionParticipante(Number(e.target.value));
+                        setValue("promocion_id", Number(e.target.value));
                         if (Number(e.target.value) > 0) {
                           promocionalesPorPromocionParticipante(
                             Number(e.target.value)
@@ -274,6 +245,32 @@ function FormSancionComponent() {
               />
             </FormControl>
           </Grid>
+          <Grid item md={6} xs={12}>
+            <FormControl fullWidth>
+              <Controller
+                name="motivo_sancion"
+                control={control}
+                render={({ field }) => {
+                  return (
+                    <TextField
+                      {...field}
+                      onChange={(e) => {
+                        if (
+                          e.target.value == "" ||
+                          e.target.name == undefined
+                        ) {
+                          setValue("motivo_sancion", "");
+                        }
+                        setValue("motivo_sancion", e.target.value);
+                      }}
+                      label="Motivo de la sanción"
+                    />
+                  );
+                }}
+              />
+            </FormControl>
+          </Grid>
+
           <Grid item md={6} xs={12}>
             <FormControl fullWidth>
               <Controller
