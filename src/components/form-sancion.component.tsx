@@ -28,9 +28,6 @@ interface FormData {
 function FormSancionComponent() {
   const grupos = GrupoStore((state) => state.grupos);
   const getGrupos = GrupoStore((state) => state.obtenerGrupo);
-  const promocionesParticipantes = fixtureStore(
-    (state) => state.promocionParticipante
-  );
   const sancionn = useSancionGolStore((state) => state.jugadorSancionado);
   const setGrupoSelect = useSancionGolStore((state) => state.setGrupoSelect);
   const getTipoSancion = useSancionGolStore((state) => state.getTipoSancion);
@@ -38,6 +35,13 @@ function FormSancionComponent() {
   const getPromocionParticipante = fixtureStore(
     (state) => state.obtenerPromociones
   );
+  const promcionesPartcipantes = useSancionGolStore(
+    (state) => state.promocionesPartipantes
+  );
+  const promoionesParticipantesPorGrupo = useSancionGolStore(
+    (state) => state.getPromocionesParticipantesPorGrupo
+  );
+
   const promocionales = useSancionGolStore((state) => state.promocionales);
 
   const selectPromocionParticipante = useSancionGolStore(
@@ -69,15 +73,7 @@ function FormSancionComponent() {
     getGrupos();
     getTipoSancion();
     getPromocionParticipante();
-    if (selectPromocionParticipante > 0) {
-      promocionalesPorPromocionParticipante(selectPromocionParticipante);
-      console.log(promocionales)
-    }
   }, [selectPromocionParticipante]);
-
-  const promocionFilted = promocionesParticipantes.filter(
-    (promocion) => promocion.grupo_id === grupoSelect && promocion.tipo_id === 1
-  );
 
   const onInsertJugadorSancion: SubmitHandler<FormData> = (data) => {
     if (data.cant_tarjeta_amarilla <= 0) {
@@ -146,6 +142,7 @@ function FormSancionComponent() {
                       label="Seleccionar grupo"
                       onChange={(e) => {
                         setGrupoSelect(Number(e.target.value));
+                        promoionesParticipantesPorGrupo(Number(e.target.value));
                       }}
                     >
                       <MenuItem value={0} disabled selected>
@@ -178,16 +175,22 @@ function FormSancionComponent() {
                       label="Seleccionar promocion participante"
                       onChange={(e) => {
                         setSelectPromocionParticipante(Number(e.target.value));
+                        if (Number(e.target.value) > 0) {
+                          promocionalesPorPromocionParticipante(
+                            Number(e.target.value)
+                          );
+                        }
                       }}
                     >
                       <MenuItem value={0} disabled selected>
                         Seleccionar promocion participante
                       </MenuItem>
-                      {promocionFilted.map((promocion) => (
-                        <MenuItem key={promocion.id} value={promocion.id}>
-                          {promocion.nombre_promocion}
-                        </MenuItem>
-                      ))}
+                      {promcionesPartcipantes &&
+                        promcionesPartcipantes.map((promocion) => (
+                          <MenuItem key={promocion.id} value={promocion.id}>
+                            {promocion.nombre_promocion}
+                          </MenuItem>
+                        ))}
                     </Select>
                   </>
                 )}
@@ -212,14 +215,15 @@ function FormSancionComponent() {
                       <MenuItem value={0} disabled>
                         Seleccionar promocional
                       </MenuItem>
-                      {promocionales && promocionales.map((promocional) => (
-                        <MenuItem
-                          key={promocional.id}
-                          value={promocional.nombre_promocional}
-                        >
-                          {promocional.nombre_promocional}
-                        </MenuItem>
-                      ))}
+                      {promocionales &&
+                        promocionales.map((promocional) => (
+                          <MenuItem
+                            key={promocional.id}
+                            value={promocional.nombre_promocional}
+                          >
+                            {promocional.nombre_promocional}
+                          </MenuItem>
+                        ))}
                     </Select>
                   </>
                 )}

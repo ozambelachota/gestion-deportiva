@@ -298,14 +298,16 @@ export const getPromocionales = async () => {
 };
 export const getByIdPromocionales = async (id: number) => {
   try {
-    const { data, error } = await clientApi.from("promocionales").select("*").eq("id_promocion_participante", id);
+    const { data, error } = await clientApi
+      .from("promocionales")
+      .select("*")
+      .eq("id_promocion_participante", id);
     if (error) throw new Error(error.message);
-    return data
-  }
-  catch (error) {
+    return data;
+  } catch (error) {
     console.error(error);
   }
-}
+};
 
 export const insertedJugadorSancionado = async (
   jugadorSancionado: ListaSancion
@@ -357,4 +359,18 @@ export const updateJugadorSancionado = async (
     if (error) throw error;
     return data;
   } catch (error) {}
+};
+
+export const promocionesParticipantesByGrupoId = async (id: number, tipoId:number) => {
+  try {
+    const { data, error } = await clientApi
+      .from("promocion_participante")
+      .select("*")
+      .eq("grupo_id", id)
+      .eq("tipo_id", tipoId);
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 };
