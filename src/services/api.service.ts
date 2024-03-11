@@ -296,6 +296,16 @@ export const getPromocionales = async () => {
     console.error(error);
   }
 };
+export const getByIdPromocionales = async (id: number) => {
+  try {
+    const { data, error } = await clientApi.from("promocionales").select("*").eq("id_promocion_participante", id);
+    if (error) throw new Error(error.message);
+    return data
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
 
 export const insertedJugadorSancionado = async (
   jugadorSancionado: ListaSancion

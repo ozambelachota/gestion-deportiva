@@ -46,16 +46,12 @@ function FormSancionComponent() {
   const setSelectPromocionParticipante = useSancionGolStore(
     (state) => state.setSelectProomocionParticipante
   );
-  const getPromocionales = useSancionGolStore(
-    (state) => state.obtenerPromocionales
-  );
   const insertarSancionJugador = useSancionGolStore(
     (state) => state.insertJugadorSancion
   );
-  const selectedPromocional = useSancionGolStore(
-    (state) => state.selectedPromocional
+  const promocionalesPorPromocionParticipante = useSancionGolStore(
+    (state) => state.obtenerPromocionalesPorParticipante
   );
-
   const grupoSelect = useSancionGolStore((state) => state.grupoSelect);
   const { control, handleSubmit, reset } = useForm<FormData>({
     values: {
@@ -73,16 +69,16 @@ function FormSancionComponent() {
     getGrupos();
     getTipoSancion();
     getPromocionParticipante();
-    getPromocionales();
-  }, [selectedPromocional, grupoSelect, selectPromocionParticipante]);
+    if (selectPromocionParticipante > 0) {
+      promocionalesPorPromocionParticipante(selectPromocionParticipante);
+      console.log(promocionales)
+    }
+  }, [selectPromocionParticipante]);
 
   const promocionFilted = promocionesParticipantes.filter(
     (promocion) => promocion.grupo_id === grupoSelect && promocion.tipo_id === 1
   );
-  const promocionalesFilter = promocionales.filter(
-    (promocional) =>
-      promocional.id_promocion_participante === selectPromocionParticipante
-  );
+
   const onInsertJugadorSancion: SubmitHandler<FormData> = (data) => {
     if (data.cant_tarjeta_amarilla <= 0) {
       toast.error(
@@ -216,7 +212,7 @@ function FormSancionComponent() {
                       <MenuItem value={0} disabled>
                         Seleccionar promocional
                       </MenuItem>
-                      {promocionalesFilter.map((promocional) => (
+                      {promocionales && promocionales.map((promocional) => (
                         <MenuItem
                           key={promocional.id}
                           value={promocional.nombre_promocional}

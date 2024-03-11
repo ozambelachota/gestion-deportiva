@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import {
+  getByIdPromocionales,
   getGoles,
   getPromocionales,
   getSanciones,
@@ -19,7 +20,7 @@ interface SancionGolState {
   grupoSelect: number;
   promocionParticipanteSelect: number;
   setSelectProomocionParticipante: (id: number) => void;
-
+  obtenerPromocionalesPorParticipante: (id: number) => Promise<void>;
   setGrupoSelect: (id: number) => void;
   selectedPromocional: string;
   sancion: ListaSancion[];
@@ -46,6 +47,11 @@ export const useSancionGolStore = create<SancionGolState>((set) => ({
   goleadoor: [],
   promocionales: [],
   promocionParticipanteSelect: 0,
+  obtenerPromocionalesPorParticipante: async (id: number) => {
+    const promocionales = await getByIdPromocionales(id);
+    if (!promocionales) return;
+    set({ promocionales });
+  },
   setSelectProomocionParticipante: (id: number) => {
     set({ promocionParticipanteSelect: id });
   },
