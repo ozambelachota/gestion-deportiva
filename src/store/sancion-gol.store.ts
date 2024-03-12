@@ -19,6 +19,8 @@ import { tipoSanciones } from "./../services/api.service";
 
 interface SancionGolState {
   tipoSancion: TipoSancion[];
+  idPromocionParticipante: number;
+  setIdPromocionParticipante: (id: number) => void;
   promocionesPartipantes: PromocionParticipante[];
   obtenerPromocionalesPorParticipante: (id: number) => Promise<void>;
   sancion: ListaSancion[];
@@ -45,6 +47,10 @@ export const useSancionGolStore = create<SancionGolState>((set) => ({
   goleadoor: [],
   promocionales: [],
   promocionesPartipantes: [],
+  idPromocionParticipante:0,
+  setIdPromocionParticipante: (id: number) => {
+    set({ idPromocionParticipante: id });
+  },
   getPromocionesParticipantesPorGrupo: async (
     grupoId: number,
     tipoId: number = 1

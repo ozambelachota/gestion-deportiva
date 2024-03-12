@@ -55,12 +55,21 @@ function FormSancionComponent() {
       motivo_sancion: "",
     },
   });
+  const idPromocionParticipante = useSancionGolStore(
+    (state) => state.idPromocionParticipante
+  );
+  const setIdPromocionParticipante = useSancionGolStore(
+    (state) => state.setIdPromocionParticipante
+  );
 
   useEffect(() => {
     getGrupos();
     getTipoSancion();
-    console.log(promcionesPartcipantes, promocionales);
-  }, [promocionales, promcionesPartcipantes]);
+    if (idPromocionParticipante > 0) {
+      promocionalesPorPromocionParticipante(idPromocionParticipante);
+      console.log(promocionales);
+    }
+  }, [promcionesPartcipantes, idPromocionParticipante]);
 
   const onInsertJugadorSancion: SubmitHandler<FormData> = (data) => {
     if (Number(data.cant_tarjeta_amarilla) < 0) {
@@ -156,9 +165,7 @@ function FormSancionComponent() {
                       label="Seleccionar promocion participante"
                       onChange={(e) => {
                         setValue("promocion_id", Number(e.target.value));
-                        promocionalesPorPromocionParticipante(
-                          Number(e.target.value)
-                        );
+                        setIdPromocionParticipante(Number(e.target.value));
                       }}
                     >
                       <MenuItem value={0} disabled>
@@ -251,10 +258,7 @@ function FormSancionComponent() {
                     type="number"
                     label="Cant. Tarjeta Amarillas"
                     onChange={(e) => {
-                      if (
-                        e.target.value == "" ||
-                        e.target.name == undefined
-                      ) {
+                      if (e.target.value == "" || e.target.name == undefined) {
                         setValue("cant_tarjeta_amarilla", 0);
                       }
                       setValue("cant_tarjeta_amarilla", Number(e.target.value));
@@ -300,10 +304,7 @@ function FormSancionComponent() {
                     type="number"
                     label="Cant. Tarjeta Rojas"
                     onChange={(e) => {
-                      if (
-                        e.target.value == "" ||
-                        e.target.name == undefined
-                      ) {
+                      if (e.target.value == "" || e.target.name == undefined) {
                         setValue("cant_tarjeta_roja", 0);
                       }
                       setValue("cant_tarjeta_roja", Number(e.target.value));
