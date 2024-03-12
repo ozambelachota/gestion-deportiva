@@ -386,3 +386,16 @@ export const promocionesParticipantesByGrupoId = async (
     console.error(error);
   }
 };
+
+export const promocionParticipanteNombre = async (id: number) => {
+  try {
+    const { data, error } = await clientApi
+      .from("promocion_participante")
+      .select("*")
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

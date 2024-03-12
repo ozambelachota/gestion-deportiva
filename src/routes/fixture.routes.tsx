@@ -3,12 +3,14 @@ import FormEditSaancionComponent from "../components/edit-form-sancion.component
 import FixtureCreate from "../components/fixture/fixture-create";
 import ResultFixtureFormPage from "../components/fixture/result-fixture-form";
 import FormPromocionParticipante from "../components/form-promocion-participante";
+import EditjugadorComponent from "../components/nomina/edit-jugador.component";
 import TablaFixture from "../components/tabla-fixture";
 import Admin from "../pages/admin";
 import { FixturePage } from "../pages/fixture";
 import GolSancionPage from "../pages/gol-sancion";
 import Home from "../pages/home";
 import Login from "../pages/login";
+import NominaPage from "../pages/nomina";
 import Promocion from "../pages/promocion";
 import { RegisterPromocion } from "../pages/register-promocion";
 import ResultPage from "../pages/resultado";
@@ -33,6 +35,11 @@ const FixtureRoutes = () => {
           <Route
             path="promocion/create"
             element={<FormPromocionParticipante />}
+          />
+          <Route path="nomina/:id" element={<NominaPage />} />
+          <Route
+            path="nomina/edit/:id"
+            element={<EditjugadorComponent />}
           />
           <Route
             path="result-fixture/:id"

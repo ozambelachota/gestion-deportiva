@@ -11,11 +11,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DeporteStore from "../store/deporte.store";
 import { fixtureStore } from "../store/fixture.store";
 
 const ListPromociones = () => {
+  const navigate = useNavigate();
   const { promocionParticipante, obtenerPromociones, grupo, obtenerGrupo } =
     fixtureStore();
   const deportes = DeporteStore((state) => state.deportes);
@@ -32,12 +33,14 @@ const ListPromociones = () => {
       <Typography variant="h2">Promocionales afiliados</Typography>
       <Button
         color="success"
-        sx={{ margin: "20px 0" }} 
+        sx={{ margin: "20px 0" }}
         component={Link}
         to="/admin/promocion/create"
         variant="contained"
         startIcon={<Add />}
-      >INSCRIBIR NUEVO PARTICIPANTE</Button>
+      >
+        INSCRIBIR NUEVO PARTICIPANTE
+      </Button>
       <TableContainer component={Paper} style={{ width: "100%" }}>
         <Table aria-label="simple table">
           <TableHead>
@@ -84,6 +87,15 @@ const ListPromociones = () => {
                       to={`create/${promocion.id}`}
                     >
                       Registrar promociones
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="info"
+                      onClick={() => {
+                        navigate(`/admin/nomina/${promocion.id}`);
+                      }}
+                    >
+                      Ver nomina de jugadores
                     </Button>
                   </TableCell>
                 </TableRow>

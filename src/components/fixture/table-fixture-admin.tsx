@@ -62,6 +62,7 @@ export function TableFixtureAdmin() {
                 >
                   Poner Resultado
                 </Button>
+                <Button>Ver Resultados</Button>
               </TableCell>
             </TableRow>
           ))}
