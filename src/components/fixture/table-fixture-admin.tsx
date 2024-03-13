@@ -12,6 +12,7 @@ import { fixtureStore } from "../../store/fixture.store";
 
 export function TableFixtureAdmin() {
   const fixutres = fixtureStore((state) => state.fixture);
+  
   const partidosObtenidos = fixtureStore((state) => state.obtenerPartidos);
   const cargarDatos = async () => {
     await partidosObtenidos();
@@ -35,6 +36,7 @@ export function TableFixtureAdmin() {
             <TableCell align="right">VS</TableCell>
             <TableCell align="right">Equipo 2</TableCell>
             <TableCell align="right">Estado</TableCell>
+            <TableCell align="right">deporte</TableCell>
             <TableCell align="right">Acciones</TableCell>
           </TableRow>
         </TableHead>
