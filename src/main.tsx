@@ -1,3 +1,4 @@
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -12,8 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <meta name="description" content="sistema de emparejamiento deportivo" />
       <meta property="og:title" content="EXAFAM FIXTURE"/>
       <meta property="og:description" content="deporte examenes" />
-      <meta property="og:image" content="LGOO-EXAFAM.webp" />
-      <meta property="og:url" content="https://exafam-fixture.netlify.app/" />
+      <meta property="og:image" content="/LGOO-EXAFAM.webp" />
       <meta property="og:type" content="website" />
     </Helmet>
     <BrowserRouter basename="/"> 
