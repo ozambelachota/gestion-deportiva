@@ -51,14 +51,18 @@ const Navbar = () => {
   ];
 
   return (
-    <AppBar position="sticky" className="w-full " color="secondary">
+    <AppBar position="sticky" className="w-full h" color="secondary">
       <Toolbar
         sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center", // Centro los elementos horizontalmente
           padding: "0",
-          flexDirection: isMobile ? "column" : "row", // Alineación vertical en dispositivos móviles
+          flexDirection: isMobile ? "column" : "row", // Alineación vertical en dispositivos móviles,
+          bgcolor: "aqua",
+          color: "black",
+          fontSize: "20rem",
+          height: "0.2em",
         }}
       >
         {isMobile && (
@@ -100,13 +104,14 @@ const Navbar = () => {
               <Button
                 key={item.text}
                 color="inherit"
+                className=""
                 component={RouterLink}
                 to={item.to}
                 sx={{
                   padding: "5px 0",
-                  fontSize: "0.8rem",
+                  fontSize: "1rem",
                   border: "1px solid #fff",
-                  margin: "2px",
+                  margin: "15px",
                 }}
               >
                 {item.icon}

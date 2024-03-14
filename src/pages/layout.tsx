@@ -8,7 +8,7 @@ const darkTheme = createTheme({
   palette: {
     mode: "dark",
     background: {
-      default: "#191f2c",
+      default: "#240747",
     },
   },
 });
@@ -24,18 +24,38 @@ const Layout = ({ children }: props) => {
   });
   return (
     <ThemeProvider theme={darkTheme}>
-      <Typography color={"white"} textAlign={"center"} variant="h4">
-        EXAFAM Calendario
-      </Typography>
-      <CssBaseline />
-      {isLoading && <LinearProgress color="success" />}
-      {isError && <div>Error</div>}
-      {data && (
-        <Typography variant="h4" textAlign={"center"}>
-          {data}
-        </Typography>
-      )}
       <Navbar />
+      <div className="flex justify-center items-center flex-col md:flex-row m-0">
+        <div className="flex flex-col justify-center items-center">
+          <img
+            className="w-60 h-60 m-0 p-2"
+            src="LOGO-EXAFAM.webp"
+            alt="logo exafam"
+          />
+          <img src="trofeo.png" className="w-20 h-20" alt="" />
+        </div>
+        {isLoading && <LinearProgress color="success" />}
+        {isError && <div>Error</div>}
+        {data && (
+          <Typography
+            className="m-0"
+            color={"yellow"}
+            variant="h3"
+            textAlign={"center"}
+          >
+            {data}
+          </Typography>
+        )}
+        <div className="flex flex-col justify-center items-center">
+          <img
+            className="w-60 h-60 m-0 p-2"
+            src="LOGO-EXAFAM.webp"
+            alt="logo exafam"
+          />
+          <img src="trofeo.png" className="w-20 h-20" alt="" />
+        </div>
+      </div>
+      <CssBaseline />
       {children}
     </ThemeProvider>
   );

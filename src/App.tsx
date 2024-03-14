@@ -1,8 +1,9 @@
-import { Container, ThemeProvider, createTheme } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import es from "date-fns/locale/es";
+import { useEffect } from "react";
 import Layout from "./pages/layout";
 import LayoutAdmin from "./pages/layout-admin";
 import FixtureRoutes from "./routes/fixture.routes";
@@ -19,6 +20,7 @@ const queryClient = new QueryClient();
 
 function App() {
   const user = useUserStore((state) => state.username);
+  useEffect(() => {}, [user]);
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -31,9 +33,7 @@ function App() {
             )}
             {!user && (
               <Layout>
-                <Container className="m-[0.3rem]">
-                  <FixtureRoutes />
-                </Container>
+                <FixtureRoutes />
               </Layout>
             )}
           </ThemeProvider>
