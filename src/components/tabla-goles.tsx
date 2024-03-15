@@ -11,7 +11,7 @@ import {
 import { useEffect } from "react";
 import { fixtureStore } from "../store/fixture.store";
 import { useSancionGolStore } from "../store/sancion-gol.store";
-import { PromocionParticipante, Promocional } from "../types/fixture.api.type";
+import { type PromocionParticipante } from "../types/fixture.api.type";
 
 const colorPalette = [
   "#317f43",
@@ -82,17 +82,10 @@ function TablaGolesComponent() {
               <TableBody>
                 {groupsGoles[promocionId].map(
                   (participante: PromocionParticipante) => {
-                    const promocion: Promocional[] = [];
-                    goles.forEach((gol) => {
-                      if (
-                        gol.n_goles > 0 &&
-                        participante.id === gol.id_promocion_participante
-                      ) {
-                        promocion.push(gol);
-                      }
-                    });
-                    promocion.sort((a, b) => b.n_goles - a.n_goles);
-
+                    const promocion = goles.filter((gol)=>{
+                      return gol.id_promocion_participante == participante.id 
+                    })
+                   
                     return promocion?.map((promocion) => (
                       <TableRow key={promocion.id}>
                         <TableCell>{promocion.nombre_promocional}</TableCell>

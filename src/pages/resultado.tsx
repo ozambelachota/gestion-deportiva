@@ -10,6 +10,22 @@ import { useEffect, useState } from "react";
 import { fixtureStore } from "../store/fixture.store";
 import { ResultStore } from "../store/result.store";
 import { Fixture } from "../types/fixture.api.type";
+
+const color = [
+  "#317f43",
+  "#495e76",
+  "#FF1493",
+  "#FFA500",
+  "#746e5d",
+  "#D400FF",
+  "#FF0000",
+  "#FF69B4",
+  "#FF8C00",
+  "#FFD700",
+  "#FFDAB9",
+  "#FF6347",
+];
+
 function ResultPage() {
   const fixtures = fixtureStore((state) => state.fixture) as Fixture[];
   const obtenerPartidos = fixtureStore((state) => state.obtenerPartidos);
@@ -66,7 +82,11 @@ function ResultPage() {
             Resultados de la fecha {groupFixtures[0]?.n_fecha_jugada} -
             {getSportName(groupFixtures[0]?.deporte_id)}
           </Typography>
-          <Table>
+          <Table
+            sx={{
+              bgcolor: color[groupFixtures[0]?.n_fecha_jugada-1],
+            }}
+          >
             <TableHead>
               <TableRow sx={{ fontWeight: "bold", backgroundColor: "green" }}>
                 <TableCell>Promoción</TableCell>

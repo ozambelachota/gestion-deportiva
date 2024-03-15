@@ -33,7 +33,7 @@ function TablaSancion() {
       <Typography variant="h4" margin={4} align="center">
         Tabla de Sanciones
       </Typography>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{bgcolor:'blue'}}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
