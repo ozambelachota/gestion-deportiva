@@ -51,6 +51,9 @@ function TablaGolesComponent() {
 
   return (
     <>
+      <Typography textAlign={"center"} variant="h3">
+        Tabla de goleadores{" "}
+      </Typography>
       {Object.keys(groupsGoles).map((promocionId) => (
         <div key={promocionId} className=" my-7">
           <Typography
