@@ -5,9 +5,10 @@ import ResultFixtureFormPage from "../components/fixture/result-fixture-form";
 import FormPromocionParticipante from "../components/form-promocion-participante";
 import EditjugadorComponent from "../components/nomina/edit-jugador.component";
 import TablaFixture from "../components/tabla-fixture";
+import GolPage from "../pages/Gol.page";
 import Admin from "../pages/admin";
 import { FixturePage } from "../pages/fixture";
-import GolSancionPage from "../pages/gol-sancion";
+import { default as SancionPage } from "../pages/gol-sancion";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import NominaPage from "../pages/nomina";
@@ -37,10 +38,7 @@ const FixtureRoutes = () => {
             element={<FormPromocionParticipante />}
           />
           <Route path="nomina/:id" element={<NominaPage />} />
-          <Route
-            path="nomina/edit/:id"
-            element={<EditjugadorComponent />}
-          />
+          <Route path="nomina/edit/:id" element={<EditjugadorComponent />} />
           <Route
             path="result-fixture/:id"
             element={<ResultFixtureFormPage />}
@@ -58,7 +56,8 @@ const FixtureRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/voley" element={<VoleyPage />} />
-        <Route path="/goles-sancion" element={<GolSancionPage />} />
+        <Route path="/sancion" element={<SancionPage />} />
+        <Route path="/goles" element={<GolPage />} />
         <Route path="*" element={<Navigate to={"/"} />} />
       </Routes>
     </>

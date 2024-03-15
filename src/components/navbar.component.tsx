@@ -46,7 +46,17 @@ const Navbar = () => {
       to: "/voley",
       icon: <SportsVolleyballIcon />,
     },
-    { text: "Goleadores y sancionados", to: "/goles-sancion" },
+    {
+      text: "Goleadores",
+      to: "/goles",
+      icon: <SportsSoccerIcon color="warning" />,
+    },
+    {
+      text: "Sanciones",
+      to: "/sancion",
+      icon: <SportsSoccerIcon color="error" />,
+    },
+
     { text: "Iniciar sesión", to: "/login", icon: <AccountCircle /> },
   ];
 
@@ -110,8 +120,11 @@ const Navbar = () => {
                 sx={{
                   padding: "5px 0",
                   fontSize: "1rem",
-                  border: "1px solid #fff",
+                  border: "1px solid #000",
                   margin: "15px",
+                  ":hover": {
+                    backgroundColor: "#cccccc",
+                  },
                 }}
               >
                 {item.icon}

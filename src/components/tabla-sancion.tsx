@@ -1,4 +1,5 @@
 import {
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -18,6 +19,9 @@ function TablaSancion() {
   const getPromociones = fixtureStore((state) => state.obtenerPromociones);
   const tipo = useSancionGolStore((state) => state.tipoSancion);
   const getTipoSancion = useSancionGolStore((state) => state.getTipoSancion);
+  const redCardStyle = "bg-red-500 text-white rounded-full px-2";
+  const yellowCardStyle = "bg-yellow-500 text-black rounded-full px-2";
+
   useEffect(() => {
     getSanciones();
     getPromociones();
@@ -26,9 +30,11 @@ function TablaSancion() {
 
   return (
     <>
-      <Typography variant="h6">Tabla de Sanciones</Typography>
-      <TableContainer>
-        <Table>
+      <Typography variant="h4" margin={4} align="center">
+        Tabla de Sanciones
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
               <TableCell align="center">Jugador</TableCell>
@@ -52,6 +58,12 @@ function TablaSancion() {
                 <TableRow key={sancion.id}>
                   <TableCell align="center">
                     {sancion.nombre_promocion}
+                    {sancion.cant_tarjeta_roja > 0 && (
+                      <div className={redCardStyle}>Tarjeta Roja</div>
+                    )}
+                    {sancion.cant_tarjeta_amarilla > 0 && (
+                      <div className={yellowCardStyle}>Tarjeta Amarilla</div>
+                    )}
                   </TableCell>
                   <TableCell align="center">
                     {promocion?.nombre_promocion}

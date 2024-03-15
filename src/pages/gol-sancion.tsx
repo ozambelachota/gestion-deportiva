@@ -1,20 +1,14 @@
-import { Grid } from "@mui/material";
-import TablaGolesComponent from "../components/tabla-goles";
+import { Box } from "@mui/material";
 import TablaSancion from "../components/tabla-sancion";
 
-function GolSancionPage() {
+function SancionPage() {
   return (
     <>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          <TablaGolesComponent />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TablaSancion />
-        </Grid>
-      </Grid>
+      <Box >
+        <TablaSancion />
+      </Box>
     </>
   );
 }
 
-export default GolSancionPage;
+export default SancionPage;

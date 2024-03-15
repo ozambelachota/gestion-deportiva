@@ -242,7 +242,8 @@ export const getGoles = async () => {
     const { data, error } = await clientApi
       .from("promocionales")
       .select("*")
-      .order("id", { ascending: true });
+      .order("n_goles", { ascending: false });
+
     if (error) throw new Error(error.message);
     return data;
   } catch (error) {
@@ -386,16 +387,15 @@ export const promocionesParticipantesByGrupoId = async (
     console.error(error);
   }
 };
-
-export const promocionParticipanteNombre = async (id: number) => {
+export const promocionWithParticipantes = async ()=>{
   try {
     const { data, error } = await clientApi
-      .from("promocion_participante")
-      .select("*")
-      .eq("id", id);
+      .from("promocionales")
+      .select("*, promocion_participante(*)")
+      .order("id", { ascending: true });
     if (error) throw new Error(error.message);
     return data;
   } catch (error) {
     console.error(error);
   }
-};
+}

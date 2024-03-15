@@ -17,6 +17,21 @@ import type {
 } from "../types/fixture.api.type";
 import { tipoSanciones } from "./../services/api.service";
 
+interface PromocionConParticipante {
+  id?: number;
+  nombre_promocional: string;
+  id_promocion_participante: number;
+  n_goles: number;
+  promocion_participante: {
+    id: number;
+    estado: false;
+    tipo_id: number;
+    grupo_id: number;
+    campeonato_id: number;
+    nombre_promocion: string;
+  };
+}
+
 interface SancionGolState {
   tipoSancion: TipoSancion[];
   idPromocionParticipante: number;
@@ -34,10 +49,14 @@ interface SancionGolState {
   insertJugadorSancion: (sancion: ListaSancion) => Promise<void>;
   jugadorSancionadoById: (id: number) => Promise<void>;
   sancionadoId: ListaSancion;
+  promocionalesYparticipante: PromocionConParticipante[];
   setSancionJugador: (sancion: ListaSancion) => void;
   getPromocionesParticipantesPorGrupo: (idGrupo: number) => Promise<void>;
   updateJugadorSancion: (sancion: ListaSancion) => Promise<void>;
   setEditarSancion: (sancion: ListaSancion) => void;
+  setPromocionalesYparticipante: (
+    promocion: PromocionConParticipante[]
+  ) => void;
 }
 
 export const useSancionGolStore = create<SancionGolState>((set) => ({
@@ -47,10 +66,11 @@ export const useSancionGolStore = create<SancionGolState>((set) => ({
   goleadoor: [],
   promocionales: [],
   promocionesPartipantes: [],
-  idPromocionParticipante:0,
+  idPromocionParticipante: 0,
   setIdPromocionParticipante: (id: number) => {
     set({ idPromocionParticipante: id });
   },
+  promocionalesYparticipante: [],
   getPromocionesParticipantesPorGrupo: async (
     grupoId: number,
     tipoId: number = 1
@@ -143,4 +163,7 @@ export const useSancionGolStore = create<SancionGolState>((set) => ({
   setEditarSancion: (jugador: ListaSancion) => {
     set({ sancionadoId: jugador });
   },
+  setPromocionalesYparticipante: (promocion: PromocionConParticipante[]) => {
+    set({ promocionalesYparticipante: promocion });
+  }
 }));
