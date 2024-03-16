@@ -12,7 +12,7 @@ import { fixtureStore } from "../../store/fixture.store";
 
 export function TableFixtureAdmin() {
   const fixutres = fixtureStore((state) => state.fixture);
-  
+
   const partidosObtenidos = fixtureStore((state) => state.obtenerPartidos);
   const cargarDatos = async () => {
     await partidosObtenidos();
@@ -20,6 +20,21 @@ export function TableFixtureAdmin() {
   const fixtureFiltradoPorJugr = fixutres?.filter(({ por_jugar }) => {
     return por_jugar === true;
   });
+
+  const deporte = (tipo: number) => {
+    switch (tipo) {
+      case 1:
+        return "Fútbol";
+      case 2:
+        return "Voley";
+      case 3:
+        return "Voley Mixto";
+      default:
+        return "Desconocido";
+    }
+  };
+
+
   useEffect(() => {
     cargarDatos();
   }, [fixutres]);
@@ -41,33 +56,39 @@ export function TableFixtureAdmin() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {fixtureFiltradoPorJugr?.map((fixture) => (
-            <TableRow
-              key={fixture.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="right">{fixture?.promocion}</TableCell>
-              <TableCell align="right">vs</TableCell>
-              <TableCell align="right">{fixture.vs_promocion}</TableCell>
-              <TableCell align="right">
-                {fixture.por_jugar === true ? "Por jugar" : "Finalizado"}
-              </TableCell>
-              <TableCell align="right">
-                <Button variant="contained">Terminar Partido</Button>
-                <Button
-                  sx={{ marginLeft: "20px" }}
-                  color="secondary"
-                  variant="contained"
-                  onClick={() => {
-                    handleResult(fixture.id as number);
-                  }}
-                >
-                  Poner Resultado
-                </Button>
-                <Button>Ver Resultados</Button>
-              </TableCell>
-            </TableRow>
-          ))}
+          {fixtureFiltradoPorJugr?.map((fixture) => {
+            return (
+              <TableRow
+                key={fixture.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="right">{fixture?.promocion}</TableCell>
+                <TableCell align="right">vs</TableCell>
+                <TableCell align="right">{fixture.vs_promocion}</TableCell>
+                <TableCell align="right">
+                  {fixture.por_jugar === true ? "Por jugar" : "Finalizado"}
+                </TableCell>
+
+                <TableCell align="right">
+                  {deporte(fixture.deporte_id)}
+                </TableCell>
+                <TableCell align="right">
+                  <Button variant="contained">Terminar Partido</Button>
+                  <Button
+                    sx={{ marginLeft: "20px" }}
+                    color="secondary"
+                    variant="contained"
+                    onClick={() => {
+                      handleResult(fixture.id as number);
+                    }}
+                  >
+                    Poner Resultado
+                  </Button>
+                  <Button>Ver Resultados</Button>
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </div>

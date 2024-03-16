@@ -111,7 +111,7 @@ function ResultFixtureFormPage() {
                       {promocion.nombre_promocion}
                     </MenuItem>
                   ))}
-                </Select>{" "}
+                </Select>
               </FormControl>
             </Grid>
             <Grid item xs={12} md={12} sx={{ textAlign: "center" }}>
