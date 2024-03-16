@@ -9,9 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect } from "react";
-import { fixtureStore } from "../store/fixture.store";
 import { useSancionGolStore } from "../store/sancion-gol.store";
-import { type PromocionParticipante } from "../types/fixture.api.type";
+import { PromocionalWithParticipante } from "../types/fixture.api.type";
 
 const colorPalette = [
   "#317f43",
@@ -24,81 +23,82 @@ const colorPalette = [
 ];
 
 function TablaGolesComponent() {
-  const goles = useSancionGolStore((state) => state.goleadoor);
-  const getGoles = useSancionGolStore((state) => state.getGoles);
-  const promocionParticipante = fixtureStore(
-    (state) => state.promocionParticipante
+  const getPromocionWithParticipante = useSancionGolStore(
+    (state) => state.getPromocionWithParticipante
   );
-  const getPromociones = fixtureStore((state) => state.obtenerPromociones);
+
+  const promocionWithParticipante = useSancionGolStore(
+    (state) => state.promocionWithParticipante
+  );
+
   useEffect(() => {
-    getGoles();
-    getPromociones();
+    getPromocionWithParticipante();
   }, []);
 
-  const groupByPromocion = (array: any[], key: string) => {
+  const groupByPromocion = (
+    array: PromocionalWithParticipante[],
+    _key: string
+  ) => {
     if (!array) {
       return {};
     }
 
     return array.reduce((result, currentValue) => {
-      const groupKey = currentValue[key];
+      const groupKey = currentValue.promocion_participante.grupo_id.toString(); // Convertir a cadena para usar como clave
       (result[groupKey] = result[groupKey] || []).push(currentValue);
       return result;
-    }, {});
+    }, {} as { [key: string]: PromocionalWithParticipante[] });
   };
 
-  const groupsGoles = groupByPromocion(promocionParticipante, "grupo_id");
+  const groupedData = groupByPromocion(
+    promocionWithParticipante,
+    "promocion_participante.grupo_id"
+  );
 
   return (
     <>
-      <Typography textAlign={"center"} variant="h3">
-        Tabla de goleadores{" "}
-      </Typography>
-      {Object.keys(groupsGoles).map((promocionId) => (
-        <div key={promocionId} className=" my-7">
+      {Object.entries(groupedData).map(([grupoId, data]) => (
+        <>
           <Typography
-            variant="h3"
+            key={grupoId}
+            variant="h4"
             sx={{
-              color: colorPalette[parseInt(promocionId) - 1],
-              textShadow: "0 0 5px rgba(255, 255, 255, 0.5)",
+              textAlign: "center",
+              margin: "20px 0",
+              color: colorPalette[Number(grupoId) - 1], 
+              textShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
+              boxShadow: "0 0 10px 0 rgba(255, 255, 255, 0.5)", 
             }}
-            className="text-center font-semibold"
           >
-            Grupo {promocionId}
+            Grupo {grupoId}
           </Typography>
-          <TableContainer component={Paper}>
-            <Table
-              sx={{
-                bgcolor: colorPalette[parseInt(promocionId) - 1],
-              }}
-            >
+          <TableContainer
+            sx={{ bgcolor: colorPalette[Number(grupoId) - 1] }}
+            key={grupoId}
+            component={Paper}
+          >
+            <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Nombre</TableCell>
+                  <TableCell>Nombre Promocional</TableCell>
                   <TableCell>Número de Goles</TableCell>
-                  <TableCell>Promocional</TableCell>
+                  <TableCell>Nombre de Promoción</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {groupsGoles[promocionId].map(
-                  (participante: PromocionParticipante) => {
-                    const promocion = goles.filter((gol)=>{
-                      return gol.id_promocion_participante == participante.id 
-                    })
-                   
-                    return promocion?.map((promocion) => (
-                      <TableRow key={promocion.id}>
-                        <TableCell>{promocion.nombre_promocional}</TableCell>
-                        <TableCell>{promocion.n_goles}</TableCell>
-                        <TableCell>{participante.nombre_promocion}</TableCell>
-                      </TableRow>
-                    ));
-                  }
-                )}
+                {data.map((item) => (
+                  <TableRow key={item.id_promocion_participante}>
+                    <TableCell>{item.nombre_promocional}</TableCell>
+                    <TableCell>{item.n_goles}</TableCell>
+                    <TableCell>
+                      {item.promocion_participante.nombre_promocion}
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
+        </>
       ))}
     </>
   );

@@ -108,7 +108,7 @@ export const getPartidosFechaNoMayor = async () => {
 };
 
 export const userAdmin = async (
-  userId: string
+  userId: string,
 ): Promise<string | undefined> => {
   try {
     const { data, error } = await clientApi
@@ -150,7 +150,7 @@ export const deporteId = async (id: number) => {
   }
 };
 export const insertPromocionParticipante = async (
-  promocionParticipante: PromocionParticipante
+  promocionParticipante: PromocionParticipante,
 ) => {
   try {
     const { data, error } = await clientApi
@@ -312,7 +312,7 @@ export const getByIdPromocionales = async (id: number) => {
 };
 
 export const insertedJugadorSancionado = async (
-  jugadorSancionado: ListaSancion
+  jugadorSancionado: ListaSancion,
 ) => {
   try {
     if (jugadorSancionado.tipo_sancion == 0) {
@@ -352,7 +352,7 @@ export const jugadorSancionadoById = async (id: number) => {
   }
 };
 export const updateJugadorSancionado = async (
-  jugadorSancionado: ListaSancion
+  jugadorSancionado: ListaSancion,
 ) => {
   try {
     if (jugadorSancionado.tipo_sancion == 0) {
@@ -374,7 +374,7 @@ export const updateJugadorSancionado = async (
 
 export const promocionesParticipantesByGrupoId = async (
   id: number,
-  tipoId: number
+  tipoId: number,
 ) => {
   try {
     const { data, error } = await clientApi
@@ -388,13 +388,15 @@ export const promocionesParticipantesByGrupoId = async (
     console.error(error);
   }
 };
-export const promocionWithParticipantes = async () => {
+export const obtenerPromocionWithParticipantes= async () => {
   try {
     const { data, error } = await clientApi
       .from("promocionales")
-      .select("*, promocion_participante(*)")
-      .order("id", { ascending: true });
+      .select("*, promocion_participante(nombre_promocion,grupo_id)")
+      .order("n_goles", { ascending: false })
+      .gt("n_goles", 0);
     if (error) throw new Error(error.message);
+    console.log(data)
     return data;
   } catch (error) {
     console.error(error);

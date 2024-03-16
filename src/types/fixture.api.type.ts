@@ -53,7 +53,7 @@ export interface ListaDeuda {
   promocion_id: number;
 }
 export interface ListaSancion {
-  id?: number; 
+  id?: number;
   motivo_sancion: string;
   estado_sancion: boolean;
   fecha_inicio_sancion: Date;
@@ -105,4 +105,14 @@ export interface VoleyPosicion {
   partidos_g: number;
   partidos_p: number;
   partidos_j: number;
+}
+export interface PromocionalWithParticipante {
+  id?: number;
+  nombre_promocional: string;
+  id_promocion_participante: number;
+  n_goles: number;
+  promocion_participante: {
+    grupo_id: number;
+    nombre_promocion: string;
+  }
 }
