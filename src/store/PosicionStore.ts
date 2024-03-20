@@ -1,10 +1,26 @@
 import { create } from "zustand";
-import { getTablaPosiciones } from "../services/api.service";
-import type { TablaPosicion } from "../types/fixture.api.type";
+import {
+  getTablaPosiciones,
+  promocionesPosicionPorGrupo,
+  promocionTablaPosicionById,
+  updatingTablaPosicionFutbol,
+} from "../services/api.service";
+import type {
+  PosicionTablaParticipante,
+  TablaPosicion,
+} from "../types/fixture.api.type";
 
 interface PosicionType {
   tablaPosicion: TablaPosicion[];
+  tablaPosicionGrupo: PosicionTablaParticipante[];
+  promocionTablaPosicion: PosicionTablaParticipante
+  promocionPosicion: TablaPosicion;
   uploadTablaPosicion: () => Promise<void>;
+  updatingTablaPosicionFutbol: (
+    promocionPosicion: TablaPosicion
+  ) => Promise<void>;
+  getPosicionByIdPromocion: (id: number) => Promise<void>;
+  getPosicionGrupo: (id: number) => Promise<void>;
 }
 
 export const PosicionStore = create<PosicionType>()((set) => ({
@@ -18,10 +34,63 @@ export const PosicionStore = create<PosicionType>()((set) => ({
       puntos: 0,
       diferencia_goles: 0,
       grupo_id: 0,
+      pj: 0,
+      pg: 0,
+      pp: 0,
+      pe: 0,
     },
   ],
+  promocionPosicion: {
+    id: 0,
+    create_at: new Date(),
+    promocion: 0,
+    goles_f: 0,
+    goles_e: 0,
+    puntos: 0,
+    diferencia_goles: 0,
+    grupo_id: 0,
+    pj: 0,
+    pg: 0,
+    pp: 0,
+    pe: 0,
+  },
+  tablaPosicionGrupo: [],
+  promocionTablaPosicion: {
+    id: 0,
+    create_at: new Date(),
+    promocion: 0,
+    goles_f: 0,
+    goles_e: 0,
+    puntos: 0,
+    diferencia_goles: 0,
+    grupo_id: 0,
+    pj: 0,
+    pg: 0,
+    pp: 0,
+    pe: 0,
+    promocion_participante_id: 0,
+    promocion_participante: {
+      nombre_promocion: "",
+    }
+    
+  },
   uploadTablaPosicion: async () => {
     const tablaPosicion = await getTablaPosiciones();
     set({ tablaPosicion });
+  },
+  updatingTablaPosicionFutbol: async (promocionPosicion: TablaPosicion) => {
+    const tablaPosicion = await updatingTablaPosicionFutbol(promocionPosicion);
+    if (!tablaPosicion) return;
+    set({ tablaPosicion });
+  },
+  getPosicionGrupo: async (id: number) => {
+    const promocionPosicion = await promocionesPosicionPorGrupo(id);
+    if (!promocionPosicion) return;
+    set({ tablaPosicionGrupo: promocionPosicion });
+  },
+  getPosicionByIdPromocion: async (id: number) => {
+    const promocionPosicion = await promocionTablaPosicionById(id);
+    if (!promocionPosicion) return;
+    set({ promocionTablaPosicion: promocionPosicion });
   },
 }));

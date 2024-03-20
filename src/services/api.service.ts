@@ -4,6 +4,7 @@ import {
   ListaSancion,
   PromocionParticipante,
   Promocional,
+  TablaPosicion,
 } from "../types/fixture.api.type";
 import { Resultado } from "./../types/fixture.api.type";
 export const obtenerPromocionalesParticipantes = async () => {
@@ -108,7 +109,7 @@ export const getPartidosFechaNoMayor = async () => {
 };
 
 export const userAdmin = async (
-  userId: string,
+  userId: string
 ): Promise<string | undefined> => {
   try {
     const { data, error } = await clientApi
@@ -150,7 +151,7 @@ export const deporteId = async (id: number) => {
   }
 };
 export const insertPromocionParticipante = async (
-  promocionParticipante: PromocionParticipante,
+  promocionParticipante: PromocionParticipante
 ) => {
   try {
     const { data, error } = await clientApi
@@ -312,7 +313,7 @@ export const getByIdPromocionales = async (id: number) => {
 };
 
 export const insertedJugadorSancionado = async (
-  jugadorSancionado: ListaSancion,
+  jugadorSancionado: ListaSancion
 ) => {
   try {
     if (jugadorSancionado.tipo_sancion == 0) {
@@ -352,7 +353,7 @@ export const jugadorSancionadoById = async (id: number) => {
   }
 };
 export const updateJugadorSancionado = async (
-  jugadorSancionado: ListaSancion,
+  jugadorSancionado: ListaSancion
 ) => {
   try {
     if (jugadorSancionado.tipo_sancion == 0) {
@@ -374,7 +375,7 @@ export const updateJugadorSancionado = async (
 
 export const promocionesParticipantesByGrupoId = async (
   id: number,
-  tipoId: number,
+  tipoId: number
 ) => {
   try {
     const { data, error } = await clientApi
@@ -388,7 +389,7 @@ export const promocionesParticipantesByGrupoId = async (
     console.error(error);
   }
 };
-export const obtenerPromocionWithParticipantes= async () => {
+export const obtenerPromocionWithParticipantes = async () => {
   try {
     const { data, error } = await clientApi
       .from("promocionales")
@@ -396,8 +397,50 @@ export const obtenerPromocionWithParticipantes= async () => {
       .order("n_goles", { ascending: false })
       .gt("n_goles", 0);
     if (error) throw new Error(error.message);
-    console.log(data)
+    console.log(data);
     return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const updatingTablaPosicionFutbol = async (
+  promocionPosicion: TablaPosicion
+) => {
+  try {
+    const { data, error } = await clientApi
+      .from("tabla_posicion")
+      .upsert(promocionPosicion)
+      .eq("id", promocionPosicion.id);
+    if (error) throw error;
+
+    return data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const promocionesPosicionPorGrupo = async (id: number) => {
+  try {
+    const { data, error } = await clientApi
+      .from("tabla_posicion")
+      .select("*, promocion_participante(nombre_promocion)")
+      .order("puntos", { ascending: false })
+      .eq("grupo_id", id);
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const promocionTablaPosicionById = async (id: number) => {
+  try {
+    const { data, error } = await clientApi
+      .from("tabla_posicion")
+      .select("*, promocion_participante(nombre_promocion)")
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+    return data[0];
   } catch (error) {
     console.error(error);
   }

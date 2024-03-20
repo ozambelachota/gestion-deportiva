@@ -17,8 +17,11 @@ import { RegisterPromocion } from "../pages/register-promocion";
 import ResultPage from "../pages/resultado";
 import Sancion from "../pages/sancion";
 import TablaPosicionPage from "../pages/tabla-posicion";
+import GrupoPosicionComponents from "../pages/tabla-posicion/grupo-posicion.component";
+import TablaEditPosicionPage from "../pages/tabla-posicion/tabla-edit.page";
 import VoleyPage from "../pages/voley";
 import ProtectedRouter from "./protected.routes";
+import PosicionEditPage from "../pages/tabla-posicion/posicion-edit-promocion";
 
 const FixtureRoutes = () => {
   return (
@@ -49,6 +52,20 @@ const FixtureRoutes = () => {
             path="sancion/edit/:id"
             element={<FormEditSaancionComponent />}
           />
+          <Route
+            path="posicionar-promocion"
+            element={<TablaEditPosicionPage />}
+          />
+          <Route
+            path="ver-posicion/promocion/grupo/:id"
+            element={<GrupoPosicionComponents />}
+          />
+
+          <Route
+            path="posicion/edit/grupo/:id"
+            element={<PosicionEditPage />}
+          />
+
           <Route path="home" element={<TablaFixture />} />
         </Route>
         <Route path="/resultado" element={<ResultPage />} />

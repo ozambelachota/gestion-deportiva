@@ -37,13 +37,17 @@ export interface PromocionParticipante {
 }
 export interface TablaPosicion {
   id?: number;
-  create_at: Date;
+  create_at?: Date;
   promocion: number;
   goles_f: number;
   goles_e: number;
   diferencia_goles: number;
   grupo_id: number;
   puntos: number;
+  pj: number;
+  pg: number;
+  pe: number;
+  pp: number;
 }
 export interface ListaDeuda {
   id?: number;
@@ -116,3 +120,23 @@ export interface PromocionalWithParticipante {
     nombre_promocion: string;
   }
 }
+
+export interface PosicionTablaParticipante{
+  id?: number;
+  create_at?: Date;
+  promocion: number;
+  goles_f: number;
+  goles_e: number;
+  diferencia_goles: number;
+  grupo_id: number;
+  puntos: number; 
+  pj: number;
+  pg: number;
+  pe: number;
+  pp: number;
+  promocion_participante: {
+    nombre_promocion: string;
+  }
+
+}
+

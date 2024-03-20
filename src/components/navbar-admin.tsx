@@ -55,9 +55,16 @@ const NavbarAdmin = () => {
           <Button
             color="inherit"
             component={Link}
-            to="admin/registrar-promociones"
+            to="admin/registrar-participantes"
           >
-            Registrar Promociones
+            Registrar Participantes
+          </Button>
+          <Button
+            color="inherit"
+            component={Link}
+            to="admin/posicionar-promocion"
+          >
+            posiciones de grupos
           </Button>
           <Button color="inherit" component={Link} to="admin/sancion">
             Jugadores Sancionados

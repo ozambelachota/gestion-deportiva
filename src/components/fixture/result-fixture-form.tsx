@@ -43,12 +43,13 @@ function ResultFixtureFormPage() {
       return;
     }
     if (partido.id) {
-      navigate("/admin/registrar-fixture");
+    
       insertResult({
         fixture_id: partido.id,
         resultado: resultado,
         ganador_id: ganador,
       });
+      navigate("/admin/registrar-fixture");
     }
   };
   return (

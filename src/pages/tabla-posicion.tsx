@@ -110,10 +110,14 @@ const TablaPosicionPage: React.FC = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Equipo</TableCell>
-                    <TableCell>Puntos</TableCell>
+                    <TableCell>PJ</TableCell>
+                    <TableCell>PG</TableCell>
+                    <TableCell>PE</TableCell>
+                    <TableCell>PP</TableCell>
                     <TableCell>Goles a favor</TableCell>
                     <TableCell>Goles en contra</TableCell>
                     <TableCell>Diferencia de goles</TableCell>
+                    <TableCell>Puntos</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -128,10 +132,14 @@ const TablaPosicionPage: React.FC = () => {
                             (promocion) => promocion.nombre_promocion
                           )}
                         </TableCell>
-                        <TableCell>{equipo.puntos}</TableCell>
+                        <TableCell>{equipo.pj}</TableCell>
+                        <TableCell>{equipo.pg}</TableCell>
+                        <TableCell>{equipo.pe}</TableCell>
+                        <TableCell>{equipo.pp}</TableCell>
                         <TableCell>{equipo.goles_f}</TableCell>
                         <TableCell>{equipo.goles_e}</TableCell>
                         <TableCell>{equipo.diferencia_goles}</TableCell>
+                        <TableCell>{equipo.puntos}</TableCell>
                       </TableRow>
                     );
                   })}
