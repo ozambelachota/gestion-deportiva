@@ -445,3 +445,27 @@ export const promocionTablaPosicionById = async (id: number) => {
     console.error(error);
   }
 };
+export const promocionById = async (id: number) => {
+  try {
+    const { data, error } = await clientApi
+      .from("promocionales")
+      .select("*, promocion_participante(nombre_promocion)")
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+    return data[0];
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const updatePromocional = async (promocion: Promocional) => {
+  try {
+    const { data, error } = await clientApi
+      .from("promocionales")
+      .upsert(promocion)
+      .eq("id", promocion.id);
+    if (error) throw new Error(error.message);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

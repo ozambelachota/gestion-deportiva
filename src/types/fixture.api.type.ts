@@ -137,6 +137,14 @@ export interface PosicionTablaParticipante{
   promocion_participante: {
     nombre_promocion: string;
   }
-
 }
 
+export interface PromocionalWhitId {
+  id?: number;
+  nombre_promocional: string;
+  id_promocion_participante: number;
+  n_goles: number;
+  promocion_participante: {
+    nombre_promocion: string;
+  }
+}
