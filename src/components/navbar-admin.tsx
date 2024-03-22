@@ -40,7 +40,7 @@ const NavbarAdmin = () => {
 
   return (
     <>
-      <AppBar position="fixed" style={{ zIndex: 1101 }}>
+      <AppBar color="primary" position="fixed" style={{ zIndex: 1101 }}>
         <Toolbar>
           <Typography variant="h6" style={{ flexGrow: 1 }}>
             EXAFAM FIXTURE
@@ -55,7 +55,7 @@ const NavbarAdmin = () => {
           <Button
             color="inherit"
             component={Link}
-            to="admin/registrar-participantes"
+            to="admin/registrar-promociones"
           >
             Registrar Participantes
           </Button>
