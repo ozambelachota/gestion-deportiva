@@ -51,10 +51,7 @@ function PosicionEditPage() {
       toast.error("Se requiere un numero de goles positivo")
       return;
     }
-    if(data.diferencia_goles < 0) {
-      toast.error("Se requiere una diferencia de goles positiva")
-      return;
-    }
+  
     if(data.puntos < 0) {
       toast.error("Se requiere un puntaje positivo")
       return;
