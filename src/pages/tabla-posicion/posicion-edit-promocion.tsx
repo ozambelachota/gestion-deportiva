@@ -52,10 +52,6 @@ function PosicionEditPage() {
       return;
     }
   
-    if(data.puntos < 0) {
-      toast.error("Se requiere un puntaje positivo")
-      return;
-    }
     if(data.pj < 0) {
       toast.error("Se requiere un numero de partidos jugados positivo")
       return;
