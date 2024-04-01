@@ -51,7 +51,6 @@ function PosicionEditPage() {
       toast.error("Se requiere un numero de goles positivo")
       return;
     }
-  
     if(data.pj < 0) {
       toast.error("Se requiere un numero de partidos jugados positivo")
       return;
