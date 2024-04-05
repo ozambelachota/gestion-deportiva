@@ -1,12 +1,12 @@
 import { clientApi } from "../api/client.api";
-import {
+import type { FormResult } from "../store/resultado.store";
+import type {
   Fixture,
   ListaSancion,
   PromocionParticipante,
   Promocional,
   TablaPosicion,
 } from "../types/fixture.api.type";
-import { Resultado } from "./../types/fixture.api.type";
 export const obtenerPromocionalesParticipantes = async () => {
   try {
     const { data: Promociones, error } = await clientApi
@@ -228,7 +228,7 @@ export const getPartidoId = async (id: number) => {
   }
 };
 
-export const insertedResult = async (result: Resultado) => {
+export const insertedResult = async (result: FormResult) => {
   try {
     const { data, error } = await clientApi
       .from("resultado_fixture")

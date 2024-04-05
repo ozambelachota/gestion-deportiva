@@ -1,16 +1,20 @@
 import { create } from "zustand";
 import { getResult, insertedResult } from "../services/api.service";
-import { Resultado } from "../types/fixture.api.type";
+export interface FormResult {
+  fixture_id: number;
+  resultado: string;
+  ganador_id: number | null;
+} 
 
 interface storeResult {
-  result: Resultado;
-  results: Resultado[];
+  result: FormResult;
+  results: FormResult[];
   resultado: string;
   ganador: number | null;
   setGanador: (ganador: number | null) => void;
   getResult: () => Promise<void>;
   setResult: (result: string) => void;
-  insertResult: (result: Resultado) => Promise<void>;
+  insertResult: (result: FormResult) => Promise<void>;
 }
 
 export const ResultadStoreForm = create<storeResult>()((set) => ({
@@ -39,7 +43,7 @@ export const ResultadStoreForm = create<storeResult>()((set) => ({
   setResult: (resultado: string) => {
     set({ resultado });
   },
-  insertResult: async (resultInsert: Resultado) => {
+  insertResult: async (resultInsert: FormResult) => {
     const resultados = await insertedResult(resultInsert);
     if (resultados) set({ results: resultados });
   },

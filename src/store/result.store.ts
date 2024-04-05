@@ -7,6 +7,7 @@ interface storeResult {
   getResult: () => Promise<void>;
 }
 
+
 export const ResultStore = create<storeResult>()((set) => ({
   result: [
     {

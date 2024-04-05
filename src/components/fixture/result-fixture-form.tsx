@@ -43,7 +43,6 @@ function ResultFixtureFormPage() {
       return;
     }
     if (partido.id) {
-    
       insertResult({
         fixture_id: partido.id,
         resultado: resultado,
