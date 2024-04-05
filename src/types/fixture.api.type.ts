@@ -93,6 +93,12 @@ export interface Resultado {
   fixture_id: number;
   resultado: string;
   ganador_id: number | null;
+  fixture_exafam:{
+    promocion:string,
+    vs_promocion:string,
+    n_fecha_jugada:number,
+    deporte_id:number
+  }
 }
 
 export interface TipoSancion {

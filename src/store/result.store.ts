@@ -15,6 +15,12 @@ export const ResultStore = create<storeResult>()((set) => ({
       fixture_id: 0,
       resultado: "",
       ganador_id: 0,
+      fixture_exafam: {
+        n_fecha_jugada: 0,
+        promocion: "",
+        vs_promocion: "",
+        deporte_id: 0,
+      }
     },
   ],
   getResult: async () => {

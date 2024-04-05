@@ -1,49 +1,47 @@
 import {
+  Paper,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { fixtureStore } from "../store/fixture.store";
 import { ResultStore } from "../store/result.store";
-import { Fixture } from "../types/fixture.api.type";
-
-const color = [
-  "#317f43",
-  "#495e76",
-  "#FF1493",
-  "#FFA500",
-  "#746e5d",
-  "#D400FF",
-  "#FF0000",
-  "#FF69B4",
-  "#FF8C00",
-  "#FFD700",
-  "#FFDAB9",
-  "#FF6347",
-];
+import type { Resultado } from "../types/fixture.api.type";
 
 function ResultPage() {
-  const fixtures = fixtureStore((state) => state.fixture) as Fixture[];
-  const obtenerPartidos = fixtureStore((state) => state.obtenerPartidos);
   const results = ResultStore((state) => state.result);
   const getResults = ResultStore((state) => state.getResult);
 
-  const [groupedFixtures, setGroupedFixtures] = useState<{
-    [key: string]: Fixture[];
+  const [groupedResults, setGroupedResults] = useState<{
+    [key: string]: Resultado[];
   }>({});
 
   useEffect(() => {
     getResults();
-    obtenerPartidos();
   }, []);
 
-  // Función para obtener el nombre del deporte según el tipo_id
-  const getSportName = (tipoId: number): string => {
-    switch (tipoId) {
+  useEffect(() => {
+    const grouped = results?.reduce(
+      (acc: { [key: string]: Resultado[] }, result) => {
+        const { fixture_exafam } = result;
+        const key = `${fixture_exafam.n_fecha_jugada}_${fixture_exafam.deporte_id}`;
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(result);
+        return acc;
+      },
+      {}
+    );
+    setGroupedResults(grouped || {});
+  }, [results]);
+
+  const getSportName = (deporteId: number): string => {
+    switch (deporteId) {
       case 1:
         return "Fútbol";
       case 2:
@@ -55,64 +53,53 @@ function ResultPage() {
     }
   };
 
-  useEffect(() => {
-    // Agrupar fixtures por n_fechas y tipo_id
-    const grouped = fixtures?.reduce(
-      (acc: { [key: string]: Fixture[] }, fixture) => {
-        // Solo agregar fixtures por_jugar === false
-        if (!fixture.por_jugar) {
-          const key = `${fixture.n_fecha_jugada}_${fixture.deporte_id}`;
-          if (!acc[key]) {
-            acc[key] = [];
-          }
-          acc[key].push(fixture);
-        }
-        return acc;
-      },
-      {}
-    );
-    setGroupedFixtures(grouped || {});
-  }, [fixtures]);
+  // Colores para las tablas
+  const colors = [
+    "#317f43",
+    "#495e76",
+    "#FF1493",
+    "#FFA500",
+    "#746e5d",
+    "#D400FF",
+    "#FF0000",
+    "#082032",
+    "#FF6347",
+    "1A1A40",
+    "#1E5128",
+    "#04293A",
+  ];
 
   return (
-    <div>
-      {Object.entries(groupedFixtures).map(([groupKey, groupFixtures]) => (
+    <div className="">
+      {Object.entries(groupedResults).map(([groupKey, groupResults], index) => (
         <div key={groupKey}>
           <Typography variant="h4">
-            Resultados de la fecha {groupFixtures[0]?.n_fecha_jugada} -
-            {getSportName(groupFixtures[0]?.deporte_id)}
+            Resultados de la fecha{" "}
+            {groupResults[0]?.fixture_exafam.n_fecha_jugada} -{" "}
+            {getSportName(groupResults[0]?.fixture_exafam.deporte_id)}
           </Typography>
-          <Table
-            sx={{
-              bgcolor: color[groupFixtures[0]?.n_fecha_jugada-1],
-            }}
-          >
-            <TableHead>
-              <TableRow sx={{ fontWeight: "bold", backgroundColor: "green" }}>
-                <TableCell>Promoción</TableCell>
-                <TableCell>VS</TableCell>
-                <TableCell>Promoción</TableCell>
-                <TableCell>Resultado</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {groupFixtures.map((fixture) => {
-                const resultsFilter = results.filter(
-                  (result) => result.fixture_id === fixture.id
-                );
-                return (
-                  <TableRow key={fixture.id}>
-                    <TableCell>{fixture.promocion}</TableCell>
-                    <TableCell>VS</TableCell>
-                    <TableCell>{fixture.vs_promocion}</TableCell>
-                    <TableCell>
-                      {resultsFilter.map((res) => res.resultado)}
-                    </TableCell>
+          <TableContainer component={Paper} >
+            <Table size="small" sx={{ bgcolor: colors[index % colors.length] }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">Promoción</TableCell>
+                  <TableCell align="center">VS</TableCell>
+                  <TableCell align="center">Promoción</TableCell>
+                  <TableCell align="center">Resultado</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {groupResults.map((result) => (
+                  <TableRow key={result.id}>
+                    <TableCell align="center">{result.fixture_exafam.promocion}</TableCell>
+                    <TableCell align="center">VS</TableCell>
+                    <TableCell align="center">{result.fixture_exafam.vs_promocion}</TableCell>
+                    <TableCell align="center">{result.resultado}</TableCell>
                   </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
       ))}
     </div>
