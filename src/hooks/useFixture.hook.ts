@@ -225,8 +225,6 @@ export const useFixturePage = () => {
       } else {
         await addPartido(vsPromocion);
         setVsPromocion([]);
-        setNumeroFechaJugados(0);
-        setFecha(new Date());
         toast.success("Partidos guardados");
       }
     } catch (error) {
