@@ -38,6 +38,7 @@ function FormFixture() {
     equipo1,
     equipo2,
     promocionesFiltradas,
+    
   } = useFixturePage();
 
   return (
