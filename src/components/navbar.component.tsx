@@ -22,7 +22,7 @@ import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
-  const isMobile = useMediaQuery("(max-width:600px)");
+  const isMobile = useMediaQuery("(max-width:800px)");
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = (open: boolean) => () => {
@@ -40,11 +40,11 @@ const Navbar = () => {
       to: "/posicion",
       icon: <AlignVerticalBottomIcon />,
     },
-    { text: "Futbol", to: "/", icon: <SportsSoccerIcon /> },
+    { text: "Futbol", to: "/", icon: <SportsSoccerIcon  /> },
     {
       text: "Voley y Voley Mixto",
       to: "/voley",
-      icon: <SportsVolleyballIcon />,
+      icon: <SportsVolleyballIcon color="info" />,
     },
     {
       text: "Goleadores",
@@ -69,7 +69,9 @@ const Navbar = () => {
           justifyContent: "center", // Centro los elementos horizontalmente
           padding: "0",
           flexDirection: isMobile ? "column" : "row", // Alineación vertical en dispositivos móviles,
-          bgcolor: "aqua",
+          bgcolor: "beige",
+          transition: "height 0.3s ease",
+          gap: "1rem",
           color: "black",
           fontSize: "20rem",
           height: "0.2em",
@@ -114,7 +116,6 @@ const Navbar = () => {
               <Button
                 key={item.text}
                 color="inherit"
-                className=""
                 component={RouterLink}
                 to={item.to}
                 sx={{

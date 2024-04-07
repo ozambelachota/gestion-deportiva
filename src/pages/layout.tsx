@@ -3,14 +3,20 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useQuery } from "@tanstack/react-query";
 import Navbar from "../components/navbar.component";
 import { nombreCampeonato } from "../services/api.service";
-
+import '@fontsource/poppins';
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
     background: {
-      default: "#240747",
+      default: "#10236a",
     },
   },
+  typography: {
+    fontFamily:[
+      'Poppins',
+      'sans-serif'
+    ].join(",")
+  }
 });
 
 type props = {
@@ -41,6 +47,7 @@ const Layout = ({ children }: props) => {
             className="m-0"
             color={"yellow"}
             variant="h3"
+            sx={{textShadow: "2px 2px 5px rgba(255, 255, 0, 0.8)"}}
             textAlign={"center"}
           >
             {data}

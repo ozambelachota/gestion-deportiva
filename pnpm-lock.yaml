@@ -11,6 +11,9 @@ dependencies:
   '@emotion/styled':
     specifier: 11.11.0
     version: 11.11.0(@emotion/react@11.11.3)(@types/react@18.2.55)(react@18.2.0)
+  '@fontsource/poppins':
+    specifier: ^5.0.13
+    version: 5.0.13
   '@mui/icons-material':
     specifier: 5.15.9
     version: 5.15.9(@mui/material@5.15.9)(@types/react@18.2.55)(react@18.2.0)
@@ -552,6 +555,10 @@ packages:
 
   /@floating-ui/utils@0.2.1:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
+    dev: false
+
+  /@fontsource/poppins@5.0.13:
+    resolution: {integrity: sha512-8G9odFoxH43oZpvq43fpGucm8iHm6iatu0M1LIshb+tx3/y6YBXenVED7CI4resvPz6hyDu8a2vHSh9vrpe+wQ==}
     dev: false
 
   /@humanwhocodes/config-array@0.11.14:
