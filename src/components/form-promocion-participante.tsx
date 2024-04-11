@@ -53,13 +53,11 @@ function FormPromocionParticipante() {
     promocionParticipanteSet(promocion);
   };
   const deportes = DeporteStore((state) => state.deportes);
-  const getDeportes = DeporteStore((state) => state.getDeporte);
   const getGrupos = GrupoStore((state) => state.obtenerGrupo);
   const grupos = GrupoStore((state) => state.grupos);
   const campeonatos = CampeonatoStore((state) => state.campeonatos);
   const getCampeonatos = CampeonatoStore((state) => state.getCampeonato);
   useEffect(() => {
-    getDeportes();
     getGrupos();
     getCampeonatos();
   }, []);
