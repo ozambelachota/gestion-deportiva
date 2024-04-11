@@ -46,14 +46,6 @@ export const signOut = async () => {
   if (error) return error;
 };
 
-export const obtenerDeporte = async () => {
-  const { data: deporte, error } = await clientApi
-    .from("tipo_deporte")
-    .select("*");
-  if (error) throw error;
-  return deporte;
-};
-
 export const obtenerPromocionesPorGrupos = async (id: number) => {
   try {
     const { data: promociones, error } = await clientApi
@@ -79,17 +71,7 @@ export const insertarPromociones = async (promocional: Promocional) => {
   }
 };
 
-export const obtenerTodosCampos = async () => {
-  try {
-    const { data: campos, error } = await clientApi.from("campo").select("*");
-
-    if (error) throw error;
-
-    return campos;
-  } catch (error) {
-    throw new Error("error al obtener promocion " + error);
-  }
-};
+;
 
 export const getPartidosFechaNoMayor = async () => {
   try {

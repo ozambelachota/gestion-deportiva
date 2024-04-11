@@ -18,7 +18,6 @@ export const useFixturePage = () => {
 
   const deportes = DeporteStore((state) => state.deportes);
 
-  const getDeportes = DeporteStore((state) => state.getDeporte);
 
   const selectDeporte = DeporteStore((state) => state.selectDeporte);
 
@@ -44,7 +43,6 @@ export const useFixturePage = () => {
 
   const addPartido = fixtureStore((state) => state.guardarPartido);
   const campos = CampoStore((state) => state.campos);
-  const obtenerCampos = CampoStore((state) => state.obtenrCampos);
   const selectCampo = CampoStore((state) => state.selectCampo);
   const campoSelect = CampoStore((state) => state.campoSelect);
   
@@ -53,8 +51,6 @@ export const useFixturePage = () => {
 
   async function cargarDatos() {
     await obtenerGrupo();
-    await obtenerCampos();
-    await getDeportes();
     if (selectGrupo <= 0) return;
     else await obtenerPromocionGrupo(selectGrupo);
   }
@@ -225,8 +221,6 @@ export const useFixturePage = () => {
       } else {
         await addPartido(vsPromocion);
         setVsPromocion([]);
-        setNumeroFechaJugados(0);
-        setFecha(new Date());
         toast.success("Partidos guardados");
       }
     } catch (error) {

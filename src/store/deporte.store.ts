@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { deporteId, obtenerDeporte } from "../services/api.service";
+import { deporteId, } from "../services/api.service";
 import type { Deporte } from "../types/fixture.api.type";
 
 type DeporteStoreType = {
@@ -7,15 +7,22 @@ type DeporteStoreType = {
   deporteSelect: number;
   deporte: Deporte;
   getDeporteId: (id: number) => Promise<void>;
-  getDeporte: () => Promise<void>;
   selectDeporte: (id: number) => void;
 };
 
 const DeporteStore = create<DeporteStoreType>()((set) => ({
   deportes: [
     {
-      id: 0,
-      nombre_tipo: "",
+      id: 1,
+      nombre_tipo: "futbol",
+    },
+    {
+      id: 2,
+      nombre_tipo: "voley",
+    },
+    {
+      id: 3,
+      nombre_tipo: "voley mixto",
     },
   ],
   deporte: {
@@ -23,10 +30,7 @@ const DeporteStore = create<DeporteStoreType>()((set) => ({
     nombre_tipo: "",
   },
   deporteSelect: 0,
-  getDeporte: async () => {
-    const deportes = await obtenerDeporte();
-    set({ deportes });
-  },
+
   selectDeporte: (id: number) => {
     set({ deporteSelect: id });
   },
