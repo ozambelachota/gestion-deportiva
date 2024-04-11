@@ -20,11 +20,9 @@ const ListPromociones = () => {
   const { promocionParticipante, obtenerPromociones, grupo, obtenerGrupo } =
     fixtureStore();
   const deportes = DeporteStore((state) => state.deportes);
-  const getDeportes = DeporteStore((state) => state.getDeporte);
   promocionParticipante.sort((a, b) => a.id - b.id);
   useEffect(() => {
     obtenerPromociones();
-    getDeportes();
     obtenerGrupo();
   }, []);
 
