@@ -1,8 +1,6 @@
 export interface Campeonato {
   id?: number;
   nombre_campeonato: string;
-  fehcaInicio: Date;
-  fechaFinal: Date;
   user_id: string;
 }
 
@@ -28,7 +26,6 @@ export interface GrupoPromocion {
 }
 export interface PromocionParticipante {
   id: number;
-  create_at: Date;
   nombre_promocion: string;
   estado: boolean;
   campeonato_id: number;
@@ -71,11 +68,7 @@ export interface ListaSancion {
   nombre_promocion: string;
 }
 
-export interface PresidenteMesa {
-  id?: number;
-  nombre: string;
-  apellido: string;
-}
+
 export interface Deporte {
   id?: number;
   nombre_tipo: string;
@@ -115,6 +108,9 @@ export interface VoleyPosicion {
   partidos_g: number;
   partidos_p: number;
   partidos_j: number;
+  promocion_participante: {
+    nombre_promocion: string;
+  }
 }
 export interface PromocionalWithParticipante {
   id?: number;

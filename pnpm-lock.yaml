@@ -11,9 +11,15 @@ dependencies:
   '@emotion/styled':
     specifier: 11.11.0
     version: 11.11.0(@emotion/react@11.11.3)(@types/react@18.2.55)(react@18.2.0)
+  '@fontsource/dancing-script':
+    specifier: ^5.0.17
+    version: 5.0.17
   '@fontsource/poppins':
     specifier: ^5.0.13
     version: 5.0.13
+  '@fontsource/roboto':
+    specifier: ^5.0.12
+    version: 5.0.12
   '@mui/icons-material':
     specifier: 5.15.9
     version: 5.15.9(@mui/material@5.15.9)(@types/react@18.2.55)(react@18.2.0)
@@ -557,8 +563,16 @@ packages:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
     dev: false
 
+  /@fontsource/dancing-script@5.0.17:
+    resolution: {integrity: sha512-vS9o1l7+j3hAUgDUKxiPzwlqw4huqspMf2dwNEMZI50lzg5wRlj2wnkBNON2qio+mEz7CXIkeiocPvR9y3gBug==}
+    dev: false
+
   /@fontsource/poppins@5.0.13:
     resolution: {integrity: sha512-8G9odFoxH43oZpvq43fpGucm8iHm6iatu0M1LIshb+tx3/y6YBXenVED7CI4resvPz6hyDu8a2vHSh9vrpe+wQ==}
+    dev: false
+
+  /@fontsource/roboto@5.0.12:
+    resolution: {integrity: sha512-x0o17jvgoSSbS9OZnUX2+xJmVRvVCfeaYJjkS7w62iN7CuJWtMf5vJj8LqgC7ibqIkitOHVW+XssRjgrcHn62g==}
     dev: false
 
   /@humanwhocodes/config-array@0.11.14:

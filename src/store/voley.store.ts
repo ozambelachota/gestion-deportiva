@@ -19,6 +19,9 @@ const voleyStore = create<VoleyStore>()((set) => ({
     partidos_g: 0,
     partidos_p: 0,
     partidos_j: 0,
+    promocion_participante: {
+      nombre_promocion: "",
+    }
   }],
   voleySet:{
     id: 0,
@@ -28,6 +31,9 @@ const voleyStore = create<VoleyStore>()((set) => ({
     partidos_g: 0,
     partidos_p: 0,
     partidos_j: 0,
+    promocion_participante: {
+      nombre_promocion: "",
+    }
   },
   setVoley: (voley: VoleyPosicion[]) => set({ voley }),
   getVoley: async () => {

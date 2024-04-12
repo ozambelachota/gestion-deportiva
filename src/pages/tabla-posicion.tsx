@@ -12,18 +12,20 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useEffect } from "react";
 import { PosicionStore } from "../store/PosicionStore";
 import { fixtureStore } from "../store/fixture.store";
 import { type TablaPosicion } from "../types/fixture.api.type";
 import PDFGenerator from "./report/components/tabla-reporte.component";
+
 const colorPalette = [
   "#4285f4",
   "#34a853",
-  "#fbbc05",
+  "#8900f2",
   "#ea4335",
-  "#673ab7",
+  "#4361ee",
   "#e91e63",
   "#795548",
 ];
@@ -78,10 +80,10 @@ const TablaPosicionPage: React.FC = () => {
         fileName="tbl_posicion"
       >
         {({ loading, error }) => {
-          if(error){
-            return <div>{error.message}</div>
+          if (error) {
+            return <div>{error.message}</div>;
           }
-          
+
           return loading ? (
             "Cargando..."
           ) : (
@@ -102,11 +104,12 @@ const TablaPosicionPage: React.FC = () => {
             <TableContainer
               component={Paper}
               className="rounded"
-              sx={{
-                background: colorPalette[index],
-              }}
+              
             >
-              <Table size="small" stickyHeader>
+              <Table size="small"  sx={{
+                background: colorPalette[index],
+                backgroundImage: "url(./src/assets/table.png)",
+              }}>
                 <TableHead>
                   <TableRow>
                     <TableCell>Equipo</TableCell>
@@ -139,7 +142,12 @@ const TablaPosicionPage: React.FC = () => {
                         <TableCell>{equipo.goles_f}</TableCell>
                         <TableCell>{equipo.goles_e}</TableCell>
                         <TableCell>{equipo.diferencia_goles}</TableCell>
-                        <TableCell>{equipo.puntos}</TableCell>
+                        <TableCell
+                          sx={{ background: "url('./src/assets/estrella-n.png')", backgroundSize: "2.7rem", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}
+                          align="center"
+                        >
+                          {equipo.puntos}
+                        </TableCell>
                       </TableRow>
                     );
                   })}

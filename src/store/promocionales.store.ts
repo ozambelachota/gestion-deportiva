@@ -30,7 +30,6 @@ export const PromocionStore = create<promocionType>((set) => ({
   promocionales: [],
   promocionParticipante: {
     id: 0,
-    create_at: new Date(),
     nombre_promocion: "",
     estado: false,
     campeonato_id: 0,

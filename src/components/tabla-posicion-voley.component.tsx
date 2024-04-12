@@ -11,18 +11,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect } from "react";
-import { fixtureStore } from "../store/fixture.store";
 import voleyStore from "../store/voley.store";
 import { VoleyPosicion } from "../types/fixture.api.type";
-const colorPalette = ["#38598b", "#385170"];
+const colorPalette = ["#808080", "#478C9C"];
 function TablaPosicionVoley() {
   const voleyPositions = voleyStore((state) => state.voley);
   const getVoleyPositions = voleyStore((state) => state.getVoley);
 
-  const promociones = fixtureStore((state) => state.promocionParticipante);
-  const getPromociones = fixtureStore((state) => state.obtenerPromociones);
   useEffect(() => {
-    getPromociones();
     getVoleyPositions();
   }, []);
   const groupBy = (array: VoleyPosicion[] | null, key: string) => {
@@ -67,32 +63,48 @@ function TablaPosicionVoley() {
                 color: "blueviolet",
               }}
             >
-              <Table size="small" stickyHeader>
+              <Table
+                size="small"
+                sx={{ backgroundImage: "url(./src/assets/neones.png)" }}
+              >
                 <TableHead>
                   <TableRow>
-                    <TableCell>Equipo</TableCell>
-                    <TableCell>Puntos</TableCell>
-                    <TableCell>Partidos Ganados</TableCell>
-                    <TableCell>Partidos Pertidos</TableCell>
-                    <TableCell>N° de partidos jugados</TableCell>
+                    <TableCell align="center">Equipo</TableCell>
+                    <TableCell align="center">Puntos</TableCell>
+                    <TableCell align="center">Partidos Ganados</TableCell>
+                    <TableCell align="center">Partidos Pertidos</TableCell>
+                    <TableCell align="center">N° de partidos jugados</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {groupsTabla[deporteId].map((equipo) => {
-                    const filter = promociones.filter(
-                      (promocion) => promocion.id === equipo.promocion
-                    );
                     return (
                       <TableRow key={equipo.id}>
-                        <TableCell>
-                          {filter.map(
-                            (promocion) => promocion.nombre_promocion
-                          )}
+                        <TableCell sx={{ textAlign: "center" }}>
+                          {equipo.promocion_participante.nombre_promocion}
                         </TableCell>
-                        <TableCell>{equipo.puntos}</TableCell>
-                        <TableCell>{equipo.partidos_g}</TableCell>
-                        <TableCell>{equipo.partidos_p}</TableCell>
-                        <TableCell>{equipo.partidos_j}</TableCell>
+                        <TableCell
+                          sx={{
+                            textAlign: "center",
+                            background: "url(./src/assets/estrella.png)",
+                            backgroundRepeat: "no-repeat",
+                            backgroundPosition: "center",
+                            color: "black",
+                            backgroundSize: "contain",
+                          }}
+                        >
+                          {equipo.puntos}
+                        </TableCell>
+                        <TableCell sx={{ color: "black" }} align="center">
+                          {equipo.partidos_g}
+                        </TableCell>
+                        <TableCell align="center">
+                          {" "}
+                          {equipo.partidos_p}
+                        </TableCell>
+                        <TableCell align="center" sx={{ color: "blue" }}>
+                          {equipo.partidos_j}
+                        </TableCell>
                       </TableRow>
                     );
                   })}

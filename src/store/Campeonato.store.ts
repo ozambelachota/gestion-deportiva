@@ -22,8 +22,6 @@ export const CampeonatoStore = create<CampeonatoType>((set) => ({
   ],
   campeonato: {
     id: 0,
-    fehcaInicio: new Date(),
-    fechaFinal: new Date(),
     nombre_campeonato: "",
     user_id: "0",
   },

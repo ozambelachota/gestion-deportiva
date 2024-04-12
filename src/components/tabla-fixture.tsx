@@ -150,6 +150,7 @@ const TablaFixture = () => {
                     xs: "1.5rem",
                     md: "2rem",
                     color: colorPalette[index],
+                    textShadow: `0px 0px 10px ${colorPalette[index]}`,
                   },
                 }}
               >{`Grupo ${grupoId}`}</Typography>
