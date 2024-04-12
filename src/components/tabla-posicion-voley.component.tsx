@@ -65,7 +65,7 @@ function TablaPosicionVoley() {
             >
               <Table
                 size="small"
-                sx={{ backgroundImage: "url('/src/assets/neones.png')" }}
+                sx={{ backgroundImage: "url('/neones.png')" }}
               >
                 <TableHead>
                   <TableRow>
@@ -86,7 +86,7 @@ function TablaPosicionVoley() {
                         <TableCell
                           sx={{
                             textAlign: "center",
-                            background: "url('/src/assets/estrella.png')",
+                            background: "url('/estrella.png')",
                             backgroundRepeat: "no-repeat",
                             backgroundPosition: "center",
                             color: "black",
