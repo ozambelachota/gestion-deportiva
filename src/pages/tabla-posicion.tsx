@@ -15,11 +15,16 @@ import {
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useEffect } from "react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { PosicionStore } from "../store/PosicionStore";
-import { fixtureStore } from "../store/fixture.store";
+
 import { type TablaPosicion } from "../types/fixture.api.type";
 import PDFGenerator from "./report/components/tabla-reporte.component";
-
 const colorPalette = [
   "#4285f4",
   "#34a853",
@@ -35,16 +40,10 @@ const TablaPosicionPage: React.FC = () => {
   const uploadTablaPosicion = PosicionStore(
     (state) => state.uploadTablaPosicion
   );
-  const promociones = fixtureStore((state) => state.promocionParticipante);
-  const getPromociones = fixtureStore((state) => state.obtenerPromociones);
   useEffect(() => {
-    getPromociones();
     uploadTablaPosicion();
   }, []);
 
-  const promocionesFilter = promociones.filter(
-    (promocion) => promocion.tipo_id === 1
-  );
   const groupBy = (array: TablaPosicion[] | null, key: string) => {
     if (!array) {
       return {};
@@ -69,12 +68,11 @@ const TablaPosicionPage: React.FC = () => {
   const groupsTabla = groupBy(tablaPosicion, "grupo_id");
 
   return (
-    <div className="w-full h-full">
+    <>
       <PDFDownloadLink
         document={
           <PDFGenerator
             groupsTabla={groupsTabla}
-            promocionesFilter={promocionesFilter}
           />
         }
         fileName="tbl_posicion"
@@ -93,85 +91,189 @@ const TablaPosicionPage: React.FC = () => {
           );
         }}
       </PDFDownloadLink>
-      {Object.keys(groupsTabla).map((grupoId, index) => (
-        <Grid container spacing={2} key={grupoId}>
-          <Grid item xs={12}>
-            <Typography marginTop={"8px"} textAlign={"center"} variant="h5">
-              Tabla de Posiciones - Grupo {grupoId}
+
+      <div className="w-full h-full">
+        {Object.keys(groupsTabla).map((grupoId, index) => (
+          <div key={grupoId} className="tabla-container">
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography marginTop={"8px"} textAlign={"center"} variant="h5">
+                  Tabla de Posiciones - Grupo {grupoId}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <div style={{ overflowX: "auto" }}>
+                  <TableContainer component={Paper} className="rounded">
+                    <Table
+                      size="small"
+                      sx={{
+                        background: colorPalette[index],
+                        backgroundImage: "url(/table.png)",
+                      }}
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>#</TableCell>
+                          <TableCell align="left">PJ</TableCell>
+                          <TableCell>PG</TableCell>
+                          <TableCell>PE</TableCell>
+                          <TableCell>PP</TableCell>
+                          <TableCell>GF</TableCell>
+                          <TableCell>GC</TableCell>
+                          <TableCell>DG</TableCell>
+                          <TableCell align="left">Puntos</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {groupsTabla[grupoId].map((equipo) => {
+                          return (
+                            <TableRow key={equipo.id}>
+                              <TableCell>
+                                {equipo.promocion_participante.nombre_promocion}
+                              </TableCell>
+                              <TableCell>{equipo.pj}</TableCell>
+                              <TableCell>{equipo.pg}</TableCell>
+                              <TableCell>{equipo.pe}</TableCell>
+                              <TableCell>{equipo.pp}</TableCell>
+                              <TableCell>{equipo.goles_f}</TableCell>
+                              <TableCell>{equipo.goles_e}</TableCell>
+                              <TableCell>{equipo.diferencia_goles}</TableCell>
+                              <TableCell
+                                sx={{
+                                  background: "url('/estrella-n.png')",
+                                  backgroundSize: "2.7rem",
+                                  backgroundPosition: "left",
+                                  backgroundRepeat: "no-repeat",
+                                }}
+                                align="left"
+                              >
+                                {equipo.puntos}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </div>
+              </Grid>
+            </Grid>
+          </div>
+        ))}
+        {Object.keys(groupsTabla).length === 0 && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              height: "100vh",
+              width: "100%",
+            }}
+          >
+            <Typography variant="h4" color={"blueviolet"} margin={"4rem"}>
+              No hay datos de tabla de posiciones disponibles
             </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <TableContainer
-              component={Paper}
-              className="rounded"
-              
-            >
-              <Table size="small"  sx={{
-                background: colorPalette[index],
-                backgroundImage: "url(/table.png)",
-              }}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Equipo</TableCell>
-                    <TableCell>PJ</TableCell>
-                    <TableCell>PG</TableCell>
-                    <TableCell>PE</TableCell>
-                    <TableCell>PP</TableCell>
-                    <TableCell>Goles a favor</TableCell>
-                    <TableCell>Goles en contra</TableCell>
-                    <TableCell>Diferencia de goles</TableCell>
-                    <TableCell>Puntos</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {groupsTabla[grupoId].map((equipo) => {
-                    const filter = promocionesFilter.filter(
-                      (promocion) => promocion.id === equipo.promocion
-                    );
-                    return (
-                      <TableRow key={equipo.id}>
-                        <TableCell>
-                          {filter.map(
-                            (promocion) => promocion.nombre_promocion
-                          )}
-                        </TableCell>
-                        <TableCell>{equipo.pj}</TableCell>
-                        <TableCell>{equipo.pg}</TableCell>
-                        <TableCell>{equipo.pe}</TableCell>
-                        <TableCell>{equipo.pp}</TableCell>
-                        <TableCell>{equipo.goles_f}</TableCell>
-                        <TableCell>{equipo.goles_e}</TableCell>
-                        <TableCell>{equipo.diferencia_goles}</TableCell>
-                        <TableCell
-                          sx={{ background: "url('/estrella-n.png')", backgroundSize: "2.7rem", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}
-                          align="center"
-                        >
-                          {equipo.puntos}
-                        </TableCell>
+          </Box>
+        )}
+      </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .tabla-container {
+            display: none;
+          }
+        }
+      `}</style>
+
+      <Swiper
+        modules={[Navigation, Pagination, Scrollbar, A11y]}
+        spaceBetween={50}
+        slidesPerView={1}
+        navigation
+        pagination={{ clickable: true }}
+        scrollbar={{ draggable: true }}
+        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => console.log("slide change")}
+        className="swiper-container"
+      >
+        {Object.keys(groupsTabla).map((grupoId, index) => (
+          <SwiperSlide key={grupoId}>
+            <div className="swiper-slide">
+              <Typography marginTop={"8px"} textAlign={"center"} variant="h5">
+                Tabla de Posiciones - Grupo {grupoId}
+              </Typography>
+              <div style={{ overflowX: "auto" }}>
+                <TableContainer sx={{ fontSize: '1.2rem' }} component={Paper} className="rounded">
+                  <Table
+                    size="small"
+                    sx={{
+                      background: colorPalette[index],
+                      backgroundImage: "url(/table.png)",
+                    }}
+                  >
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>#</TableCell>
+                        <TableCell align="left">PJ</TableCell>
+                        <TableCell>PG</TableCell>
+                        <TableCell>PE</TableCell>
+                        <TableCell>PP</TableCell>
+                        <TableCell>GF</TableCell>
+                        <TableCell>GC</TableCell>
+                        <TableCell>DG</TableCell>
+                        <TableCell align="left">Puntos</TableCell>
                       </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Grid>
-        </Grid>
-      ))}
-      {Object.keys(groupsTabla).length === 0 && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            height: "100vh",
-            width: "100%",
-          }}
-        >
-          <Typography variant="h4" color={"blueviolet"} margin={"4rem"}>
-            No hay datos de tabla de posiciones disponibles
-          </Typography>
-        </Box>
-      )}
-    </div>
+                    </TableHead>
+                    <TableBody>
+                      {groupsTabla[grupoId].map((equipo) => {
+                        return (
+                          <TableRow key={equipo.id}>
+                            <TableCell>
+                              {equipo.promocion_participante.nombre_promocion}
+                            </TableCell>
+                            <TableCell>{equipo.pj}</TableCell>
+                            <TableCell>{equipo.pg}</TableCell>
+                            <TableCell>{equipo.pe}</TableCell>
+                            <TableCell>{equipo.pp}</TableCell>
+                            <TableCell>{equipo.goles_f}</TableCell>
+                            <TableCell>{equipo.goles_e}</TableCell>
+                            <TableCell>{equipo.diferencia_goles}</TableCell>
+                            <TableCell
+                              sx={{
+                                background: "url('/estrella-n.png')",
+                                backgroundSize: "2.7rem",
+                                backgroundPosition: "left",
+                                backgroundRepeat: "no-repeat",
+                              }}
+                              align="left"
+                            >
+                              {equipo.puntos}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      <style>{`
+        .swiper-container {
+          display: none;
+        }
+        @media (max-width: 768px) {
+          .swiper-container {
+            display: block;
+          }
+          .tabla-container {
+            display: none;
+          }
+        }
+      `}</style>
+    </>
   );
 };
 

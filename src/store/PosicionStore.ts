@@ -38,6 +38,10 @@ export const PosicionStore = create<PosicionType>()((set) => ({
       pg: 0,
       pp: 0,
       pe: 0,
+      promocion_participante_id: 0,
+      promocion_participante: {
+        nombre_promocion: "",
+      }
     },
   ],
   promocionPosicion: {
@@ -53,6 +57,9 @@ export const PosicionStore = create<PosicionType>()((set) => ({
     pg: 0,
     pp: 0,
     pe: 0,
+    promocion_participante: {
+      nombre_promocion: "",
+    }
   },
   tablaPosicionGrupo: [],
   promocionTablaPosicion: {

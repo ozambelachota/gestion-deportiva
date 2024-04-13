@@ -71,8 +71,6 @@ export const insertarPromociones = async (promocional: Promocional) => {
   }
 };
 
-;
-
 export const getPartidosFechaNoMayor = async () => {
   try {
     const { data, error } = await clientApi
@@ -175,7 +173,9 @@ export const getResult = async () => {
   try {
     const { data, error } = await clientApi
       .from("resultado_fixture")
-      .select("*,fixture_exafam(promocion,vs_promocion,n_fecha_jugada,deporte_id)")
+      .select(
+        "*,fixture_exafam(promocion,vs_promocion,n_fecha_jugada,deporte_id)"
+      )
       .order("fixture_id", { ascending: true });
     if (error) throw new Error(error.message);
     return data;
@@ -188,7 +188,7 @@ export const getTablaPosiciones = async () => {
   try {
     const { data, error } = await clientApi
       .from("tabla_posicion")
-      .select("*")
+      .select("*,promocion_participante(nombre_promocion)")
       .order("puntos", { ascending: true });
     if (error) throw new Error(error.message);
     return data;
@@ -261,7 +261,9 @@ export const tipoSanciones = async () => {
 };
 export const voley = async () => {
   try {
-    const { data, error } = await clientApi.from("Voley_posicion").select("*,promocion_participante(nombre_promocion)");
+    const { data, error } = await clientApi
+      .from("Voley_posicion")
+      .select("*,promocion_participante(nombre_promocion)");
     if (error) throw new Error(error.message);
     return data;
   } catch (error) {
@@ -455,7 +457,7 @@ export const disableFixture = async (id: number) => {
   try {
     const { data, error } = await clientApi
       .from("fixture_exafam")
-      .upsert({por_jugar: false})
+      .upsert({ por_jugar: false })
       .eq("id", id);
     if (error) throw new Error(error.message);
     return data;

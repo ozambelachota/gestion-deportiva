@@ -1,13 +1,11 @@
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 
 import type {
-  PromocionParticipante,
   TablaPosicion,
 } from "../../../types/fixture.api.type";
 
 interface Props {
   groupsTabla: any;
-  promocionesFilter: PromocionParticipante[];
 }
 const styles = StyleSheet.create({
   page: {
@@ -36,7 +34,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
-const PDFGenerator = ({ groupsTabla, promocionesFilter }: Props) => {
+const PDFGenerator = ({ groupsTabla,  }: Props) => {
   return (
     <Document>
       {Object.keys(groupsTabla).map((grupoId: any) => (
@@ -56,9 +54,7 @@ const PDFGenerator = ({ groupsTabla, promocionesFilter }: Props) => {
               {groupsTabla[grupoId].map((equipo: TablaPosicion) => (
                 <View key={equipo.id} style={styles.tableRow}>
                   <Text style={[styles.tableCell]}>
-                    {promocionesFilter
-                      .filter((promocion) => promocion.id === equipo.promocion)
-                      .map((promocion) => promocion.nombre_promocion)}
+                    {equipo.promocion_participante.nombre_promocion}
                   </Text>
                   <Text style={[styles.tableCell]}>{equipo.puntos}</Text>
                   <Text style={[styles.tableCell]}>{equipo.goles_f}</Text>
