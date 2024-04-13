@@ -12,15 +12,8 @@ import {
 } from "@mui/material";
 import { format, parseISO } from "date-fns";
 import { useEffect } from "react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { fixtureStore } from "../store/fixture.store";
 import type { Fixture } from "../types/fixture.api.type";
-import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
-
 const colorPalette = [
   "#4285f4",
   "#34a853",
@@ -40,7 +33,6 @@ const TablaFixture = () => {
       partidos.filter((partido) => tipoIds.includes(partido.deporte_id))
     );
   };
-  const isMobile = window.innerWidth <= 768;
 
   // Filtrar partidos por tipo_id 2 (futbol) y 3 (voley)
   const partidosFiltrados = filtrarPorTipo(fixtures, [1]);
@@ -110,206 +102,97 @@ const TablaFixture = () => {
           Campo 2 : PARQUE TUPAC
         </Typography>
       </div>
-      {isMobile ? (
-        <Swiper
-          modules={[Navigation, Pagination, Scrollbar, A11y]}
-          spaceBetween={50}
-          slidesPerView={1}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          onSwiper={(swiper) => console.log(swiper)}
-          onSlideChange={() => console.log("slide change")}
-        >
-          {fixtures && fixtures.length > 0 ? (
-            Object.keys(partidosAgrupados).map((grupoId, index) => (
-              <SwiperSlide key={grupoId}>
-                <Grid item xs={12} md={6}>
-                  <Typography
-                    variant="h6"
-                    mb={2}
-                    sx={{
-                      fontSize: {
-                        xs: "1.5rem",
-                        md: "2rem",
-                        color: colorPalette[index],
-                        textShadow: `0px 0px 10px ${colorPalette[index]}`,
-                      },
-                    }}
-                  >{`Grupo ${grupoId}`}</Typography>
-                  <TableContainer
-                    className="rounded "
-                    component={Paper}
-                    sx={{
-                      backgroundColor: colorPalette[index],
-                      "&:hover": {
-                        backgroundColor: colorPalette[index],
-                        opacity: [0.9, 0.8, 0.7],
-                      },
-                      color: "",
-                      width: "100%",
-                    }}
-                  >
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Promoción</TableCell>
-                          <TableCell>VS</TableCell>
-                          <TableCell>Promoción</TableCell>
-                          <TableCell>Fecha</TableCell>
-                          <TableCell>Campo</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {obtenerProximosPartidos(
-                          partidosAgrupados[grupoId]
-                        ).map((partido) => (
-                          <TableRow
-                            key={partido.id}
-                            sx={{
-                              backgroundColor:
-                                partido.tiempoRestante <= 0
-                                  ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
-                                  : partido.tiempoRestante < 10 * 60 * 1000
-                                  ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
-                                  : new Date().getTime() >
-                                    new Date(partido.fecha_partido).getTime()
-                                  ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
-                                  : "transparent",
-                            }}
-                          >
-                            <TableCell sx={{ padding: "8px" }}>
-                              {partido.promocion}
-                            </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>VS</TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
-                              {partido.vs_promocion}
-                            </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
-                              {formatDate(partido.fecha_partido)}
-                            </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
-                              {partido.campo_id}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>{" "}
-                </Grid>
-              </SwiperSlide>
-            ))
-          ) : (
-            <SwiperSlide>
-              <Box
+      <Grid sx={{ width: "100%", height: "100vh" }} container spacing={2}>
+        {fixtures && fixtures.length > 0 ? (
+          Object.keys(partidosAgrupados).map((grupoId, index) => (
+            <Grid item xs={12} md={6} key={grupoId}>
+              <Typography
+                variant="h6"
+                mb={2}
                 sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  height: "100vh",
-                  width: "100%",
+                  fontSize: {
+                    xs: "1.5rem",
+                    md: "2rem",
+                    color: colorPalette[index],
+                    textShadow: `0px 0px 10px ${colorPalette[index]}`,
+                  },
+                }}
+              >{`Grupo ${grupoId}`}</Typography>
+              <TableContainer
+                className="rounded "
+                component={Paper}
+                sx={{
+                  backgroundColor: colorPalette[index],
+                  "&:hover": {
+                    backgroundColor: colorPalette[index],
+                    opacity: [0.9, 0.8, 0.7],
+                  },
+                  color: "",
                 }}
               >
-                <Typography variant="h4" color={"blueviolet"} margin={"4rem"}>
-                  No hay partidos programados
-                </Typography>
-              </Box>
-            </SwiperSlide>
-          )}
-        </Swiper>
-      ) : (
-        <Grid sx={{ width: "100%", height: "100vh" }} container spacing={2}>
-          {fixtures && fixtures.length > 0 ? (
-            Object.keys(partidosAgrupados).map((grupoId, index) => (
-              <Grid item xs={12} md={6} key={grupoId}>
-                <Typography
-                  variant="h6"
-                  mb={2}
-                  sx={{
-                    fontSize: {
-                      xs: "1.5rem",
-                      md: "2rem",
-                      color: colorPalette[index],
-                      textShadow: `0px 0px 10px ${colorPalette[index]}`,
-                    },
-                  }}
-                >{`Grupo ${grupoId}`}</Typography>
-                <TableContainer
-                  className="rounded "
-                  component={Paper}
-                  sx={{
-                    backgroundColor: colorPalette[index],
-                    "&:hover": {
-                      backgroundColor: colorPalette[index],
-                      opacity: [0.9, 0.8, 0.7],
-                    },
-                    color: "",
-                    width: "100%",
-                  }}
-                >
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Promoción</TableCell>
-                        <TableCell>VS</TableCell>
-                        <TableCell>Promoción</TableCell>
-                        <TableCell>Fecha</TableCell>
-                        <TableCell>Campo</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {obtenerProximosPartidos(partidosAgrupados[grupoId]).map(
-                        (partido) => (
-                          <TableRow
-                            key={partido.id}
-                            sx={{
-                              backgroundColor:
-                                partido.tiempoRestante <= 0
-                                  ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
-                                  : partido.tiempoRestante < 10 * 60 * 1000
-                                  ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
-                                  : new Date().getTime() >
-                                    new Date(partido.fecha_partido).getTime()
-                                  ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
-                                  : "transparent",
-                            }}
-                          >
-                            <TableCell sx={{ padding: "8px" }}>
-                              {partido.promocion}
-                            </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>VS</TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
-                              {partido.vs_promocion}
-                            </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
-                              {formatDate(partido.fecha_partido)}
-                            </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
-                              {partido.campo_id}
-                            </TableCell>
-                          </TableRow>
-                        )
-                      )}
-                    </TableBody>
-                  </Table>
-                </TableContainer>{" "}
-              </Grid>
-            ))
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                height: "100vh",
-                width: "100%",
-              }}
-            >
-              <Typography variant="h4" color={"blueviolet"} margin={"4rem"}>
-                No hay partidos programados
-              </Typography>
-            </Box>
-          )}
-        </Grid>
-      )}
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Promoción</TableCell>
+                      <TableCell>VS</TableCell>
+                      <TableCell>Promoción</TableCell>
+                      <TableCell>Fecha</TableCell>
+                      <TableCell>Campo</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {obtenerProximosPartidos(partidosAgrupados[grupoId]).map(
+                      (partido) => (
+                        <TableRow
+                          key={partido.id}
+                          sx={{
+                            backgroundColor:
+                              partido.tiempoRestante <= 0
+                                ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
+                                : partido.tiempoRestante < 10 * 60 * 1000
+                                ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
+                                : new Date().getTime() >
+                                  new Date(partido.fecha_partido).getTime()
+                                ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
+                                : "transparent",
+                          }}
+                        >
+                          <TableCell sx={{ padding: "8px" }}>
+                            {partido.promocion}
+                          </TableCell>
+                          <TableCell sx={{ padding: "8px" }}>VS</TableCell>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {partido.vs_promocion}
+                          </TableCell>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {formatDate(partido.fecha_partido)}
+                          </TableCell>
+                          <TableCell sx={{ padding: "8px" }}>
+                            {partido.campo_id}
+                          </TableCell>
+                        </TableRow>
+                      )
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+          ))
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              height: "100vh",
+              width: "100%",
+            }}
+          >
+            <Typography variant="h4" color={"blueviolet"} margin={"4rem"}>
+              No hay partidos programados
+            </Typography>
+          </Box>
+        )}
+      </Grid>
     </div>
   );
 };

@@ -71,9 +71,6 @@ dependencies:
   sonner:
     specifier: 1.4.0
     version: 1.4.0(react-dom@18.2.0)(react@18.2.0)
-  swiper:
-    specifier: ^11.1.1
-    version: 11.1.1
   zustand:
     specifier: 4.5.0
     version: 4.5.0(@types/react@18.2.55)(react@18.2.0)
@@ -3271,11 +3268,6 @@ packages:
 
   /svg-arc-to-cubic-bezier@3.2.0:
     resolution: {integrity: sha512-djbJ/vZKZO+gPoSDThGNpKDO+o+bAeA4XQKovvkNCqnIS2t+S4qnLAGQhyyrulhCFRl1WWzAp0wUDV8PpTVU3g==}
-    dev: false
-
-  /swiper@11.1.1:
-    resolution: {integrity: sha512-jGmEA/fNz1lACIcY4/40ggm1Gcyv+EUivmgV/Jd2WFPsEJhbWXnRAwzZR8OPjkBLtDxmzcoYG/iiAMWfRs0YKQ==}
-    engines: {node: '>= 4.7.0'}
     dev: false
 
   /tailwindcss@3.4.1:
