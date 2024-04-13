@@ -1,18 +1,25 @@
 import {
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fixtureStore } from "../../store/fixture.store";
 
 export function TableFixtureAdmin() {
   const fixutres = fixtureStore((state) => state.fixture);
-
+  const {desactivePartido} = fixtureStore();
+  const [open, setOpen] = useState(false);
+  const [idFixture, setIdFixture] = useState(0);
   const partidosObtenidos = fixtureStore((state) => state.obtenerPartidos);
   const cargarDatos = async () => {
     await partidosObtenidos();
@@ -42,6 +49,10 @@ export function TableFixtureAdmin() {
   const handleResult = (idFixture: number) => {
     navigate(`/admin/result-fixture/${idFixture}`);
   };
+  const handleConfirm = () => {
+    desactivePartido(idFixture);
+    setOpen(false);
+  }
   return (
     <div>
       <Table>
@@ -73,7 +84,10 @@ export function TableFixtureAdmin() {
                   {deporte(fixture.deporte_id)}
                 </TableCell>
                 <TableCell align="right">
-                  <Button variant="contained">Terminar Partido</Button>
+                  <Button variant="contained" onClick={() => {
+                    setIdFixture(fixture.id as number);
+                    setOpen(true);
+                  }}>Terminar Partido</Button>
                   <Button
                     sx={{ marginLeft: "20px" }}
                     color="secondary"
@@ -91,6 +105,18 @@ export function TableFixtureAdmin() {
           })}
         </TableBody>
       </Table>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>Confirmar</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            ¿Estás seguro de que deseas terminar el partido?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Cancelar</Button>
+          <Button onClick={handleConfirm} variant="contained" autoFocus>Confirmar</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

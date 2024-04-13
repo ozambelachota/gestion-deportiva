@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import {
+  disableFixture,
   getPartidoId,
   getPartidosFechaNoMayor,
   insertFixturePartidos,
@@ -38,6 +39,7 @@ type FixtureStore = {
   obtenerPartidos: () => Promise<void>;
   buscarPartido: (id: number) => Promise<void>;
   setFecha: (fecha: Date) => void;
+  desactivePartido: (id: number) => Promise<void>;
 };
 
 export const fixtureStore = create<FixtureStore>()((set) => ({
@@ -147,6 +149,12 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
   setFecha: (fecha: Date) => set({ fecha }),
   buscarPartido: async (id: number) => {
     const partido = await getPartidoId(id);
+    if (partido!==null) {
+      set({ partido });
+    }
+  },
+  desactivePartido: async (id: number) => {
+    const partido = await disableFixture(id);
     if (partido!==null) {
       set({ partido });
     }
