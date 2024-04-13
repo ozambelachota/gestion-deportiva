@@ -143,7 +143,7 @@ const TablaPosicionPage: React.FC = () => {
                         <TableCell>{equipo.goles_e}</TableCell>
                         <TableCell>{equipo.diferencia_goles}</TableCell>
                         <TableCell
-                          sx={{ background: "url('/ estrella-n.png')", backgroundSize: "2.7rem", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}
+                          sx={{ background: "url('/estrella-n.png')", backgroundSize: "2.7rem", backgroundPosition: "center", backgroundRepeat: "no-repeat" }}
                           align="center"
                         >
                           {equipo.puntos}
