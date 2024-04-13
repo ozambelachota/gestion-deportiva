@@ -82,7 +82,7 @@ function PosicionEditPage() {
       pg: data.pg,
       pp: data.pp,
       pe: data.pe,
-      grupo_id: promocionTabla.grupo_id
+      grupo_id: promocionTabla.grupo_id,
     })
   };
 

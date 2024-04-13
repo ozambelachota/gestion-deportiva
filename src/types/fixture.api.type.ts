@@ -45,7 +45,7 @@ export interface TablaPosicion {
   pg: number;
   pe: number;
   pp: number;
-  promocion_participante: {
+  promocion_participante?: {
     nombre_promocion: string;
   }
 }

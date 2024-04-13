@@ -129,7 +129,7 @@ const TablaPosicionPage: React.FC = () => {
                           return (
                             <TableRow key={equipo.id}>
                               <TableCell>
-                                {equipo.promocion_participante.nombre_promocion}
+                                {equipo.promocion_participante?.nombre_promocion}
                               </TableCell>
                               <TableCell>{equipo.pj}</TableCell>
                               <TableCell>{equipo.pg}</TableCell>
@@ -228,7 +228,7 @@ const TablaPosicionPage: React.FC = () => {
                         return (
                           <TableRow key={equipo.id}>
                             <TableCell>
-                              {equipo.promocion_participante.nombre_promocion}
+                              {equipo.promocion_participante?.nombre_promocion}
                             </TableCell>
                             <TableCell>{equipo.pj}</TableCell>
                             <TableCell>{equipo.pg}</TableCell>

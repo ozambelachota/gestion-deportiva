@@ -54,7 +54,7 @@ const PDFGenerator = ({ groupsTabla,  }: Props) => {
               {groupsTabla[grupoId].map((equipo: TablaPosicion) => (
                 <View key={equipo.id} style={styles.tableRow}>
                   <Text style={[styles.tableCell]}>
-                    {equipo.promocion_participante.nombre_promocion}
+                    {equipo.promocion_participante?.nombre_promocion}
                   </Text>
                   <Text style={[styles.tableCell]}>{equipo.puntos}</Text>
                   <Text style={[styles.tableCell]}>{equipo.goles_f}</Text>
