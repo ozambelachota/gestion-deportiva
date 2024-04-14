@@ -20,9 +20,13 @@ function ResultPage() {
     [key: string]: Resultado[];
   }>({});
 
+
+  results.sort((a, b) => b.fixture_exafam.n_fecha_jugada - a.fixture_exafam.n_fecha_jugada);
+
   useEffect(() => {
     getResults();
   }, []);
+
 
   useEffect(() => {
     const grouped = results?.reduce(
@@ -68,6 +72,8 @@ function ResultPage() {
     "#1E5128",
     "#04293A",
   ];
+
+  
 
   return (
     <div className="">
