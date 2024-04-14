@@ -15,10 +15,7 @@ import {
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useEffect } from "react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
+
 import { PosicionStore } from "../store/PosicionStore";
 
 import { type TablaPosicion } from "../types/fixture.api.type";
@@ -57,7 +54,6 @@ const TablaPosicionPage: React.FC = () => {
 
     return sortedArray.reduce((result, currentValue: any) => {
       const groupKey = currentValue[key];
-      // rome-ignore lint/suspicious/noAssignInExpressions: <explanation>
       (result[groupKey] = result[groupKey] || []).push(currentValue);
       return result;
     }, {} as { [key: string]: TablaPosicion[] });
