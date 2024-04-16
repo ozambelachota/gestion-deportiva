@@ -39,7 +39,7 @@ const TablaFixture = () => {
   useEffect(() => {
     obtenerPartidos();
     return () => {};
-  }, [fixtures]);
+  }, []);
 
   // Función para agrupar los partidos por grupo_id
   const groupBy = (array: any[] | null, key: string) => {

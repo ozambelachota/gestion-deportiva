@@ -34,6 +34,8 @@ export const useUserStore = create<UserStore, [["zustand/persist", UserState]]>(
     {
       name: "userStore", 
       getStorage: () => sessionStorage, 
+      serialize: (data) => JSON.stringify(data),
+      deserialize: (str) => JSON.parse(str),
     }
   )
 );

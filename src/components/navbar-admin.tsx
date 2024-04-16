@@ -1,5 +1,5 @@
 import { AppBar, Button, Menu, MenuItem, Toolbar } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "../services/api.service";
 import { useUserStore } from "../store/login.store";
@@ -12,6 +12,16 @@ const NavbarAdmin = () => {
   const handleMenuClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
+  useEffect(() => {
+    const userData = sessionStorage.getItem('userData')
+    if(userData){
+      const { username, profilePicture, login, id_user } = JSON.parse(userData)
+      setUser(username, profilePicture, login, id_user)
+    }
+    if (!user) {
+      navigate("/", { replace: true });
+    }
+  }, []);
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -26,6 +36,7 @@ const NavbarAdmin = () => {
     } else {
       navigate("/", { replace: true });
       setUser("", "", "", "");
+      sessionStorage.removeItem("userData");
     }
 
     setAnchorEl(null);

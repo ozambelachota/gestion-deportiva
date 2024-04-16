@@ -23,6 +23,7 @@ import GrupoPosicionComponents from "../pages/tabla-posicion/grupo-posicion.comp
 import PosicionEditPage from "../pages/tabla-posicion/posicion-edit-promocion";
 import TablaEditPosicionPage from "../pages/tabla-posicion/tabla-edit.page";
 import VoleyPage from "../pages/voley";
+import { TablaVoleyPage } from "../pages/voley-posicion/voley-tabla.page";
 
 const RoutePublic = () => {
   return (
@@ -74,7 +75,7 @@ const RouterPrivate = () => {
           path="ver-posicion/promocion/grupo/:id"
           element={<GrupoPosicionComponents />}
         />
-
+        <Route path="voley/:deporte" element={<TablaVoleyPage />}  />
         <Route path="posicion/edit/grupo/:id" element={<PosicionEditPage />} />
         <Route path="home" element={<TablaFixture />} />
       </Routes>

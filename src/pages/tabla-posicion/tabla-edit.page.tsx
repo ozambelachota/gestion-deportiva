@@ -31,15 +31,15 @@ function TablaEditPosicionPage() {
             </Button>
           </div>
         ))}
-        {deportes.map((deporte) => (
+        {deportes.map((deporte,index) => (
           <div key={deporte.id} className="flex  items-center">
             <Button
               variant="contained"
+              disabled={index === 0}  
               sx={{ margin: "20px 0" }}
-              onClick={() => navigate(`/admin/ver-posicion/promocion/deporte/${deporte.id}`)}
+              onClick={() => navigate(`/admin/voley/${deporte.id}`)}
             >
               {deporte.nombre_tipo}
-        
             </Button>
           </div>
         ))}
