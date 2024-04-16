@@ -3,11 +3,17 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useUserStore } from "../store/login.store";
 
 function ProtectedRouter() {
-  const ADMIN_ROL = "admin";
-  const rol = useUserStore((state) => state.rol);
-  useEffect(() => {}, [rol]);
+  const { setUserData, username } = useUserStore();
 
-  if (rol === ADMIN_ROL) {
+  useEffect(() => {
+    const userData = sessionStorage.getItem("userData");
+    if (userData) {
+      const { username, profilePicture, login, id_user } = JSON.parse(userData);
+      setUserData(username, profilePicture, login, id_user);
+    }
+  }, [username]);
+
+  if (username) {
     return <Outlet />;
   }
   return <Navigate to="/" />;

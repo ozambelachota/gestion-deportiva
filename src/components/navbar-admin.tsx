@@ -1,11 +1,4 @@
-import {
-  AppBar,
-  Button,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Button, Menu, MenuItem, Toolbar } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "../services/api.service";
@@ -41,10 +34,14 @@ const NavbarAdmin = () => {
   return (
     <>
       <AppBar color="secondary" position="fixed" style={{ zIndex: 1101 }}>
-        <Toolbar >
-          <Typography variant="h6" style={{ flexGrow: 1 }}>
+        <Toolbar sx={{display:'flex', justifyContent: 'space-between' }}>
+          <Button
+            color="inherit"
+            component={Link}
+            to="/admin/home"
+          >
             EXAFAM FIXTURE
-          </Typography>
+          </Button>
           <Button
             color="inherit"
             component={Link}
@@ -52,21 +49,13 @@ const NavbarAdmin = () => {
           >
             Registrar Fixture
           </Button>
-          <Button
-            color="inherit"
-            component={Link}
-            to="admin/registrar-promociones"
-          >
+          <Button color="inherit" component={Link} to="registrar-promociones">
             Registrar Participantes
           </Button>
-          <Button
-            color="inherit"
-            component={Link}
-            to="admin/posicionar-promocion"
-          >
+          <Button color="inherit" component={Link} to="posicionar-promocion">
             posiciones de grupos
           </Button>
-          <Button color="inherit" component={Link} to="admin/sancion">
+          <Button color="inherit" component={Link} to="sancion">
             Jugadores Sancionados
           </Button>
           <Button color="inherit" onClick={handleMenuClick}>

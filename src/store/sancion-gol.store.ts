@@ -89,10 +89,9 @@ export const useSancionGolStore = create<SancionGolState>((set) => ({
     cant_tarjeta_roja: 0,
     estado_pago_sancion: false,
     estado_sancion: true,
-    fecha_fin_sancion: new Date(),
-    fecha_inicio_sancion: new Date(),
     monto_sancion: 0,
     motivo_sancion: "",
+    ultima_fecha: 0,
   },
   jugadorSancionadoById: async (id: number) => {
     const jugadorSancionado = await jugadorSancionadoById(id);
@@ -108,8 +107,7 @@ export const useSancionGolStore = create<SancionGolState>((set) => ({
     cant_tarjeta_roja: 0,
     estado_pago_sancion: false,
     estado_sancion: true,
-    fecha_fin_sancion: new Date(),
-    fecha_inicio_sancion: new Date(),
+    ultima_fecha: 0,
     monto_sancion: 0,
     motivo_sancion: "",
   },

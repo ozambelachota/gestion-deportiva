@@ -34,6 +34,13 @@ const LoginWithGoogle = () => {
           event,
           session.user.id
         );
+        sessionStorage.setItem('userData', JSON.stringify({
+          username: session.user.user_metadata.full_name,
+          profilePicture: session.user.user_metadata.picture,
+          login: event,
+          id_user: session.user.id
+        }));
+
         setRol(await userAdmin(session.user.id));
         if (event === "INITIAL_SESSION") {
           navigate("/admin/home", { replace: true });

@@ -4,8 +4,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import es from "date-fns/locale/es";
 import { useEffect } from "react";
-import Layout from "./pages/layout";
-import LayoutAdmin from "./pages/layout-admin";
+import { useNavigate } from "react-router-dom";
 import FixtureRoutes from "./routes/fixture.routes";
 import { useUserStore } from "./store/login.store";
 const darkTheme = createTheme({
@@ -19,23 +18,25 @@ const darkTheme = createTheme({
 const queryClient = new QueryClient();
 
 function App() {
+  const setUser = useUserStore((state) => state.setUserData);
+  const navigate = useNavigate();
+
   const user = useUserStore((state) => state.username);
-  useEffect(() => {}, [user]);
+
+  useEffect(() => {
+    const userData = sessionStorage.getItem("userData");
+    if (userData) {
+      const { username, profilePicture, login, id_user } = JSON.parse(userData);
+      setUser(username, profilePicture, login, id_user);
+      navigate("/admin/home", { replace: true });
+    }
+  }, [user]);
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
           <ThemeProvider theme={darkTheme}>
-            {user && (
-              <LayoutAdmin>
-                <FixtureRoutes />
-              </LayoutAdmin>
-            )}
-            {!user && (
-              <Layout>
-                <FixtureRoutes />
-              </Layout>
-            )}
+            <FixtureRoutes />
           </ThemeProvider>
         </LocalizationProvider>
       </QueryClientProvider>

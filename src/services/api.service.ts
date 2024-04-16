@@ -453,12 +453,13 @@ export const updatePromocional = async (promocion: Promocional) => {
     console.error(error);
   }
 };
-export const disableFixture = async (id: number) => {
+export const disableFixture = async (fixture:Fixture) => {
   try {
     const { data, error } = await clientApi
       .from("fixture_exafam")
-      .upsert({ por_jugar: false })
-      .eq("id", id);
+      .upsert(fixture)
+      .eq("id", fixture.id);
+      
     if (error) throw new Error(error.message);
     return data;
   } catch (error) {

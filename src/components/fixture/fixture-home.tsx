@@ -11,7 +11,15 @@ function FixtureHome() {
       </Typography>
       <Button
         variant="contained"
-        sx={{ margin: "20px 0", display: "flex", justifyContent: "center" }}
+        sx={{
+          margin: "20px 0",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "10px",
+          width: "200px",
+          height: "40px",
+        }}
         component={Link}
         startIcon={<Add />}
         color="success"

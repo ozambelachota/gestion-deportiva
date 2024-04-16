@@ -50,7 +50,8 @@ function TablaEditSancion() {
         <Button disabled={!selectedRow} onClick={handleClickEdit}>
           Editar
         </Button>
-        <DataGrid
+        <DataGrid 
+          className="bg-slate-800"
           rows={filteredRows}
           columns={columns}
           onRowSelectionModelChange={(newSelection) => {

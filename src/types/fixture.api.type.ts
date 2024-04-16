@@ -47,7 +47,7 @@ export interface TablaPosicion {
   pp: number;
   promocion_participante?: {
     nombre_promocion: string;
-  }
+  };
 }
 export interface ListaDeuda {
   id?: number;
@@ -60,8 +60,6 @@ export interface ListaSancion {
   id?: number;
   motivo_sancion: string;
   estado_sancion: boolean;
-  fecha_inicio_sancion: Date;
-  fecha_fin_sancion: Date;
   monto_sancion: number;
   estado_pago_sancion: boolean;
   cant_tarjeta_amarilla: number;
@@ -69,8 +67,8 @@ export interface ListaSancion {
   promocion_id: number;
   tipo_sancion: number;
   nombre_promocion: string;
+  ultima_fecha: number;
 }
-
 
 export interface Deporte {
   id?: number;
@@ -89,12 +87,12 @@ export interface Resultado {
   fixture_id: number;
   resultado: string;
   ganador_id: number | null;
-  fixture_exafam:{
-    promocion:string,
-    vs_promocion:string,
-    n_fecha_jugada:number,
-    deporte_id:number
-  }
+  fixture_exafam: {
+    promocion: string;
+    vs_promocion: string;
+    n_fecha_jugada: number;
+    deporte_id: number;
+  };
 }
 
 export interface TipoSancion {
@@ -113,7 +111,7 @@ export interface VoleyPosicion {
   partidos_j: number;
   promocion_participante: {
     nombre_promocion: string;
-  }
+  };
 }
 export interface PromocionalWithParticipante {
   id?: number;
@@ -123,10 +121,10 @@ export interface PromocionalWithParticipante {
   promocion_participante: {
     grupo_id: number;
     nombre_promocion: string;
-  }
+  };
 }
 
-export interface PosicionTablaParticipante{
+export interface PosicionTablaParticipante {
   id?: number;
   create_at?: Date;
   promocion: number;
@@ -134,14 +132,14 @@ export interface PosicionTablaParticipante{
   goles_e: number;
   diferencia_goles: number;
   grupo_id: number;
-  puntos: number; 
+  puntos: number;
   pj: number;
   pg: number;
   pe: number;
   pp: number;
   promocion_participante: {
     nombre_promocion: string;
-  }
+  };
 }
 
 export interface PromocionalWhitId {
@@ -151,5 +149,5 @@ export interface PromocionalWhitId {
   n_goles: number;
   promocion_participante: {
     nombre_promocion: string;
-  }
+  };
 }

@@ -39,7 +39,7 @@ type FixtureStore = {
   obtenerPartidos: () => Promise<void>;
   buscarPartido: (id: number) => Promise<void>;
   setFecha: (fecha: Date) => void;
-  desactivePartido: (id: number) => Promise<void>;
+  desactivePartido: (fixture: Fixture) => Promise<void>;
 };
 
 export const fixtureStore = create<FixtureStore>()((set) => ({
@@ -153,8 +153,8 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
       set({ partido });
     }
   },
-  desactivePartido: async (id: number) => {
-    const partido = await disableFixture(id);
+  desactivePartido: async (fixture) => {
+    const partido = await disableFixture(fixture);
     if (partido!==null) {
       set({ partido });
     }
