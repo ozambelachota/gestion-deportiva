@@ -67,7 +67,7 @@ export function TableFixtureAdmin() {
 
   useEffect(() => {
     cargarDatos();
-  }, [fixutres]);
+  }, []);
   const navigate = useNavigate();
   const handleResult = (idFixture: number) => {
     navigate(`/admin/result-fixture/${idFixture}`);
@@ -75,6 +75,7 @@ export function TableFixtureAdmin() {
   const handleConfirm = () => {
     desactivePartido({ ...fixture, por_jugar: false });
     setOpen(false);
+    cargarDatos();
   };
   return (
     <div>
