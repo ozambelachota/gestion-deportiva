@@ -39,7 +39,7 @@ function VoleyPage() {
   useEffect(() => {
     obtenerPartidos();
     return () => {};
-  }, [fixtures]);
+  }, []);
 
   if (isError) {
     return (
