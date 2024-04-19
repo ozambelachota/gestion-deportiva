@@ -74,8 +74,8 @@ export function TableFixtureAdmin() {
   };
   const handleConfirm = () => {
     desactivePartido({ ...fixture, por_jugar: false });
-    setOpen(false);
     cargarDatos();
+    setOpen(false);
   };
   return (
     <div>

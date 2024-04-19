@@ -13,13 +13,16 @@ import {
   Typography,
 } from "@mui/material";
 
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useEffect } from "react";
 
 import { PosicionStore } from "../store/PosicionStore";
 
 import { type TablaPosicion } from "../types/fixture.api.type";
-import PDFGenerator from "./report/components/tabla-reporte.component";
+
+import jsPDF from "jspdf";
+
+import autoTable from "jspdf-autotable";
+
 const colorPalette = [
   "#4285f4",
   "#34a853",
@@ -38,7 +41,6 @@ const TablaPosicionPage: React.FC = () => {
   useEffect(() => {
     uploadTablaPosicion();
   }, []);
-
   const groupBy = (array: TablaPosicion[] | null, key: string) => {
     if (!array) {
       return {};
@@ -60,27 +62,77 @@ const TablaPosicionPage: React.FC = () => {
   };
 
   const groupsTabla = groupBy(tablaPosicion, "grupo_id");
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+
+    let groupsProcessed = 0;
+    let isGroup7Processed = false;
+    let startY = 20; // Posición Y inicial
+
+    let hasDataToShow = false; // Variable para rastrear si hay datos para mostrar
+
+    Object.keys(groupsTabla).forEach((grupoId) => {
+      const tableData = groupsTabla[grupoId].map((equipo) => {
+        return [
+          equipo.promocion_participante?.nombre_promocion || "",
+          equipo.pj,
+          equipo.pg,
+          equipo.pe,
+          equipo.pp,
+          equipo.goles_f,
+          equipo.goles_e,
+          equipo.diferencia_goles,
+          equipo.puntos,
+        ];
+      });
+
+      if (tableData.length > 0) {
+        // Verificar si hay datos para mostrar
+        hasDataToShow = true; // Marcar que hay datos para mostrar
+
+        if (!isGroup7Processed && grupoId === "7") {
+          // Si no se ha procesado el grupo 7, agregar una página nueva para él
+          doc.addPage();
+          doc.text(`Tabla de Posiciones - Grupo ${grupoId}`, 10, 10);
+          autoTable(doc, {
+            head: [["#", "PJ", "PG", "PE", "PP", "GF", "GC", "DG", "Puntos"]],
+            body: tableData,
+            startY: 20,
+          });
+          isGroup7Processed = true; // Marcar el grupo 7 como procesado
+        } else {
+          if (
+            (groupsProcessed % 2 === 0 && grupoId !== "7") ||
+            groupsProcessed === 0
+          ) {
+            startY = 20;
+            doc.addPage();
+          }
+
+          doc.text(`Tabla de Posiciones - Grupo ${grupoId}`, 10, startY + 10);
+          autoTable(doc, {
+            head: [["#", "PJ", "PG", "PE", "PP", "GF", "GC", "DG", "Puntos"]],
+            body: tableData,
+            startY: startY + 20,
+          });
+          startY = doc.internal.pageSize.height - 180; // Actualizar la posición Y de inicio para la próxima tabla
+          groupsProcessed++;
+        }
+      }
+    });
+
+    if (hasDataToShow) {
+      // Agregar una página solo si hay datos para mostrar
+    }
+
+    doc.save("tabla_posiciones.pdf");
+  };
 
   return (
     <>
-      <PDFDownloadLink
-        document={<PDFGenerator groupsTabla={groupsTabla} />}
-        fileName="tbl_posicion"
-      >
-        {({ loading, error }) => {
-          if (error) {
-            return <div>{error.message}</div>;
-          }
-
-          return loading ? (
-            "Cargando..."
-          ) : (
-            <Button>
-              <Download /> Descargar
-            </Button>
-          );
-        }}
-      </PDFDownloadLink>
+      <Button onClick={handleDownloadPDF}>
+        <Download /> Descargar PDF
+      </Button>
 
       <div className="w-full h-full">
         {Object.keys(groupsTabla).map((grupoId, index) => (
