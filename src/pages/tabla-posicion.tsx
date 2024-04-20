@@ -101,12 +101,9 @@ const TablaPosicionPage: React.FC = () => {
           });
           isGroup7Processed = true; // Marcar el grupo 7 como procesado
         } else {
-          if (
-            (groupsProcessed % 2 === 0 && grupoId !== "7") ||
-            groupsProcessed === 0
-          ) {
-            startY = 20;
+          if (groupsProcessed % 2 === 0 && grupoId !== "7") {
             doc.addPage();
+            startY = 20;
           }
 
           doc.text(`Tabla de Posiciones - Grupo ${grupoId}`, 10, startY + 10);
@@ -122,7 +119,6 @@ const TablaPosicionPage: React.FC = () => {
     });
 
     if (hasDataToShow) {
-      // Agregar una página solo si hay datos para mostrar
     }
 
     doc.save("tabla_posiciones.pdf");
@@ -130,7 +126,7 @@ const TablaPosicionPage: React.FC = () => {
 
   return (
     <>
-      <Button onClick={handleDownloadPDF}>
+      <Button color="success" variant="contained" onClick={handleDownloadPDF}>
         <Download /> Descargar PDF
       </Button>
 
