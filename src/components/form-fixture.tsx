@@ -47,11 +47,13 @@ function FormFixture() {
         Generar partidos
       </Typography>
       <Box
+      
         sx={{
           border: "1px solid #fff",
           borderRadius: "8px",
           padding: "10px",
-          display: "flex",
+          backgroundColor: "#002200",
+                    display: "flex",
           flexDirection: "column",
           gap: "10px",
           maxWidth: "600px", // Ajusta el valor según tus necesidades

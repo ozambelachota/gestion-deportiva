@@ -5,7 +5,7 @@ import { TableFixtureAdmin } from "./table-fixture-admin";
 
 function FixtureHome() {
   return (
-    <div>
+    <div className="">
       <Typography variant="h4" sx={{ textAlign: "center" }}>
         Fixture
       </Typography>

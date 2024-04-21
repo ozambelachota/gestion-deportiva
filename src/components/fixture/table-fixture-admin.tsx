@@ -67,7 +67,7 @@ export function TableFixtureAdmin() {
 
   useEffect(() => {
     cargarDatos();
-  }, []);
+  }, [fixture]);
   const navigate = useNavigate();
   const handleResult = (idFixture: number) => {
     navigate(`/admin/result-fixture/${idFixture}`);
