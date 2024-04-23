@@ -20,7 +20,7 @@ const queryClient = new QueryClient();
 function App() {
   const setUser = useUserStore((state) => state.setUserData);
   const navigate = useNavigate();
-
+  const rol = useUserStore((state) => state.rol);
   const user = useUserStore((state) => state.username);
 
   useEffect(() => {
@@ -28,7 +28,8 @@ function App() {
     if (userData) {
       const { username, profilePicture, login, id_user } = JSON.parse(userData);
       setUser(username, profilePicture, login, id_user);
-      navigate("/admin/home", { replace: true });
+      if(rol) navigate("/admin/home", { replace: true });
+      else sessionStorage.removeItem('userData');
     }
   }, [user]);
   return (

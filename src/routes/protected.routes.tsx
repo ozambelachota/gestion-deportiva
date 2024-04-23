@@ -2,18 +2,17 @@ import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useUserStore } from "../store/login.store";
 
+const ROL = "admin";
 function ProtectedRouter() {
-  const { setUserData, username } = useUserStore();
+  const { rol, username } = useUserStore();
 
   useEffect(() => {
-    const userData = sessionStorage.getItem("userData");
-    if (userData) {
-      const { username, profilePicture, login, id_user } = JSON.parse(userData);
-      setUserData(username, profilePicture, login, id_user);
+    if (!rol) {
+      sessionStorage.removeItem("userStore");
     }
   }, [username]);
 
-  if (username) {
+  if (username && rol === ROL) {
     return <Outlet />;
   }
   return <Navigate to="/" />;

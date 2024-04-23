@@ -90,14 +90,14 @@ export const getPartidosFechaNoMayor = async () => {
 
 export const userAdmin = async (
   userId: string
-): Promise<string | undefined> => {
+) => {
   try {
     const { data, error } = await clientApi
       .from("usuario")
       .select("rol")
       .eq("user_id", userId);
     if (error) throw new Error(error.message);
-
+    console.log(data);
     return data[0].rol;
   } catch (error) {
     console.error(error);

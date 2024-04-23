@@ -34,14 +34,26 @@ const LoginWithGoogle = () => {
           event,
           session.user.id
         );
-        sessionStorage.setItem('userData', JSON.stringify({
-          username: session.user.user_metadata.full_name,
-          profilePicture: session.user.user_metadata.picture,
-          login: event,
-          id_user: session.user.id
-        }));
+        sessionStorage.setItem(
+          "userData",
+          JSON.stringify({
+            username: session.user.user_metadata.full_name,
+            profilePicture: session.user.user_metadata.picture,
+            login: event,
+            id_user: session.user.id,
+          })
+        );
 
-        setRol(await userAdmin(session.user.id));
+        const admin = await userAdmin(session.user.id);
+        console.log(admin);
+        if (admin && admin === "admin") {
+          setRol(admin);
+          
+        }else{
+          sessionStorage.removeItem('userData')
+          setRol("");
+        }
+
         if (event === "INITIAL_SESSION") {
           navigate("/admin/home", { replace: true });
         }

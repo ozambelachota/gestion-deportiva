@@ -24,6 +24,7 @@ import PosicionEditPage from "../pages/tabla-posicion/posicion-edit-promocion";
 import TablaEditPosicionPage from "../pages/tabla-posicion/tabla-edit.page";
 import VoleyPage from "../pages/voley";
 import { TablaVoleyPage } from "../pages/voley-posicion/voley-tabla.page";
+import ProtectedRouter from "./protected.routes";
 
 const RoutePublic = () => {
   return (
@@ -46,38 +47,46 @@ const RouterPrivate = () => {
   return (
     <LayoutAdmin>
       <Routes>
-        <Route path="home" element={<Admin />} />
-        <Route path="registrar-fixture" element={<FixturePage />} />
-        <Route path="registrar-promociones" element={<Promocion />} />
-        <Route
-          path="registrar-promociones/create/:id"
-          element={<RegisterPromocion />}
-        />
-        <Route path="fixture/create" element={<FixtureCreate />} />
-        <Route
-          path="promocion/create"
-          element={<FormPromocionParticipante />}
-        />
-        <Route path="nomina/:id" element={<NominaPage />} />
-        <Route path="nomina/edit/:id" element={<EditjugadorComponent />} />
-        <Route path="result-fixture/:id" element={<ResultFixtureFormPage />} />
-        <Route path="sancion/create" element={<Sancion />} />
-        <Route path="sancion" element={<Sancion />} />
-        <Route
-          path="sancion/edit/:id"
-          element={<FormEditSaancionComponent />}
-        />
-        <Route
-          path="posicionar-promocion"
-          element={<TablaEditPosicionPage />}
-        />
-        <Route
-          path="ver-posicion/promocion/grupo/:id"
-          element={<GrupoPosicionComponents />}
-        />
-        <Route path="voley/:deporte" element={<TablaVoleyPage />}  />
-        <Route path="posicion/edit/grupo/:id" element={<PosicionEditPage />} />
-        <Route path="home" element={<TablaFixture />} />
+        <Route element={<ProtectedRouter />}>
+          <Route path="home" element={<Admin />} />
+          <Route path="registrar-fixture" element={<FixturePage />} />
+          <Route path="registrar-promociones" element={<Promocion />} />
+          <Route
+            path="registrar-promociones/create/:id"
+            element={<RegisterPromocion />}
+          />
+          <Route path="fixture/create" element={<FixtureCreate />} />
+          <Route
+            path="promocion/create"
+            element={<FormPromocionParticipante />}
+          />
+          <Route path="nomina/:id" element={<NominaPage />} />
+          <Route path="nomina/edit/:id" element={<EditjugadorComponent />} />
+          <Route
+            path="result-fixture/:id"
+            element={<ResultFixtureFormPage />}
+          />
+          <Route path="sancion/create" element={<Sancion />} />
+          <Route path="sancion" element={<Sancion />} />
+          <Route
+            path="sancion/edit/:id"
+            element={<FormEditSaancionComponent />}
+          />
+          <Route
+            path="posicionar-promocion"
+            element={<TablaEditPosicionPage />}
+          />
+          <Route
+            path="ver-posicion/promocion/grupo/:id"
+            element={<GrupoPosicionComponents />}
+          />
+          <Route path="voley/:deporte" element={<TablaVoleyPage />} />
+          <Route
+            path="posicion/edit/grupo/:id"
+            element={<PosicionEditPage />}
+          />
+          <Route path="home" element={<TablaFixture />} />
+        </Route>
       </Routes>
     </LayoutAdmin>
   );
