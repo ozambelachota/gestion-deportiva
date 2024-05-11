@@ -10,9 +10,6 @@ import { useUserStore } from "./store/login.store";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
-    background: {
-      default: "bg-slate-950",
-    },
   },
 });
 const queryClient = new QueryClient({
@@ -34,11 +31,11 @@ function App() {
     if (userData) {
       const { username, profilePicture, login, id_user } = JSON.parse(userData);
       setUser(username, profilePicture, login, id_user);
-  
-       sessionStorage.removeItem('userData');
+
+      sessionStorage.removeItem("userData");
     }
   }, [user]);
-  if(rol) {
+  if (rol) {
     navigate("/admin/home", { replace: true });
   }
   return (
