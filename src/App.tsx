@@ -15,7 +15,13 @@ const darkTheme = createTheme({
     },
   },
 });
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
   const setUser = useUserStore((state) => state.setUserData);
@@ -28,10 +34,13 @@ function App() {
     if (userData) {
       const { username, profilePicture, login, id_user } = JSON.parse(userData);
       setUser(username, profilePicture, login, id_user);
-      if(rol) navigate("/admin/home", { replace: true });
-      else sessionStorage.removeItem('userData');
+  
+       sessionStorage.removeItem('userData');
     }
   }, [user]);
+  if(rol) {
+    navigate("/admin/home", { replace: true });
+  }
   return (
     <>
       <QueryClientProvider client={queryClient}>

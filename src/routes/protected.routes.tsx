@@ -7,7 +7,8 @@ function ProtectedRouter() {
   const { rol, username } = useUserStore();
 
   useEffect(() => {
-    if (!rol) {
+    const { admin } = JSON.parse(sessionStorage.getItem("userData") || "{}");
+    if (!rol || !admin) {
       sessionStorage.removeItem("userStore");
     }
   }, [username]);

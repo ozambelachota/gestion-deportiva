@@ -71,11 +71,12 @@ export const insertarPromociones = async (promocional: Promocional) => {
   }
 };
 
-export const getPartidosFechaNoMayor = async () => {
+export const getPartidosFutbol = async () => {
   try {
     const { data, error } = await clientApi
       .from("fixture_exafam")
       .select("*")
+      .eq('deporte_id', 1)
       .order("fecha_partido", { ascending: true });
     if (error) {
       throw error;
@@ -87,7 +88,26 @@ export const getPartidosFechaNoMayor = async () => {
     return null;
   }
 };
+export const getPartidosVoley = async () => {
+  try {
+    const { data, error } = await clientApi
+      .from("fixture_exafam")
+      .select("*")
+      .neq('deporte_id', 1)
+      .order("fecha_partido", { ascending: true });
 
+
+      console.log(error?.message)
+    if (error) {
+      throw error;
+    }
+    return data;
+  } catch (error) {
+    console.error("Error al obtener partidos:", error);
+    // Manejar el error según tus necesidades
+    return null;
+  }
+};
 export const userAdmin = async (
   userId: string
 ) => {

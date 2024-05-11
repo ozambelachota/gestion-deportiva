@@ -7,6 +7,10 @@ import { nombreCampeonato } from "../services/api.service";
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
+    background: {
+      default: "indigo",
+      paper: "#111827",
+    },
   },
   typography: {
     fontFamily: ["Poppins", "sans-serif"].join(","),

@@ -40,11 +40,11 @@ const Navbar = () => {
       to: "/posicion",
       icon: <AlignVerticalBottomIcon />,
     },
-    { text: "Futbol", to: "/", icon: <SportsSoccerIcon color="success"  /> },
+    { text: "Futbol", to: "/", icon: <SportsSoccerIcon color="success" /> },
     {
       text: "Voley y Voley Mixto",
       to: "/voley",
-      icon: <SportsVolleyballIcon  />,
+      icon: <SportsVolleyballIcon />,
     },
     {
       text: "Goleadores",
@@ -69,8 +69,9 @@ const Navbar = () => {
           justifyContent: "center", // Centro los elementos horizontalmente
           padding: "0",
           flexDirection: isMobile ? "column" : "row", // Alineación vertical en dispositivos móviles,
-          backgroundColor: "#78ACFD",
-          color: "#000055",
+          backgroundColor: "indigo",
+          opacity: 0.7,
+          color: "#fff",
           transition: "height 0.3s ease",
           gap: "1rem",
           fontSize: "20rem",
@@ -121,7 +122,8 @@ const Navbar = () => {
                 sx={{
                   padding: "5px 0",
                   fontSize: "1rem",
-                  border: "1px solid #000",
+                  color: "#fff",
+                  border: "1px solid #fff",
                   margin: "15px",
                   ":hover": {
                     backgroundColor: "#cccccc",

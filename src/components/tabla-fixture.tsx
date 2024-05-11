@@ -10,8 +10,9 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import { useEffect } from "react";
+import { getPartidosFutbol } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import type { Fixture } from "../types/fixture.api.type";
 const colorPalette = [
@@ -25,21 +26,37 @@ const colorPalette = [
 ];
 
 const TablaFixture = () => {
-  const fixtures = fixtureStore((state) => state.fixture);
-  const obtenerPartidos = fixtureStore((state) => state.partidosPorFecha);
-  const filtrarPorTipo = (partidos: Fixture[] | null, tipoIds: number[]) => {
-    return (
-      partidos &&
-      partidos.filter((partido) => tipoIds.includes(partido.deporte_id))
-    );
-  };
+  const fixtures = fixtureStore((state) => state.fixtureFutbol);
+  const setFixtures = fixtureStore((state) => state.setFixturesFutbol);
+
+
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["partidosFutbol"],
+    queryFn: () => getPartidosFutbol(),
+
+
+
+  });
 
   // Filtrar partidos por tipo_id 2 (futbol) y 3 (voley)
-  const partidosFiltrados = filtrarPorTipo(fixtures, [1]);
-  useEffect(() => {
-    obtenerPartidos();
-    return () => {};
-  }, []);
+  
+  if (isError) {
+    return (
+      <Typography color="error" variant="h5">
+        Error al obtener partidos
+      </Typography>
+    );
+  }
+  if (isLoading) {
+    return <Typography variant="h5">Cargando partidos...</Typography>;
+  }
+  if (!data) {
+    return <Typography variant="h5">No hay partidos disponibles</Typography>;
+  }
+  if (data) {
+    setFixtures(data);
+  }
 
   // Función para agrupar los partidos por grupo_id
   const groupBy = (array: any[] | null, key: string) => {
@@ -74,7 +91,7 @@ const TablaFixture = () => {
       });
   };
 
-  const partidosAgrupados = groupBy(partidosFiltrados, "grupo_id");
+  const partidosAgrupados = groupBy(fixtures, "grupo_id");
   const formatDate = (date: Date | string | null) => {
     if (!date) {
       return "";

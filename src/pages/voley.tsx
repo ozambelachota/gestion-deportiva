@@ -13,33 +13,18 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
-import { useEffect } from "react";
 import TablaPosicionVoley from "../components/tabla-posicion-voley.component";
-import { getPartidosFechaNoMayor } from "../services/api.service";
+import { getPartidosVoley } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import { Fixture } from "../types/fixture.api.type";
 
 function VoleyPage() {
-  const fixtures = fixtureStore((state) => state.fixture);
-  const obtenerPartidos = fixtureStore((state) => state.partidosPorFecha);
-
-  const { isLoading, isError } = useQuery({
-    queryKey: ["partidos"],
-    queryFn: () => getPartidosFechaNoMayor(),
+  const fixtures = fixtureStore((state) => state.fixtureVoley);
+  const setFixtures = fixtureStore((state) => state.setFixturesVoley);
+  const { isLoading, isError,data } = useQuery({
+    queryKey: ["partidosVoley"],
+    queryFn: () => getPartidosVoley(),
   });
-
-  const filtrarPorTipo = (partidos: Fixture[] | null, tipoIds: number[]) => {
-    return partidos?.filter(
-      (partido) =>
-        tipoIds.includes(partido.deporte_id) && partido.por_jugar === true
-    );
-  };
-  const partidosFiltrados = filtrarPorTipo(fixtures, [2, 3]);
-
-  useEffect(() => {
-    obtenerPartidos();
-    return () => {};
-  }, []);
 
   if (isError) {
     return (
@@ -48,6 +33,12 @@ function VoleyPage() {
       </Typography>
     );
   }
+  if (!data) {
+    return <Typography variant="h5">No hay partidos disponibles</Typography>;
+  }
+  if (data) {
+    setFixtures(data);
+  } 
   if (isLoading) {
     return (
       <Container
@@ -99,7 +90,7 @@ function VoleyPage() {
       });
   };
 
-  const partidosAgrupados = groupBy(partidosFiltrados, "grupo_id");
+  const partidosAgrupados = groupBy(fixtures, "deporte_id");
   const formatDate = (date: Date | string | null) => {
     if (!date) {
       return "";
@@ -127,13 +118,11 @@ function VoleyPage() {
                 variant="h6"
                 mb={2}
                 sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
-              >{`Grupo ${grupoId}`}</Typography>
-              <TableContainer
-                className="rounded w-full h-full"
-              >
+              >{grupoId === "2" ? "Voley" : "Voley Mixto" }</Typography>
+              <TableContainer className="rounded w-full h-full">
                 <Table>
                   <TableHead>
-                    <TableRow sx={{backgroundColor:"black"}} >
+                    <TableRow sx={{ backgroundColor: "black" }}>
                       <TableCell>Promoción</TableCell>
                       <TableCell>VS</TableCell>
                       <TableCell>Promoción</TableCell>

@@ -2,7 +2,7 @@ import { create } from "zustand";
 import {
   disableFixture,
   getPartidoId,
-  getPartidosFechaNoMayor,
+
   insertFixturePartidos,
   obtenerGrupo,
   obtenerPromocionalesParticipantes,
@@ -19,8 +19,10 @@ type FixtureStore = {
   promocionParticipante: PromocionParticipante[];
   promocionesPorGrupos: PromocionParticipante[];
   grupo: GrupoPromocion[];
-  fixture: Fixture[] | [] | null;
+  fixture : Fixture[] | [] | null
+  fixtureVoley: Fixture[] | [] | null;
   fecha: Date;
+  fixtureFutbol: Fixture[] | [] | null;
   selectGrupo: number;
   emparejamiento: "automatico" | "manual";
   equipo1: string;
@@ -31,7 +33,6 @@ type FixtureStore = {
   obtenerGrupo: () => Promise<void>;
   obtenerPromocionGrupo: (id: number) => Promise<void>;
   guardarPartido: (partido: Fixture[]) => Promise<void>;
-  partidosPorFecha: () => Promise<void>;
   setEmparejamiento: (tipo: "automatico" | "manual") => void;
   setEquipo1: (equipo: string) => void;
   setEquipo2: (equipo: string) => void;
@@ -40,6 +41,8 @@ type FixtureStore = {
   buscarPartido: (id: number) => Promise<void>;
   setFecha: (fecha: Date) => void;
   desactivePartido: (fixture: Fixture) => Promise<void>;
+  setFixturesFutbol: (fixture: Fixture[]) => void;
+  setFixturesVoley: (fixture: Fixture[]) => void;
 };
 
 export const fixtureStore = create<FixtureStore>()((set) => ({
@@ -131,10 +134,7 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
     const savePartido = await insertFixturePartidos(partido);
     set({ fixture: savePartido });
   },
-  partidosPorFecha: async () => {
-    const partidos = await getPartidosFechaNoMayor();
-    set({ fixture: partidos });
-  },
+
   setEmparejamiento: (tipo: "automatico" | "manual") =>
     set({ emparejamiento: tipo }),
   setEquipo1: (equipo: string) => set({ equipo1: equipo }),
@@ -159,4 +159,8 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
       set({ partido });
     }
   },
+  fixtureFutbol: null,
+  fixtureVoley: null,
+  setFixturesFutbol: (fixture: Fixture[]) => set({ fixtureFutbol: fixture }),
+  setFixturesVoley: (fixture: Fixture[]) => set({ fixtureVoley: fixture }),
 }));
