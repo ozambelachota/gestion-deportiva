@@ -113,6 +113,7 @@ export function TableFixtureAdmin() {
                       variant="contained"
                       onClick={() => {
                         setFixture(fixture);
+                        cargarDatos();
                         setOpen(true);
                       }}
                     >
@@ -128,7 +129,7 @@ export function TableFixtureAdmin() {
                     >
                       Poner Resultado
                     </Button>
-                    <Button>Ver Resultados</Button>
+                    <Button>editar partido</Button>
                   </TableCell>
                 </TableRow>
               );
