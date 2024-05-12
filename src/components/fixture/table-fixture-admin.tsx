@@ -67,13 +67,16 @@ export function TableFixtureAdmin() {
 
   useEffect(() => {
     cargarDatos();
-  }, [fixture]);
+  }, []);
+
+  useEffect(() => {}, [fixture]);
   const navigate = useNavigate();
   const handleResult = (idFixture: number) => {
     navigate(`/admin/result-fixture/${idFixture}`);
   };
-  const handleConfirm = () => {
-    desactivePartido({ ...fixture, por_jugar: false });
+
+  const handleConfirm = async () => {
+    await desactivePartido({ ...fixture, por_jugar: false });
     cargarDatos();
     setOpen(false);
   };
@@ -113,7 +116,7 @@ export function TableFixtureAdmin() {
                       variant="contained"
                       onClick={() => {
                         setFixture(fixture);
-                        cargarDatos();
+
                         setOpen(true);
                       }}
                     >
