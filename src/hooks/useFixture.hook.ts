@@ -1,4 +1,4 @@
-import { addMinutes } from "date-fns";
+import { addDays, addMinutes } from "date-fns";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { CampoStore } from "../store/campo.store";
@@ -75,9 +75,15 @@ export const useFixturePage = () => {
   const handleChangeEquipo2 = (event: any) => {
     setEquipo2(event.target.value);
   };
+  function shuffleArray(array: any[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
   const handleGeneratePartido = () => {
     const partidosGenerados = new Set(); // Conjunto para rastrear partidos generados
-
     if (
       campoSelect < 0 ||
       deporteSelect <= 0 ||
@@ -95,86 +101,62 @@ export const useFixturePage = () => {
       const totalPromociones = promocionesAleatorias.length;
 
       if (totalPromociones < 6) {
-        toast.error(
-          "Se requieren al menos 6 equipos para generar partidos automáticamente."
-        );
-        return;
+          toast.error(
+              "Se requieren al menos 6 equipos para generar partidos automáticamente."
+          );
+          return;
+      }
+
+      // Obtener una copia aleatoria de los equipos disponibles
+      const equiposAleatorios = promocionesAleatorias.map(
+          (promocion) => promocion.nombre_promocion
+      );
+      shuffleArray(equiposAleatorios); // Mezclar aleatoriamente los equipos
+
+      const numEquipos = equiposAleatorios.length;
+      const partidosPorRonda: [string, string][][] = [];
+      const numRondas = numEquipos - 1;
+
+      for (let ronda = 0; ronda < numRondas; ronda++) {
+          const partidosRondaActual: [string, string][] = [];
+          for (let i = 0; i < numEquipos / 2; i++) {
+              const equipoLocal = equiposAleatorios[i];
+              const equipoVisitante = equiposAleatorios[numEquipos - 1 - i];
+              partidosRondaActual.push([equipoLocal, equipoVisitante]);
+          }
+          partidosPorRonda.push(partidosRondaActual);
+
+          // Rotar los equipos para la próxima ronda
+          equiposAleatorios.splice(1, 0, equiposAleatorios.pop()!);
       }
 
       matches = [];
 
       let fechaInicio = new Date(fecha);
-      for (let fecha = 1; fecha <= 5; fecha++) {
-        const equiposDisponibles = [...promocionesAleatorias];
-        equiposDisponibles.sort(() => Math.random() - 0.5);
-        let numEquipos = equiposDisponibles.length;
-        const numPartidosNecesarios = 3; // Tres partidos por fecha
+      for (let ronda = 0; ronda < partidosPorRonda.length; ronda++) {
+          const partidosRonda = partidosPorRonda[ronda];
+          let horaPartido = fechaInicio;
 
-        if (numEquipos < numPartidosNecesarios * 2) {
-          // Si hay menos equipos de los necesarios para tres partidos, duplica los equipos
-          equiposDisponibles.push(...equiposDisponibles);
-          numEquipos = equiposDisponibles.length;
-        }
+          for (let i = 0; i < partidosRonda.length; i++) {
+              const [equipoLocal, equipoVisitante] = partidosRonda[i];
 
-        const numPartidos = Math.floor(numEquipos / 2);
-        let horaPartido = fechaInicio;
+              matches.push({
+                  promocion: equipoLocal,
+                  vs_promocion: equipoVisitante,
+                  fecha_partido: horaPartido,
+                  grupo_id: selectGrupo,
+                  campo_id: campoSelect,
+                  deporte_id: deporteSelect,
+                  n_fecha_jugada: ronda + 1,
+                  por_jugar: true,
+              });
 
-        for (let i = 0; i < numPartidos; i++) {
-          const equipoLocal = equiposDisponibles[i];
-          const equipoVisitante = equiposDisponibles[numPartidos + i];
-
-          const partidoId = `${equipoLocal.nombre_promocion}-${
-            equipoVisitante ? equipoVisitante.nombre_promocion : "Descansa"
-          }`;
-
-          if (partidosGenerados.has(partidoId)) {
-            // Si el partido ya ha sido generado, omitirlo y continuar con el siguiente
-            continue;
+              horaPartido = addMinutes(horaPartido, 25);
           }
 
-          matches.push({
-            promocion: equipoLocal.nombre_promocion,
-            vs_promocion: equipoVisitante
-              ? equipoVisitante.nombre_promocion
-              : "Descansa",
-            fecha_partido: horaPartido,
-            grupo_id: selectGrupo,
-            campo_id: campoSelect,
-            deporte_id: deporteSelect,
-            n_fecha_jugada: fecha,
-            por_jugar: true,
-          });
-
-          // Agregar el partido generado al conjunto de partidos generados
-          partidosGenerados.add(partidoId);
-
-          horaPartido = addMinutes(horaPartido, 25);
-        }
-
-        // Añadir partidos de descanso si es necesario
-        for (let i = numPartidos; i < numPartidosNecesarios; i++) {
-          const equipoDescansa = equiposDisponibles[i];
-          const fechaDescanso = addMinutes(horaPartido, 5); // Descanso 5 minutos después del último partido
-          matches.push({
-            promocion: equipoDescansa.nombre_promocion,
-            vs_promocion: "Descansa",
-            fecha_partido: fechaDescanso,
-            grupo_id: selectGrupo,
-            campo_id: campoSelect,
-            deporte_id: deporteSelect,
-            n_fecha_jugada: fecha,
-            por_jugar: true,
-          });
-
-          horaPartido = addMinutes(horaPartido, 25);
-        }
-
-        // Añadir una semana (7 días) para la próxima fecha
-        fechaInicio = new Date(fechaInicio);
-        fechaInicio.setDate(fechaInicio.getDate() + 7);
+          // Añadir una semana (7 días) para la próxima ronda
+          fechaInicio = addDays(fechaInicio, 7);
       }
-
-      toast.success("Partidos generados automáticamente con éxito");
     } else if (emparejamiento === "manual") {
       if (!equipo1 || !equipo2) {
         toast.error(
@@ -234,12 +216,6 @@ export const useFixturePage = () => {
 
     if (equipo1 === equipo2) {
       toast.error("Los equipos no pueden ser iguales");
-      return;
-    } else if (
-      equipo1 === updatedMatches[index].promocion &&
-      equipo2 === updatedMatches[index].vs_promocion
-    ) {
-      toast.error("No se puede editar el partido");
       return;
     } else {
       setVsPromocion(updatedMatches);

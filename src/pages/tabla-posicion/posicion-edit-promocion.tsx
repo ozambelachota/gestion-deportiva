@@ -2,8 +2,8 @@ import { Box, Button, ButtonGroup, TextField, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import { PosicionStore } from "../../store/PosicionStore";
 import { toast, Toaster } from "sonner";
+import { PosicionStore } from "../../store/PosicionStore";
 
 interface FormData {
   nombre_promocion: string;
@@ -19,7 +19,7 @@ interface FormData {
 
 function PosicionEditPage() {
   const promocionTabla = PosicionStore((state) => state.promocionTablaPosicion);
-  const { control, handleSubmit, } = useForm<FormData>({
+  const { control, handleSubmit } = useForm<FormData>({
     values: {
       nombre_promocion: promocionTabla.promocion_participante?.nombre_promocion,
       goles_favor: promocionTabla.goles_f,
@@ -34,7 +34,7 @@ function PosicionEditPage() {
   });
   const updateTablaPosicion = PosicionStore(
     (state) => state.updatingTablaPosicionFutbol
-  )
+  );
 
   const getByIdPromocion = PosicionStore(
     (state) => state.getPosicionByIdPromocion
@@ -47,24 +47,24 @@ function PosicionEditPage() {
   }, [id]);
 
   const onSubmit = (data: FormData) => {
-    if(data.goles_favor < 0 || data.goles_contra < 0) {
-      toast.error("Se requiere un numero de goles positivo")
+    if (data.goles_favor < 0 || data.goles_contra < 0) {
+      toast.error("Se requiere un numero de goles positivo");
       return;
     }
-    if(data.pj < 0) {
-      toast.error("Se requiere un numero de partidos jugados positivo")
+    if (data.pj < 0) {
+      toast.error("Se requiere un numero de partidos jugados positivo");
       return;
     }
-    if(data.pg < 0) {
-      toast.error("Se requiere un numero de partidos ganados positivo")
+    if (data.pg < 0) {
+      toast.error("Se requiere un numero de partidos ganados positivo");
       return;
     }
-    if(data.pp < 0) {
-      toast.error("Se requiere un numero de partidos perdidos positivo")
+    if (data.pp < 0) {
+      toast.error("Se requiere un numero de partidos perdidos positivo");
       return;
     }
-    if(data.pe < 0) {
-      toast.error("Se requiere un numero de partidos empatados positivo")
+    if (data.pe < 0) {
+      toast.error("Se requiere un numero de partidos empatados positivo");
       return;
     }
     toast.success("Promocional guardado");
@@ -83,13 +83,13 @@ function PosicionEditPage() {
       pp: data.pp,
       pe: data.pe,
       grupo_id: promocionTabla.grupo_id,
-    })
+    });
   };
 
   return (
     <Box
       sx={{
-        padding: "20px",
+        padding: "10px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -111,7 +111,6 @@ function PosicionEditPage() {
               disabled
               variant="outlined"
               margin="normal"
-              fullWidth
               {...field}
             />
           )}
@@ -122,12 +121,11 @@ function PosicionEditPage() {
           control={control}
           render={({ field }) => (
             <TextField
-            {...field}
+              {...field}
               label="Goles a favor"
               variant="outlined"
               type="number"
               margin="normal"
-              fullWidth
             />
           )}
         />
@@ -136,12 +134,11 @@ function PosicionEditPage() {
           control={control}
           render={({ field }) => (
             <TextField
-            {...field}
+              {...field}
               label="Goles en contra"
               variant="outlined"
               type="number"
               margin="normal"
-              fullWidth
             />
           )}
         />
@@ -150,13 +147,10 @@ function PosicionEditPage() {
           control={control}
           render={({ field }) => (
             <TextField
-            {...field}
-            label="Diferencia de goles"
+              {...field}
+              label="Diferencia de goles"
               variant="outlined"
               type="number"
-              margin="normal"
-              fullWidth
-              
             />
           )}
         />
@@ -170,7 +164,6 @@ function PosicionEditPage() {
               variant="outlined"
               type="number"
               margin="normal"
-              fullWidth
               {...field}
             />
           )}
@@ -185,7 +178,6 @@ function PosicionEditPage() {
               variant="outlined"
               type="number"
               margin="normal"
-              fullWidth
               {...field}
             />
           )}
@@ -200,7 +192,6 @@ function PosicionEditPage() {
               variant="outlined"
               type="number"
               margin="normal"
-              fullWidth
               {...field}
             />
           )}
@@ -215,7 +206,6 @@ function PosicionEditPage() {
               variant="outlined"
               type="number"
               margin="normal"
-              fullWidth
               {...field}
             />
           )}
@@ -230,7 +220,6 @@ function PosicionEditPage() {
               variant="outlined"
               type="number"
               margin="normal"
-              fullWidth
               {...field}
             />
           )}
@@ -244,7 +233,7 @@ function PosicionEditPage() {
           </Button>
         </ButtonGroup>
       </form>
-      <Toaster position="top-center" duration={4000} theme="dark"   />
+      <Toaster position="top-center" duration={4000} theme="dark" />
     </Box>
   );
 }
