@@ -67,8 +67,7 @@ const LoginWithGoogle = () => {
 
   return (
     <Button
-      id="loginGoogleButton"
-      onClick={handleLogin}
+      onClick={() => handleLogin()}
       color="secondary"
       placeholder={"Google"}
       icon={<GoogleIcon />}
