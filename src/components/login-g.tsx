@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { clientApi } from "../api/client.api";
 import { userAdmin } from "../services/api.service";
 import { useUserStore } from "../store/login.store";
-
+import GoogleIcon from '@mui/icons-material/Google';
 const LoginWithGoogle = () => {
   const setUser = useUserStore((state) => state.setUserData);
   const navigate = useNavigate();
@@ -46,12 +46,11 @@ const LoginWithGoogle = () => {
               profilePicture: session.user.user_metadata.picture,
               login: event,
               id_user: session.user.id,
-              admin: admin
+              admin: admin,
             })
           );
-            
-        }else{
-          sessionStorage.removeItem('userData')
+        } else {
+          sessionStorage.removeItem("userData");
           setRol("");
         }
 
@@ -69,6 +68,7 @@ const LoginWithGoogle = () => {
   return (
     <>
       <Button
+        id="loginGoogleButton"
         onClick={handleLogin}
         placeholder={"Google"}
         style={{
@@ -79,17 +79,7 @@ const LoginWithGoogle = () => {
           fontSize: "14px",
           margin: "5px",
         }}
-        icon={
-          <img
-            src="/google.svg"
-            alt="Google"
-            style={{
-              width: "20px",
-              height: "20px",
-              marginRight: "8px",
-            }}
-          />
-        }
+        icon={<GoogleIcon />}
       >
         Iniciar sesión con Google
       </Button>
