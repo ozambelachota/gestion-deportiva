@@ -70,9 +70,8 @@ const LoginWithGoogle = () => {
       onClick={() => handleLogin()}
       color="secondary"
       placeholder={"Google"}
-      icon={<GoogleIcon />}
     >
-      Iniciar sesión con Google
+      <GoogleIcon /> Iniciar sesión con Google
     </Button>
   );
 };
