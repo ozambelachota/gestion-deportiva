@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
+import { useEffect } from "react";
 import { getPartidosFutbol } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
 import type { Fixture } from "../types/fixture.api.type";
@@ -28,19 +29,13 @@ const colorPalette = [
 const TablaFixture = () => {
   const fixtures = fixtureStore((state) => state.fixtureFutbol);
   const setFixtures = fixtureStore((state) => state.setFixturesFutbol);
-
-
-
   const { data, isLoading, isError } = useQuery({
     queryKey: ["partidosFutbol"],
     queryFn: () => getPartidosFutbol(),
-
-
-
   });
-
-  // Filtrar partidos por tipo_id 2 (futbol) y 3 (voley)
-  
+  useEffect(() => {
+    if (data) setFixtures(data);
+  }, [data]);
   if (isError) {
     return (
       <Typography color="error" variant="h5">
@@ -53,9 +48,6 @@ const TablaFixture = () => {
   }
   if (!data) {
     return <Typography variant="h5">No hay partidos disponibles</Typography>;
-  }
-  if (data) {
-    setFixtures(data);
   }
 
   // Función para agrupar los partidos por grupo_id

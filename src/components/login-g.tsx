@@ -1,10 +1,10 @@
+import GoogleIcon from "@mui/icons-material/Google";
 import { Button } from "@supabase/ui";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { clientApi } from "../api/client.api";
 import { userAdmin } from "../services/api.service";
 import { useUserStore } from "../store/login.store";
-import GoogleIcon from '@mui/icons-material/Google';
 const LoginWithGoogle = () => {
   const setUser = useUserStore((state) => state.setUserData);
   const navigate = useNavigate();
@@ -66,24 +66,15 @@ const LoginWithGoogle = () => {
   }, [username, rol]);
 
   return (
-    <>
-      <Button
-        id="loginGoogleButton"
-        onClick={handleLogin}
-        placeholder={"Google"}
-        style={{
-          backgroundColor: "green",
-          color: "white",
-          borderRadius: "4px",
-          padding: "10px 20px",
-          fontSize: "14px",
-          margin: "5px",
-        }}
-        icon={<GoogleIcon />}
-      >
-        Iniciar sesión con Google
-      </Button>
-    </>
+    <Button
+      id="loginGoogleButton"
+      onClick={handleLogin}
+      color="secondary"
+      placeholder={"Google"}
+      icon={<GoogleIcon />}
+    >
+      Iniciar sesión con Google
+    </Button>
   );
 };
 
