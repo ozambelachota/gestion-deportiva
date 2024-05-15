@@ -1,5 +1,3 @@
-import GoogleIcon from "@mui/icons-material/Google";
-import { Button } from "@supabase/ui";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { clientApi } from "../api/client.api";
@@ -66,13 +64,12 @@ const LoginWithGoogle = () => {
   }, [username, rol]);
 
   return (
-    <Button
-      onClick={() => handleLogin()}
-      color="secondary"
-      placeholder={"Google"}
+    <button
+      className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-700"
+      onClick={handleLogin}
     >
-      <GoogleIcon /> Iniciar sesión con Google
-    </Button>
+      iniciar session con google
+    </button>
   );
 };
 
