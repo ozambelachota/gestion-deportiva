@@ -132,7 +132,9 @@ export function TableFixtureAdmin() {
                     >
                       Poner Resultado
                     </Button>
-                    <Button>editar partido</Button>
+                    <Button onClick={()=> {
+                      navigate(`partido/${fixture.id}`)
+                    }}>editar partido</Button>
                   </TableCell>
                 </TableRow>
               );

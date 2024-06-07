@@ -25,6 +25,7 @@ import TablaEditPosicionPage from "../pages/tabla-posicion/tabla-edit.page";
 import VoleyPage from "../pages/voley";
 import { TablaVoleyPage } from "../pages/voley-posicion/voley-tabla.page";
 import ProtectedRouter from "./protected.routes";
+import { EditedPartido } from "../pages/partido/edit-partido.page";
 
 const RoutePublic = () => {
   return (
@@ -55,6 +56,7 @@ const RouterPrivate = () => {
             path="registrar-promociones/create/:id"
             element={<RegisterPromocion />}
           />
+          <Route path="partido/:id" element={<EditedPartido />} />
           <Route path="fixture/create" element={<FixtureCreate />} />
           <Route
             path="promocion/create"
@@ -69,7 +71,7 @@ const RouterPrivate = () => {
           <Route path="sancion/create" element={<Sancion />} />
           <Route path="sancion" element={<Sancion />} />
           <Route
-            path="sancion/edit/:id"
+            path="sancion/edit/:id" 
             element={<FormEditSaancionComponent />}
           />
           <Route

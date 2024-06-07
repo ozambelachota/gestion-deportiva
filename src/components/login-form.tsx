@@ -75,8 +75,8 @@ const LoginForm: React.FC = () => {
         >
           Iniciar sesión
         </Button>
-        <LoginWithGoogle/>
       </form>
+      <LoginWithGoogle />
     </Container>
   );
 };

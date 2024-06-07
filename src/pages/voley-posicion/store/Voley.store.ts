@@ -22,7 +22,7 @@ export const useVoleyStore = create<VoleyStore>()((set) => ({
     promocion_participante: {
       nombre_promocion: "",
     }
-  },
+  }, 
   setVoley: (voley) => set({ voley }),
   getVoley: async (deporte:number) => {
     const tblVoley = await voley(deporte);

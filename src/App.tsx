@@ -40,11 +40,9 @@ function App() {
           );
         });
         if (rol === "admin") navigate("/admin/home", { replace: true });
-        
       }
     });
   }, [user]);
-
   return (
     <>
       <QueryClientProvider client={queryClient}>

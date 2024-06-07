@@ -151,7 +151,7 @@ export const useFixturePage = () => {
                   por_jugar: true,
               });
 
-              horaPartido = addMinutes(horaPartido, 25);
+              horaPartido = addMinutes(horaPartido, 30);
           }
 
           // Añadir una semana (7 días) para la próxima ronda

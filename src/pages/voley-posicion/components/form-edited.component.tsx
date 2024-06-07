@@ -12,7 +12,7 @@ interface FormVoley {
 }
 
 function FormEditVoleyPosicion() {
-  const { voley, updateVoleySet } = useVoleyStore();
+  const { voley, updateVoleySet, getVoley } = useVoleyStore();
   const { control, handleSubmit } = useForm<FormVoley>({
     defaultValues: {
       puntos: voley?.puntos,
@@ -32,7 +32,7 @@ function FormEditVoleyPosicion() {
     } else {
       toast.success("Posicion actualizada");
       updateVoleySet({ ...voley, ...data });
-      
+      getVoley(voley.deporte_id)
     }
   };
   return (
