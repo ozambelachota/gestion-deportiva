@@ -23,8 +23,8 @@ type props = {
 
 const Layout = ({ children }: props) => {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["campeonaato", 2],
-    queryFn: () => nombreCampeonato(2),
+    queryKey: ["campeonaato", 1],
+    queryFn: () => nombreCampeonato(1),
   });
   return (
     <ThemeProvider theme={darkTheme}>
@@ -32,7 +32,7 @@ const Layout = ({ children }: props) => {
       <div className="flex justify-center items-center flex-col md:flex-row m-0">
         <div className="flex flex-col justify-center items-center">
           <img
-            className="w-60 h-60 m-0 p-2"
+            className="w-50 h-50 m-0 p-2"
             src="LOGO-EXAFAM.webp"
             alt="logo exafam"
           />
@@ -46,7 +46,7 @@ const Layout = ({ children }: props) => {
             variant="h2"
             sx={{
               fontFamily: "Warnes",
-              color: "blueviolet",
+              color: "green",
               animation: "glow 1.5s ease-in-out infinite alternate",
             }}
             textAlign={"center"}
@@ -56,7 +56,7 @@ const Layout = ({ children }: props) => {
         )}
         <div className="flex flex-col justify-center items-center">
           <img
-            className="w-60 h-60 m-0 p-2"
+            className="w-50 h-50 m-0 p-2"
             src="LOGO-EXAFAM.webp"
             alt="logo exafam"
           />
