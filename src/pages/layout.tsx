@@ -32,7 +32,7 @@ const Layout = ({ children }: props) => {
       <div className="flex justify-center items-center flex-col md:flex-row m-0">
         <div className="flex flex-col justify-center items-center">
           <img
-            className="w-50 h-50 m-0 p-2"
+            className="w-40 h-40 m-0"
             src="LOGO-EXAFAM.webp"
             alt="logo exafam"
           />
@@ -46,7 +46,7 @@ const Layout = ({ children }: props) => {
             variant="h2"
             sx={{
               fontFamily: "Warnes",
-              fontSize: "1.5rem",
+              fontSize: "3rem",
               color: "green",
               animation: "glow 1.5s ease-in-out infinite alternate",
             }}
@@ -57,7 +57,7 @@ const Layout = ({ children }: props) => {
         )}
         <div className="flex flex-col justify-center items-center">
           <img
-            className="w-50 h-50 m-0 p-2"
+            className="w-40 h-40 m-0"
             src="LOGO-EXAFAM.webp"
             alt="logo exafam"
           />
