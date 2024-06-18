@@ -193,7 +193,7 @@ export const getResult = async () => {
     const { data, error } = await clientApi
       .from("resultado_fixture")
       .select(
-        "*,fixture_exafam(promocion,vs_promocion,n_fecha_jugada)"
+        "*,fixture_exafam(promocion,vs_promocion,n_fecha_jugada,deporte_id)"
       )
       .order("id", { ascending: true });
     if (error) throw new Error(error.message);
