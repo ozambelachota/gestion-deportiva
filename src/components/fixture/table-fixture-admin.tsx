@@ -91,6 +91,7 @@ export function TableFixtureAdmin() {
               <TableCell align="right">Equipo 2</TableCell>
               <TableCell align="right">Estado</TableCell>
               <TableCell align="right">deporte</TableCell>
+              <TableCell align="center">Ronda</TableCell>
               <TableCell align="right">Acciones</TableCell>
             </TableRow>
           </TableHead>
@@ -111,6 +112,7 @@ export function TableFixtureAdmin() {
                   <TableCell align="right">
                     {deporte(fixture.deporte_id)}
                   </TableCell>
+                  <TableCell align="center">{fixture.n_fecha_jugada}</TableCell>
                   <TableCell align="right">
                     <Button
                       variant="contained"
@@ -132,9 +134,13 @@ export function TableFixtureAdmin() {
                     >
                       Poner Resultado
                     </Button>
-                    <Button onClick={()=> {
-                      navigate(`partido/${fixture.id}`)
-                    }}>editar partido</Button>
+                    <Button
+                      onClick={() => {
+                        navigate(`partido/${fixture.id}`);
+                      }}
+                    >
+                      editar partido
+                    </Button>
                   </TableCell>
                 </TableRow>
               );

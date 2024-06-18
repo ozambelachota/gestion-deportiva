@@ -1,4 +1,3 @@
-import  { useState } from 'react';
 import {
   AccountCircle,
   CalendarMonth as CalendarMonthIcon,
@@ -21,8 +20,9 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 interface Props {
@@ -71,8 +71,8 @@ export default function Navbar(props: Props) {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+     <Typography variant="h6" sx={{ my: 2 }}>
         EXAFAM
       </Typography>
       <Divider />
@@ -92,10 +92,11 @@ export default function Navbar(props: Props) {
     </Box>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="sticky" component="nav" color="secondary">
         <Toolbar
@@ -161,8 +162,11 @@ export default function Navbar(props: Props) {
             keepMounted: true,
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
