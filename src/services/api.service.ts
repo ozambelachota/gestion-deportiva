@@ -193,7 +193,7 @@ export const getResult = async () => {
       .select(
         "*,fixture_exafam(promocion,vs_promocion,n_fecha_jugada,deporte_id)"
       )
-      .order("fixture_id", { ascending: true });
+      .order("fixutre_exafam.n_fecha_jugada,fixutre_exafam.grupo_id,fixutre_exafam.fecha_partido, fixutre_exafam.deporte_id", { ascending: true });
     if (error) throw new Error(error.message);
     return data;
   } catch (error) {
