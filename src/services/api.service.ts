@@ -178,7 +178,7 @@ export const getPartidos = async () => {
     const { data, error } = await clientApi
       .from("fixture_exafam")
       .select("*")
-      .order("n_fecha_jugada, grupo_id, deporte_id", { ascending: true });
+      .order("n_fecha_jugada,fecha_partido, deporte_id", { ascending: true });
 
     if (error) throw new Error(error.message);
     return data;
