@@ -76,7 +76,7 @@ export const getPartidosFutbol = async () => {
     const { data, error } = await clientApi
       .from("fixture_exafam")
       .select("*")
-      .eq('deporte_id', 1)
+      .eq("deporte_id", 1)
       .order("fecha_partido", { ascending: true });
     if (error) {
       throw error;
@@ -93,11 +93,10 @@ export const getPartidosVoley = async () => {
     const { data, error } = await clientApi
       .from("fixture_exafam")
       .select("*")
-      .neq('deporte_id', 1)
+      .neq("deporte_id", 1)
       .order("fecha_partido", { ascending: true });
 
-
-      console.log(error?.message)
+    console.log(error?.message);
     if (error) {
       throw error;
     }
@@ -108,9 +107,7 @@ export const getPartidosVoley = async () => {
     return null;
   }
 };
-export const userAdmin = async (
-  userId: string
-) => {
+export const userAdmin = async (userId: string) => {
   try {
     const { data, error } = await clientApi
       .from("usuario")
@@ -181,7 +178,7 @@ export const getPartidos = async () => {
     const { data, error } = await clientApi
       .from("fixture_exafam")
       .select("*")
-      .order("n_fecha_jugada", { ascending: true });
+      .order("n_fecha_jugada, grupo_id, deporte_id", { ascending: true });
 
     if (error) throw new Error(error.message);
     return data;
@@ -473,13 +470,13 @@ export const updatePromocional = async (promocion: Promocional) => {
     console.error(error);
   }
 };
-export const disableFixture = async (fixture:Fixture) => {
+export const disableFixture = async (fixture: Fixture) => {
   try {
     const { data, error } = await clientApi
       .from("fixture_exafam")
       .upsert(fixture)
       .eq("id", fixture.id);
-      
+
     if (error) throw new Error(error.message);
     return data;
   } catch (error) {
