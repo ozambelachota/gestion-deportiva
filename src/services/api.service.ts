@@ -195,7 +195,7 @@ export const getResult = async () => {
       .select(
         "*,fixture_exafam(promocion,vs_promocion,n_fecha_jugada,deporte_id,grupo_id)"
       )
-      .order("grupo_id", { ascending: true });
+      .order("id", { ascending: true });
     if (error) throw new Error(error.message);
     return data;
   } catch (error) {
