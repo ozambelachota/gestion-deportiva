@@ -178,7 +178,9 @@ export const getPartidos = async () => {
     const { data, error } = await clientApi
       .from("fixture_exafam")
       .select("*")
-      .order("n_fecha_jugada,grupo_id,fecha_partido, deporte_id", { ascending: true });
+      .order("n_fecha_jugada,grupo_id,fecha_partido, deporte_id", {
+        ascending: true,
+      });
 
     if (error) throw new Error(error.message);
     return data;
@@ -191,9 +193,9 @@ export const getResult = async () => {
     const { data, error } = await clientApi
       .from("resultado_fixture")
       .select(
-        "*,fixture_exafam(promocion,vs_promocion,n_fecha_jugada,deporte_id)"
+        "*,fixture_exafam(promocion,vs_promocion,n_fecha_jugada,deporte_id,grupo_id)"
       )
-      .order("fixutre_exafam.n_fecha_jugada,fixutre_exafam.grupo_id,fixutre_exafam.fecha_partido, fixutre_exafam.deporte_id", { ascending: true });
+      .order("grupo_id", { ascending: true });
     if (error) throw new Error(error.message);
     return data;
   } catch (error) {
