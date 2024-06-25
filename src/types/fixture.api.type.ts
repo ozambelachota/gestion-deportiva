@@ -92,6 +92,7 @@ export interface Resultado {
     vs_promocion: string;
     n_fecha_jugada: number;
     deporte_id: number;
+    grupo_id: number;
   };
 }
 

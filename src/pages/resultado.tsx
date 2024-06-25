@@ -21,12 +21,13 @@ function ResultPage() {
   }>({});
 
 
-  results.sort((a, b) => b.fixture_exafam.n_fecha_jugada - a.fixture_exafam.n_fecha_jugada);
+  results.sort((a, b) => a.fixture_exafam.grupo_id - b.fixture_exafam.grupo_id);
 
   useEffect(() => {
     getResults();
   }, []);
 
+  results.sort((a, b) => b.fixture_exafam.n_fecha_jugada - a.fixture_exafam.n_fecha_jugada);
 
   useEffect(() => {
     const grouped = results?.reduce(
@@ -80,7 +81,7 @@ function ResultPage() {
       {Object.entries(groupedResults).map(([groupKey, groupResults], index) => (
         <div key={groupKey}>
           <Typography variant="h4">
-            Resultados de la fecha{" "}
+            Resultados de la fecha
             {groupResults[0]?.fixture_exafam.n_fecha_jugada} -{" "}
             {getSportName(groupResults[0]?.fixture_exafam.deporte_id)}
           </Typography>
