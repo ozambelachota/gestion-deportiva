@@ -46,7 +46,7 @@ const Layout = ({ children }: props) => {
             variant="h2"
             sx={{
               fontFamily: "Warnes",
-              fontSize: "3rem",
+              fontSize: "2.7rem",
               color: "green",
               animation: "glow 1.5s ease-in-out infinite alternate",
             }}
