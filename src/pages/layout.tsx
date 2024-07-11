@@ -47,10 +47,12 @@ const Layout = ({ children }: props) => {
             sx={{
               fontFamily: "Warnes",
               fontSize: "2.7rem",
-              color: "green",
-              animation: "glow 1.5s ease-in-out infinite alternate",
+              color: "#fff",
+              textAlign: "center",
+              textShadow:
+                "2px 2px 5px rgba(255, 255, 0, 1), 4px 4px 10px rgba(255, 255, 0, 0.8)",
+              transform: "rotateX(20deg) rotateY(10deg)",
             }}
-            textAlign={"center"}
           >
             {data}
           </Typography>
@@ -78,7 +80,7 @@ const Layout = ({ children }: props) => {
         </div>
       </div>
       <CssBaseline />
-      {children}
+      <div>{children}</div>
     </ThemeProvider>
   );
 };

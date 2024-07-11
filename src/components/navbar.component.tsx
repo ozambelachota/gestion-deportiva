@@ -59,7 +59,6 @@ export default function Navbar() {
                 key={item.text}
                 component={RouterLink}
                 to={item.to}
-                button
                 className="flex items-center p-2 md:p-4 text-white hover:bg-gray-700"
               >
                 <ListItemIcon className="text-white">{item.icon}</ListItemIcon>
