@@ -68,7 +68,6 @@ export default function Navbar() {
           </List>
         </Toolbar>
       </AppBar>
-      <Box className="mt-20 md:mt-0"></Box>
     </Box>
   );
 }
