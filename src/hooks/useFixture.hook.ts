@@ -147,7 +147,7 @@ export const useFixturePage = () => {
             grupo_id: selectGrupo,
             campo_id: campoSelect,
             deporte_id: deporteSelect,
-            n_fecha_jugada: numeroFechaJugados + 1,
+            n_fecha_jugada: ronda + 1,
             por_jugar: true,
           });
 
