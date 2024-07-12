@@ -77,10 +77,10 @@ export const useFixturePage = () => {
   };
   function shuffleArray(array: any[]) {
     for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
-}
+  }
 
   const handleGeneratePartido = () => {
     const partidosGenerados = new Set(); // Conjunto para rastrear partidos generados
@@ -101,15 +101,15 @@ export const useFixturePage = () => {
       const totalPromociones = promocionesAleatorias.length;
 
       if (totalPromociones < 6) {
-          toast.error(
-              "Se requieren al menos 6 equipos para generar partidos automáticamente."
-          );
-          return;
+        toast.error(
+          "Se requieren al menos 6 equipos para generar partidos automáticamente."
+        );
+        return;
       }
 
       // Obtener una copia aleatoria de los equipos disponibles
       const equiposAleatorios = promocionesAleatorias.map(
-          (promocion) => promocion.nombre_promocion
+        (promocion) => promocion.nombre_promocion
       );
       shuffleArray(equiposAleatorios); // Mezclar aleatoriamente los equipos
 
@@ -118,44 +118,44 @@ export const useFixturePage = () => {
       const numRondas = numEquipos - 1;
 
       for (let ronda = 0; ronda < numRondas; ronda++) {
-          const partidosRondaActual: [string, string][] = [];
-          for (let i = 0; i < numEquipos / 2; i++) {
-              const equipoLocal = equiposAleatorios[i];
-              const equipoVisitante = equiposAleatorios[numEquipos - 1 - i];
-              partidosRondaActual.push([equipoLocal, equipoVisitante]);
-          }
-          partidosPorRonda.push(partidosRondaActual);
+        const partidosRondaActual: [string, string][] = [];
+        for (let i = 0; i < numEquipos / 2; i++) {
+          const equipoLocal = equiposAleatorios[i];
+          const equipoVisitante = equiposAleatorios[numEquipos - 1 - i];
+          partidosRondaActual.push([equipoLocal, equipoVisitante]);
+        }
+        partidosPorRonda.push(partidosRondaActual);
 
-          // Rotar los equipos para la próxima ronda
-          equiposAleatorios.splice(1, 0, equiposAleatorios.pop()!);
+        // Rotar los equipos para la próxima ronda
+        equiposAleatorios.splice(1, 0, equiposAleatorios.pop()!);
       }
 
       matches = [];
 
       let fechaInicio = new Date(fecha);
       for (let ronda = 0; ronda < partidosPorRonda.length; ronda++) {
-          const partidosRonda = partidosPorRonda[ronda];
-          let horaPartido = fechaInicio;
+        const partidosRonda = partidosPorRonda[ronda];
+        let horaPartido = fechaInicio;
 
-          for (let i = 0; i < partidosRonda.length; i++) {
-              const [equipoLocal, equipoVisitante] = partidosRonda[i];
+        for (let i = 0; i < partidosRonda.length; i++) {
+          const [equipoLocal, equipoVisitante] = partidosRonda[i];
 
-              matches.push({
-                  promocion: equipoLocal,
-                  vs_promocion: equipoVisitante,
-                  fecha_partido: horaPartido,
-                  grupo_id: selectGrupo,
-                  campo_id: campoSelect,
-                  deporte_id: deporteSelect,
-                  n_fecha_jugada: ronda + 1,
-                  por_jugar: true,
-              });
+          matches.push({
+            promocion: equipoLocal,
+            vs_promocion: equipoVisitante,
+            fecha_partido: horaPartido,
+            grupo_id: selectGrupo,
+            campo_id: campoSelect,
+            deporte_id: deporteSelect,
+            n_fecha_jugada: numeroFechaJugados + 1,
+            por_jugar: true,
+          });
 
-              horaPartido = addMinutes(horaPartido, 30);
-          }
+          horaPartido = addMinutes(horaPartido, 30);
+        }
 
-          // Añadir una semana (7 días) para la próxima ronda
-          fechaInicio = addDays(fechaInicio, 7);
+        // Añadir una semana (7 días) para la próxima ronda
+        fechaInicio = addDays(fechaInicio, 7);
       }
     } else if (emparejamiento === "manual") {
       if (!equipo1 || !equipo2) {
