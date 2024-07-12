@@ -117,7 +117,7 @@ export const useFixturePage = () => {
       const partidosPorRonda: [string, string][][] = [];
       const numRondas = numEquipos - 1;
 
-      for (let ronda = numeroFechaJugados; ronda < numRondas; ronda++) {
+      for (let ronda = 0; ronda < numRondas; ronda++) {
         const partidosRondaActual: [string, string][] = [];
         for (let i = 0; i < numEquipos / 2; i++) {
           const equipoLocal = equiposAleatorios[i];
