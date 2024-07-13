@@ -198,7 +198,7 @@ const TablaFixture = () => {
                         <TableCell>VS</TableCell>
                         <TableCell>Promoción</TableCell>
                         <TableCell>Fecha</TableCell>
-                        <TableCell>Campo</TableCell>
+                        <TableCell>C</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -218,17 +218,17 @@ const TablaFixture = () => {
                                   : "transparent",
                             }}
                           >
-                            <TableCell sx={{ padding: "8px" }}>
+                            <TableCell sx={{ padding: "4px" }}>
                               {partido.promocion}
                             </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>VS</TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
+                            <TableCell sx={{ padding: "4px" }}>VS</TableCell>
+                            <TableCell sx={{ padding: "4px" }}>
                               {partido.vs_promocion}
                             </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
+                            <TableCell sx={{ padding: "4px" }}>
                               {formatDate(partido.fecha_partido)}
                             </TableCell>
-                            <TableCell sx={{ padding: "8px" }}>
+                            <TableCell align="center" sx={{ padding: "4px" }}>
                               {partido.campo_id}
                             </TableCell>
                           </TableRow>
