@@ -127,14 +127,7 @@ const TablaFixture = () => {
           Campo 2 : PARQUE TUPAC
         </Typography>
       </div>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          flexWrap: "wrap",
-          my: 2,
-        }}
-      >
+      <div className="flex justify-center space-x-8 mt-4 flex-wrap">
         {[1, 2, 3, 4, 5, 6, 7, 8].map((group) => (
           <Button
             key={group}
@@ -145,16 +138,8 @@ const TablaFixture = () => {
             Grupo {group}
           </Button>
         ))}
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          width: "100%",
-        }}
-      >
+      </div>
+      <div>
         {fixtures && fixtures.length > 0 ? (
           Object.keys(partidosAgrupados)
             .filter((grupoId) => parseInt(grupoId, 10) === currentGroup)
@@ -162,7 +147,7 @@ const TablaFixture = () => {
               <Box
                 key={grupoId}
                 sx={{
-                  maxWidth: "90%",
+                  maxWidth: "100%",
                   margin: "auto",
                 }}
               >
@@ -268,7 +253,7 @@ const TablaFixture = () => {
             </Typography>
           </Box>
         )}
-      </Box>
+      </div>
     </div>
   );
 };
