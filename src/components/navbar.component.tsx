@@ -12,7 +12,6 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
   Toolbar,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
@@ -57,12 +56,12 @@ export default function Navbar() {
             {menuItems.map((item) => (
               <ListItem
                 key={item.text}
-                component={RouterLink}
-                to={item.to}
                 className="flex items-center p-2 md:p-4 text-white hover:bg-gray-700"
               >
                 <ListItemIcon className="text-white">{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
+                <RouterLink to={item.to} className="text-white">
+                  {item.text}
+                </RouterLink>
               </ListItem>
             ))}
           </List>
