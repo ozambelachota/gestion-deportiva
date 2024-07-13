@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { format, parseISO } from "date-fns";
+import { useEffect } from "react";
 import TablaPosicionVoley from "../components/tabla-posicion-voley.component";
 import { getPartidosVoley } from "../services/api.service";
 import { fixtureStore } from "../store/fixture.store";
@@ -21,24 +22,17 @@ import { Fixture } from "../types/fixture.api.type";
 function VoleyPage() {
   const fixtures = fixtureStore((state) => state.fixtureVoley);
   const setFixtures = fixtureStore((state) => state.setFixturesVoley);
-  const { isLoading, isError,data } = useQuery({
+  const { isLoading, isError, data } = useQuery({
     queryKey: ["partidosVoley"],
-    queryFn: () => getPartidosVoley(),
+    queryFn: getPartidosVoley,
   });
 
-  if (isError) {
-    return (
-      <Typography color="error" variant="h5">
-        Error al obtener partidos
-      </Typography>
-    );
-  }
-  if (!data) {
-    return <Typography variant="h5">No hay partidos disponibles</Typography>;
-  }
-  if (data) {
-    setFixtures(data);
-  } 
+  useEffect(() => {
+    if (data) {
+      setFixtures(data);
+    }
+  }, [data, setFixtures]);
+
   if (isLoading) {
     return (
       <Container
@@ -49,20 +43,38 @@ function VoleyPage() {
           height: "100vh",
         }}
       >
-        <CircularProgress
-          size={"8em"}
-          variant="indeterminate"
-          color="success"
-        />
+        <CircularProgress size="8em" variant="indeterminate" color="success" />
       </Container>
     );
   }
-  // Función para agrupar los partidos por grupo_id
-  const groupBy = (array: any[] | null | undefined, key: string) => {
-    if (!array) {
-      return {};
-    }
 
+  if (isError) {
+    return (
+      <Typography color="error" variant="h5">
+        Error al obtener partidos
+      </Typography>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          height: "100vh",
+          width: "100%",
+        }}
+      >
+        <Typography variant="h4" color="blueviolet" margin="4rem">
+          No hay partidos disponibles
+        </Typography>
+      </Box>
+    );
+  }
+
+  // Function to group matches by group_id
+  const groupBy = (array: any[], key: string) => {
     return array.reduce((result, currentValue) => {
       const groupKey = currentValue[key];
       (result[groupKey] = result[groupKey] || []).push(currentValue);
@@ -70,10 +82,11 @@ function VoleyPage() {
     }, {} as { [key: string]: any[] });
   };
 
+  // Function to get upcoming matches
   const obtenerProximosPartidos = (grupoPartidos: Fixture[]) => {
     const fechaActual = new Date();
     return grupoPartidos
-      .filter((partido) => partido.por_jugar === true)
+      .filter((partido) => partido.por_jugar)
       .sort(
         (a, b) =>
           new Date(a.fecha_partido).getTime() -
@@ -82,20 +95,17 @@ function VoleyPage() {
       .map((partido) => {
         const fechaPartido = new Date(partido.fecha_partido);
         const tiempoRestante = fechaPartido.getTime() - fechaActual.getTime();
-
-        return {
-          ...partido,
-          tiempoRestante,
-        };
+        return { ...partido, tiempoRestante };
       });
   };
 
   const partidosAgrupados = groupBy(fixtures, "deporte_id");
+
+  // Function to format date
   const formatDate = (date: Date | string | null) => {
     if (!date) {
       return "";
     }
-
     try {
       const parsedDate = typeof date === "string" ? parseISO(date) : date;
       return format(parsedDate, "dd/MM HH:mm");
@@ -107,7 +117,7 @@ function VoleyPage() {
 
   return (
     <div className="w-full h-full">
-      <Typography textAlign={"center"} variant="h4">
+      <Typography textAlign="center" variant="h4">
         Voley y Voley Mixto
       </Typography>
       <Grid sx={{ width: "100%", height: "100%" }} container spacing={2}>
@@ -118,7 +128,9 @@ function VoleyPage() {
                 variant="h6"
                 mb={2}
                 sx={{ fontSize: { xs: "1.5rem", md: "2rem" } }}
-              >{grupoId === "2" ? "Voley" : "Voley Mixto" }</Typography>
+              >
+                {grupoId === "2" ? "Voley" : "Voley Mixto"}
+              </Typography>
               <TableContainer className="rounded w-full h-full">
                 <Table>
                   <TableHead>
@@ -139,16 +151,16 @@ function VoleyPage() {
                           sx={{
                             backgroundColor:
                               partido.tiempoRestante <= 0
-                                ? "rgba(255, 0, 0, 0.3)" // Rojo cuando ya ha empezado
+                                ? "rgba(255, 0, 0, 0.3)" // Red when the match has started
                                 : partido.tiempoRestante < 10 * 60 * 1000
-                                ? "rgba(0, 255, 0, 0.3)" // Verde cuando está por empezar (por ejemplo, 15 minutos antes)
+                                ? "rgba(0, 255, 0, 0.3)" // Green when the match is about to start (e.g., 10 minutes before)
                                 : new Date().getTime() >
                                   new Date(partido.fecha_partido).getTime()
-                                ? "rgba(255, 0, 0, 0.3)" // Rojo si ya ha pasado la fecha del partido
+                                ? "rgba(255, 0, 0, 0.3)" // Red if the match date has passed
                                 : partido.deporte_id === 2
-                                ? "rgba(173, 216, 230, 0.5)" // Celeste para Voley
+                                ? "rgba(173, 216, 230, 0.5)" // Light blue for Voley
                                 : partido.deporte_id === 3
-                                ? "rgba(0, 0, 255, 0.5)" // Azul para Voley Mixto
+                                ? "rgba(0, 0, 255, 0.5)" // Blue for Voley Mixto
                                 : "transparent",
                           }}
                         >
@@ -166,7 +178,7 @@ function VoleyPage() {
                             {partido.campo_id}
                           </TableCell>
                           <TableCell sx={{ padding: "8px" }}>
-                            {partido.deporte_id == 2 ? "Voley" : "Voley Mixto"}
+                            {partido.deporte_id === 2 ? "Voley" : "Voley Mixto"}
                           </TableCell>
                         </TableRow>
                       )
@@ -185,7 +197,7 @@ function VoleyPage() {
               width: "100%",
             }}
           >
-            <Typography variant="h4" color={"blueviolet"} margin={"4rem"}>
+            <Typography variant="h4" color="blueviolet" margin="4rem">
               No hay partidos programados
             </Typography>
           </Box>

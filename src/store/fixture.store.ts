@@ -2,7 +2,6 @@ import { create } from "zustand";
 import {
   disableFixture,
   getPartidoId,
-
   insertFixturePartidos,
   obtenerGrupo,
   obtenerPromocionalesParticipantes,
@@ -19,8 +18,8 @@ type FixtureStore = {
   promocionParticipante: PromocionParticipante[];
   promocionesPorGrupos: PromocionParticipante[];
   grupo: GrupoPromocion[];
-  fixture : Fixture[] | [] | null
-  fixtureVoley: Fixture[] | [] | null;
+  fixture: Fixture[] | [] | null;
+  fixtureVoley: Fixture[];
   fecha: Date;
   fixtureFutbol: Fixture[] | [] | null;
   selectGrupo: number;
@@ -149,18 +148,18 @@ export const fixtureStore = create<FixtureStore>()((set) => ({
   setFecha: (fecha: Date) => set({ fecha }),
   buscarPartido: async (id: number) => {
     const partido = await getPartidoId(id);
-    if (partido!==null) {
+    if (partido !== null) {
       set({ partido });
     }
   },
   desactivePartido: async (fixture) => {
     const partido = await disableFixture(fixture);
-    if (partido!==null) {
+    if (partido !== null) {
       set({ partido });
     }
   },
   fixtureFutbol: null,
-  fixtureVoley: null,
+  fixtureVoley: [],
   setFixturesFutbol: (fixture: Fixture[]) => set({ fixtureFutbol: fixture }),
   setFixturesVoley: (fixture: Fixture[]) => set({ fixtureVoley: fixture }),
 }));
