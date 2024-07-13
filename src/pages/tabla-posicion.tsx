@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { PosicionStore } from "../store/PosicionStore";
 
@@ -38,9 +38,19 @@ const TablaPosicionPage: React.FC = () => {
   const uploadTablaPosicion = PosicionStore(
     (state) => state.uploadTablaPosicion
   );
+
+  const [currentGroup, setCurrentGroup] = useState<number>(
+    parseInt(localStorage.getItem("currentGroupPosicion") || "1", 10)
+  );
+
   useEffect(() => {
     uploadTablaPosicion();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("currentGroupPosicion", currentGroup.toString());
+  }, [currentGroup]);
+
   const groupBy = (array: TablaPosicion[] | null, key: string) => {
     if (!array) {
       return {};
@@ -62,16 +72,12 @@ const TablaPosicionPage: React.FC = () => {
   };
 
   const groupsTabla = groupBy(tablaPosicion, "grupo_id");
+
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
+    const grupoId = currentGroup.toString();
 
-    let groupsProcessed = 0;
-    let isGroup7Processed = false;
-    let startY = 20; // Posición Y inicial
-
-    let hasDataToShow = false; // Variable para rastrear si hay datos para mostrar
-
-    Object.keys(groupsTabla).forEach((grupoId) => {
+    if (groupsTabla[grupoId] && groupsTabla[grupoId].length > 0) {
       const tableData = groupsTabla[grupoId].map((equipo) => {
         return [
           equipo.promocion_participante?.nombre_promocion || "",
@@ -86,42 +92,22 @@ const TablaPosicionPage: React.FC = () => {
         ];
       });
 
-      if (tableData.length > 0) {
-        // Verificar si hay datos para mostrar
-        hasDataToShow = true; // Marcar que hay datos para mostrar
+      doc.text("EXAFAM 2024-2025", 10, 10);
+      doc.text(`Tabla de Posiciones - Grupo ${grupoId}`, 10, 20);
+      autoTable(doc, {
+        head: [["#", "PJ", "PG", "PE", "PP", "GF", "GC", "DG", "Puntos"]],
+        body: tableData,
+        startY: 30,
+      });
 
-        if (!isGroup7Processed && grupoId === "7") {
-          // Si no se ha procesado el grupo 7, agregar una página nueva para él
-          doc.addPage();
-          doc.text(`Tabla de Posiciones - Grupo ${grupoId}`, 10, 10);
-          autoTable(doc, {
-            head: [["#", "PJ", "PG", "PE", "PP", "GF", "GC", "DG", "Puntos"]],
-            body: tableData,
-            startY: 20,
-          });
-          isGroup7Processed = true; // Marcar el grupo 7 como procesado
-        } else {
-          if (groupsProcessed % 2 === 0 && grupoId !== "7") {
-            doc.addPage();
-            startY = 20;
-          }
-
-          doc.text(`Tabla de Posiciones - Grupo ${grupoId}`, 10, startY + 10);
-          autoTable(doc, {
-            head: [["#", "PJ", "PG", "PE", "PP", "GF", "GC", "DG", "Puntos"]],
-            body: tableData,
-            startY: startY + 20,
-          });
-          startY = doc.internal.pageSize.height - 180; // Actualizar la posición Y de inicio para la próxima tabla
-          groupsProcessed++;
-        }
-      }
-    });
-
-    if (hasDataToShow) {
+      doc.save(`tabla_posiciones_grupo_${grupoId}.pdf`);
+    } else {
+      alert("No hay datos disponibles para el grupo seleccionado");
     }
+  };
 
-    doc.save("tabla_posiciones.pdf");
+  const handleGroupChange = (group: number) => {
+    setCurrentGroup(group);
   };
 
   return (
@@ -131,76 +117,105 @@ const TablaPosicionPage: React.FC = () => {
       </Button>
 
       <div className="w-full h-full">
-        {Object.keys(groupsTabla).map((grupoId, index) => (
-          <div key={grupoId} className="tabla-container">
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography marginTop={"8px"} textAlign={"center"} variant="h5">
-                  Tabla de Posiciones - Grupo {grupoId}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <div style={{ overflowX: "auto" }}>
-                  <TableContainer component={Paper} className="rounded">
-                    <Table
-                      size="small"
-                      sx={{
-                        background: colorPalette[index],
-                        backgroundImage: "url(/table.png)",
-                      }}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            my: 2,
+          }}
+        >
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((group) => (
+            <Button
+              key={group}
+              variant={currentGroup === group ? "contained" : "outlined"}
+              onClick={() => handleGroupChange(group)}
+              sx={{ mx: 1 }}
+            >
+              Grupo {group}
+            </Button>
+          ))}
+        </Box>
+
+        {Object.keys(groupsTabla).map(
+          (grupoId, index) =>
+            parseInt(grupoId) === currentGroup && (
+              <div key={grupoId} className="tabla-container">
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography
+                      marginTop={"8px"}
+                      textAlign={"center"}
+                      variant="h5"
                     >
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>#</TableCell>
-                          <TableCell align="left">PJ</TableCell>
-                          <TableCell>PG</TableCell>
-                          <TableCell>PE</TableCell>
-                          <TableCell>PP</TableCell>
-                          <TableCell>GF</TableCell>
-                          <TableCell>GC</TableCell>
-                          <TableCell>DG</TableCell>
-                          <TableCell align="left">Puntos</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {groupsTabla[grupoId].map((equipo) => {
-                          return (
-                            <TableRow key={equipo.id}>
-                              <TableCell>
-                                {
-                                  equipo.promocion_participante
-                                    ?.nombre_promocion
-                                }
-                              </TableCell>
-                              <TableCell>{equipo.pj}</TableCell>
-                              <TableCell>{equipo.pg}</TableCell>
-                              <TableCell>{equipo.pe}</TableCell>
-                              <TableCell>{equipo.pp}</TableCell>
-                              <TableCell>{equipo.goles_f}</TableCell>
-                              <TableCell>{equipo.goles_e}</TableCell>
-                              <TableCell>{equipo.diferencia_goles}</TableCell>
-                              <TableCell
-                                sx={{
-                                  background: "url('/estrella-n.png')",
-                                  backgroundSize: "2.7rem",
-                                  backgroundPosition: "left",
-                                  backgroundRepeat: "no-repeat",
-                                }}
-                                align="left"
-                              >
-                                {equipo.puntos}
-                              </TableCell>
+                      Tabla de Posiciones - Grupo {grupoId}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{ overflowX: "auto" }}>
+                      <TableContainer component={Paper} className="rounded">
+                        <Table
+                          size="small"
+                          sx={{
+                            background: colorPalette[index],
+                            backgroundImage: "url(/table.png)",
+                          }}
+                        >
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>#</TableCell>
+                              <TableCell align="left">Puntos</TableCell>
+                              <TableCell align="left">PJ</TableCell>
+                              <TableCell>PG</TableCell>
+                              <TableCell>PE</TableCell>
+                              <TableCell>PP</TableCell>
+                              <TableCell>GF</TableCell>
+                              <TableCell>GC</TableCell>
+                              <TableCell>DG</TableCell>
                             </TableRow>
-                          );
-                        })}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </div>
-              </Grid>
-            </Grid>
-          </div>
-        ))}
+                          </TableHead>
+                          <TableBody>
+                            {groupsTabla[grupoId].map((equipo) => {
+                              return (
+                                <TableRow key={equipo.id}>
+                                  <TableCell>
+                                    {
+                                      equipo.promocion_participante
+                                        ?.nombre_promocion
+                                    }
+                                  </TableCell>
+                                  <TableCell
+                                    sx={{
+                                      background: "url('/estrella-n.png')",
+                                      backgroundSize: "2.7rem",
+                                      backgroundPosition: "left",
+                                      backgroundRepeat: "no-repeat",
+                                    }}
+                                    align="left"
+                                  >
+                                    {equipo.puntos}
+                                  </TableCell>
+                                  <TableCell>{equipo.pj}</TableCell>
+                                  <TableCell>{equipo.pg}</TableCell>
+                                  <TableCell>{equipo.pe}</TableCell>
+                                  <TableCell>{equipo.pp}</TableCell>
+                                  <TableCell>{equipo.goles_f}</TableCell>
+                                  <TableCell>{equipo.goles_e}</TableCell>
+                                  <TableCell>
+                                    {equipo.diferencia_goles}
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </div>
+                  </Grid>
+                </Grid>
+              </div>
+            )
+        )}
         {Object.keys(groupsTabla).length === 0 && (
           <Box
             sx={{

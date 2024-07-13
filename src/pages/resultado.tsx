@@ -1,4 +1,7 @@
+import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
+import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -12,25 +15,29 @@ import { useEffect, useState } from "react";
 import { ResultStore } from "../store/result.store";
 import type { Resultado } from "../types/fixture.api.type";
 
+const PAGE_SIZE = 3; // Número de resultados por página
+
 function ResultPage() {
   const results = ResultStore((state) => state.result);
   const getResults = ResultStore((state) => state.getResult);
 
+  const [currentPage, setCurrentPage] = useState(1);
   const [groupedResults, setGroupedResults] = useState<{
     [key: string]: Resultado[];
   }>({});
-
-
-  results.sort((a, b) => a.fixture_exafam.grupo_id - b.fixture_exafam.grupo_id);
 
   useEffect(() => {
     getResults();
   }, []);
 
-  results.sort((a, b) => b.fixture_exafam.n_fecha_jugada - a.fixture_exafam.n_fecha_jugada);
-
   useEffect(() => {
-    const grouped = results?.reduce(
+    const sortedResults = results
+      .slice()
+      .sort(
+        (a, b) =>
+          b.fixture_exafam.n_fecha_jugada - a.fixture_exafam.n_fecha_jugada
+      );
+    const grouped = sortedResults.reduce(
       (acc: { [key: string]: Resultado[] }, result) => {
         const { fixture_exafam } = result;
         const key = `${fixture_exafam.n_fecha_jugada}_${fixture_exafam.deporte_id}`;
@@ -42,7 +49,7 @@ function ResultPage() {
       },
       {}
     );
-    setGroupedResults(grouped || {});
+    setGroupedResults(grouped);
   }, [results]);
 
   const getSportName = (deporteId: number): string => {
@@ -58,7 +65,6 @@ function ResultPage() {
     }
   };
 
-  // Colores para las tablas
   const colors = [
     "#317f43",
     "#495e76",
@@ -74,18 +80,39 @@ function ResultPage() {
     "#04293A",
   ];
 
-  
+  const paginatedResults = Object.entries(groupedResults).slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
+  );
 
   return (
     <div className="">
-      {Object.entries(groupedResults).map(([groupKey, groupResults], index) => (
+      <div className="flex justify-center my-10">
+        <Button
+          variant="outlined"
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <ArrowCircleLeftOutlinedIcon color="secondary" fontSize="large" />
+          Fecha siguiente
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={paginatedResults.length < PAGE_SIZE}
+        >
+          Fecha anterior
+          <ArrowCircleRightOutlinedIcon color="success" fontSize="large" />
+        </Button>
+      </div>
+      {paginatedResults.map(([groupKey, groupResults], index) => (
         <div key={groupKey}>
           <Typography variant="h4">
-            Resultados de la fecha
+            Resultados de la fecha{" "}
             {groupResults[0]?.fixture_exafam.n_fecha_jugada} -{" "}
             {getSportName(groupResults[0]?.fixture_exafam.deporte_id)}
           </Typography>
-          <TableContainer component={Paper} >
+          <TableContainer component={Paper} key={groupKey}>
             <Table size="small" sx={{ bgcolor: colors[index % colors.length] }}>
               <TableHead>
                 <TableRow>
@@ -98,9 +125,13 @@ function ResultPage() {
               <TableBody>
                 {groupResults.map((result) => (
                   <TableRow key={result.id}>
-                    <TableCell align="center">{result.fixture_exafam.promocion}</TableCell>
+                    <TableCell align="center">
+                      {result.fixture_exafam.promocion}
+                    </TableCell>
                     <TableCell align="center">VS</TableCell>
-                    <TableCell align="center">{result.fixture_exafam.vs_promocion}</TableCell>
+                    <TableCell align="center">
+                      {result.fixture_exafam.vs_promocion}
+                    </TableCell>
                     <TableCell align="center">{result.resultado}</TableCell>
                   </TableRow>
                 ))}
@@ -109,7 +140,9 @@ function ResultPage() {
           </TableContainer>
         </div>
       ))}
+      {/* Ejemplo de botones de paginación */}
     </div>
   );
 }
+
 export default ResultPage;
