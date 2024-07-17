@@ -90,7 +90,16 @@ const RoutePublic = () => {
 
 const RouterPrivate = () => {
   return (
-    <Suspense fallback={<div>Cargando...</div>}>
+    <Suspense
+      fallback={
+        <div className="w-dvw h-dvh flex justify-center items-center bg-fuchsia-950">
+          <CircularProgress
+            color="success"
+            className="flex justify-center align-items-center h-screen"
+          />
+        </div>
+      }
+    >
       <LayoutAdmin>
         <Routes>
           <Route element={<ProtectedRouter />}>
