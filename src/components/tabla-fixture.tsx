@@ -174,7 +174,7 @@ const TablaFixture = () => {
                   }}
                 >{`Grupo ${grupoId}`}</Typography>
                 <TableContainer
-                  className="rounded w-dvw flex justify-center align-center"
+                  className="rounded w-dvw flex justify-center align-center my-2"
                   component={Paper}
                   sx={{
                     backgroundColor:
@@ -191,8 +191,8 @@ const TablaFixture = () => {
                     color: "",
                   }}
                 >
-                  <Table>
-                    <TableHead>
+                  <Table sx={{fontSize: '0.5rem'}}>
+                    <TableHead sx={{fontSize: '0.5rem'}}>
                       <TableRow>
                         <TableCell>Promoción</TableCell>
                         <TableCell>VS</TableCell>
