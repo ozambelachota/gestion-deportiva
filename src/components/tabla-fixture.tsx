@@ -62,7 +62,6 @@ const TablaFixture = () => {
     return <Typography variant="h5">No hay partidos disponibles</Typography>;
   }
 
-  // Función para agrupar los partidos por grupo_id
   const groupBy = (array: any[] | null, key: string) => {
     if (!array) {
       return {};
@@ -139,7 +138,7 @@ const TablaFixture = () => {
           </Button>
         ))}
       </div>
-      <div>
+      <div className="flex w-full h-full">
         {fixtures && fixtures.length > 0 ? (
           Object.keys(partidosAgrupados)
             .filter((grupoId) => parseInt(grupoId, 10) === currentGroup)
@@ -148,7 +147,6 @@ const TablaFixture = () => {
                 key={grupoId}
                 sx={{
                   maxWidth: "100%",
-                  margin: "auto",
                 }}
               >
                 <Typography
@@ -174,9 +172,9 @@ const TablaFixture = () => {
                   }}
                 >{`Grupo ${grupoId}`}</Typography>
                 <TableContainer
-                  className="rounded w-dvw flex justify-center align-center my-2"
                   component={Paper}
                   sx={{
+                    overflowX: "auto", // Habilitar desplazamiento horizontal
                     backgroundColor:
                       colorPalette[
                         (parseInt(grupoId) - 1) % colorPalette.length
@@ -188,11 +186,10 @@ const TablaFixture = () => {
                         ],
                       opacity: [0.9, 0.8, 0.7],
                     },
-                    color: "",
                   }}
                 >
-                  <Table sx={{fontSize: '0.5rem'}}>
-                    <TableHead sx={{fontSize: '0.5rem'}}>
+                  <Table sx={{ minWidth: 650 }}>
+                    <TableHead>
                       <TableRow>
                         <TableCell>Promoción</TableCell>
                         <TableCell>VS</TableCell>

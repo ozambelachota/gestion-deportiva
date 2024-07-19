@@ -93,7 +93,14 @@ function TablaGolesComponent() {
 
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          my: 2,
+        }}
+      >
         {[1, 2, 3, 4, 5, 6, 7].map((group) => (
           <Button
             key={group}
