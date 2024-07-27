@@ -101,7 +101,7 @@ function TablaGolesComponent() {
           my: 2,
         }}
       >
-        {[1, 2, 3, 4, 5, 6, 7].map((group) => (
+        {[1, 2, 3, 4, 5, 6, 7,8].map((group) => (
           <Button
             key={group}
             variant={currentGroup === group ? "contained" : "outlined"}
