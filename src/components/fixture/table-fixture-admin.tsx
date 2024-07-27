@@ -48,16 +48,18 @@ export function TableFixtureAdmin() {
     id: 0,
   });
   const [selectedRound, setSelectedRound] = useState<number | string>("");
+  const [selectedGroup, setSelectedGroup] = useState<number | string>("");
   const partidosObtenidos = fixtureStore((state) => state.obtenerPartidos);
   const cargarDatos = async () => {
     await partidosObtenidos();
   };
 
   const fixtureFiltradoPorJugr = fixutres?.filter(({ por_jugar }) => por_jugar === true) || [];
-  
-  const fixtureFiltradoPorRonda = fixtureFiltradoPorJugr.filter((fixture) => {
-    if (!selectedRound) return true;
-    return fixture.n_fecha_jugada === selectedRound;
+
+  const fixtureFiltradoPorRondaYGrupo = fixtureFiltradoPorJugr.filter((fixture) => {
+    if (selectedRound && fixture.n_fecha_jugada !== selectedRound) return false;
+    if (selectedGroup && fixture.grupo_id !== selectedGroup) return false;
+    return true;
   });
 
   const deporte = (tipo: number) => {
@@ -91,7 +93,7 @@ export function TableFixtureAdmin() {
 
   return (
     <div>
-      <FormControl sx={{ marginBottom: "20px", minWidth: 120 }}>
+      <FormControl sx={{ marginBottom: "20px", minWidth: 120, marginRight: "20px" }}>
         <InputLabel id="select-round-label">Ronda</InputLabel>
         <Select
           labelId="select-round-label"
@@ -101,11 +103,30 @@ export function TableFixtureAdmin() {
           onChange={(e) => setSelectedRound(e.target.value)}
         >
           <MenuItem value="">
-            Seleccionar ronda
+            <em>Seleccionar ronda</em>
           </MenuItem>
           {[...Array(11).keys()].map((round) => (
             <MenuItem key={round + 1} value={round + 1}>
               {round + 1}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl sx={{ marginBottom: "20px", minWidth: 120 }}>
+        <InputLabel id="select-group-label">Grupo</InputLabel>
+        <Select
+          labelId="select-group-label"
+          id="select-group"
+          value={selectedGroup}
+          label="Grupo"
+          onChange={(e) => setSelectedGroup(e.target.value)}
+        >
+          <MenuItem value="">
+            <em>Seleccionar grupo</em>
+          </MenuItem>
+          {[...Array(8).keys()].map((group) => (
+            <MenuItem key={group + 1} value={group + 1}>
+              {group + 1}
             </MenuItem>
           ))}
         </Select>
@@ -124,7 +145,7 @@ export function TableFixtureAdmin() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {fixtureFiltradoPorRonda.map((fixture) => (
+            {fixtureFiltradoPorRondaYGrupo.map((fixture) => (
               <TableRow
                 key={fixture.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
