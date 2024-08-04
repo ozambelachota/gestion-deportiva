@@ -18,7 +18,7 @@ const FormPromocionParticipante = React.lazy(
 const EditjugadorComponent = React.lazy(
   () => import("../components/nomina/edit-jugador.component")
 );
-const TablaFixture = React.lazy(() => import("../components/tabla-fixture"));
+
 const GolPage = React.lazy(() => import("../pages/Gol.page"));
 const Admin = React.lazy(() => import("../pages/admin"));
 const FixturePage = React.lazy(() =>
@@ -54,7 +54,7 @@ const TablaVoleyPage = React.lazy(() =>
     default: module.TablaVoleyPage,
   }))
 );
-const ProtectedRouter = React.lazy(() => import("./protected.routes"));
+
 const EditedPartido = React.lazy(() =>
   import("../pages/partido/edit-partido.page").then((module) => ({
     default: module.EditedPartido,
@@ -102,47 +102,44 @@ const RouterPrivate = () => {
     >
       <LayoutAdmin>
         <Routes>
-          <Route element={<ProtectedRouter />}>
-            <Route path="home" element={<Admin />} />
-            <Route path="registrar-fixture" element={<FixturePage />} />
-            <Route path="registrar-promociones" element={<Promocion />} />
-            <Route
-              path="registrar-promociones/create/:id"
-              element={<RegisterPromocion />}
-            />
-            <Route path="partido/:id" element={<EditedPartido />} />
-            <Route path="fixture/create" element={<FixtureCreate />} />
-            <Route
-              path="promocion/create"
-              element={<FormPromocionParticipante />}
-            />
-            <Route path="nomina/:id" element={<NominaPage />} />
-            <Route path="nomina/edit/:id" element={<EditjugadorComponent />} />
-            <Route
-              path="result-fixture/:id"
-              element={<ResultFixtureFormPage />}
-            />
-            <Route path="sancion/create" element={<Sancion />} />
-            <Route path="sancion" element={<Sancion />} />
-            <Route
-              path="sancion/edit/:id"
-              element={<FormEditSaancionComponent />}
-            />
-            <Route
-              path="posicionar-promocion"
-              element={<TablaEditPosicionPage />}
-            />
-            <Route
-              path="ver-posicion/promocion/grupo/:id"
-              element={<GrupoPosicionComponents />}
-            />
-            <Route path="voley/:deporte" element={<TablaVoleyPage />} />
-            <Route
-              path="posicion/edit/grupo/:id"
-              element={<PosicionEditPage />}
-            />
-            <Route path="home" element={<TablaFixture />} />
-          </Route>
+          <Route index element={<Admin />} />
+          <Route path="registrar-fixture" element={<FixturePage />} />
+          <Route path="registrar-promociones" element={<Promocion />} />
+          <Route
+            path="registrar-promociones/create/:id"
+            element={<RegisterPromocion />}
+          />
+          <Route path="partido/:id" element={<EditedPartido />} />
+          <Route path="fixture/create" element={<FixtureCreate />} />
+          <Route
+            path="promocion/create"
+            element={<FormPromocionParticipante />}
+          />
+          <Route path="nomina/:id" element={<NominaPage />} />
+          <Route path="nomina/edit/:id" element={<EditjugadorComponent />} />
+          <Route
+            path="result-fixture/:id"
+            element={<ResultFixtureFormPage />}
+          />
+          <Route path="sancion/create" element={<Sancion />} />
+          <Route path="sancion" element={<Sancion />} />
+          <Route
+            path="sancion/edit/:id"
+            element={<FormEditSaancionComponent />}
+          />
+          <Route
+            path="posicionar-promocion"
+            element={<TablaEditPosicionPage />}
+          />
+          <Route
+            path="ver-posicion/promocion/grupo/:id"
+            element={<GrupoPosicionComponents />}
+          />
+          <Route path="voley/:deporte" element={<TablaVoleyPage />} />
+          <Route
+            path="posicion/edit/grupo/:id"
+            element={<PosicionEditPage />}
+          />
         </Routes>
       </LayoutAdmin>
     </Suspense>

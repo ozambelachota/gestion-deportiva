@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useUserStore } from "../store/login.store";
 
-const ROL = "admin";
 function ProtectedRouter() {
   const { rol, username } = useUserStore();
 
@@ -13,10 +12,7 @@ function ProtectedRouter() {
     }
   }, [username]);
 
-  if (username && rol === ROL) {
-    return <Outlet />;
-  }
-  return <Navigate to="/" />;
+  return <Outlet />;
 }
 
 export default ProtectedRouter;

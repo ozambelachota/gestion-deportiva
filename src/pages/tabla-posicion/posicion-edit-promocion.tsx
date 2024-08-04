@@ -97,11 +97,11 @@ function PosicionEditPage() {
       }}
     >
       <Typography variant="h3">
-        Editar tabla de la promocion{" "}
+        Editar tabla de la {' '}
         {promocionTabla.promocion_participante?.nombre_promocion}{" "}
       </Typography>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col justify-center items-center" onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name="nombre_promocion"
           control={control}

@@ -13,14 +13,7 @@ const NavbarAdmin = () => {
     setAnchorEl(event.currentTarget);
   };
   useEffect(() => {
-    const userData = sessionStorage.getItem('userData')
-    if(userData){
-      const { username, profilePicture, login, id_user } = JSON.parse(userData)
-      setUser(username, profilePicture, login, id_user)
-    }
-    if (!user) {
-      navigate("/", { replace: true });
-    }
+   
   }, []);
 
   const handleMenuClose = () => {

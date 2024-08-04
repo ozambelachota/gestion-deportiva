@@ -125,7 +125,7 @@ export const userAdmin = async (userId: string) => {
 export const nombreCampeonato = async (id: number) => {
   try {
     const { data, error } = await clientApi
-      .from("Campeonato")
+      .from("campeonato")
       .select("nombre_campeonato")
       .eq("id", id);
     if (error) throw new Error(error.message);

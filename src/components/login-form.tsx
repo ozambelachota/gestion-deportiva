@@ -1,6 +1,7 @@
 import { Button, Container, TextField, Typography } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { clientApi } from "../api/client.api";
 import LoginWithGoogle from "./login-g";
 
@@ -11,26 +12,20 @@ interface FormData {
 
 const LoginForm: React.FC = () => {
   const { register, handleSubmit } = useForm<FormData>();
-
+  const navigate = useNavigate();
   const onSubmit = async (data: FormData) => {
     try {
-      const { data: user, error } = await clientApi.auth.signInWithPassword({
+      const { error } = await clientApi.auth.signInWithPassword({
         email: data.email,
         password: data.password,
       });
-
-      handleLoginResult(user, error);
+      if (error) {
+        console.error("Error de autenticación:", error.message);
+      } else {
+        navigate("/admin/home", { replace: true });
+      }
     } catch (error) {
       console.error("Unexpected error:", error);
-    }
-  };
-
-  const handleLoginResult = (user: any, error: any) => {
-    if (error) {
-      return error;
-    }
-    if (user) {
-      console.log(user);
     }
   };
 
