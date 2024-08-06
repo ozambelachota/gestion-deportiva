@@ -32,8 +32,9 @@ interface FixtureUpdate {
   n_fecha_jugada: number;
   por_jugar: boolean;
 }
+
 export function TableFixtureAdmin() {
-  const fixutres = fixtureStore((state) => state.fixture);
+  const fixtures = fixtureStore((state) => state.fixture);
   const { desactivePartido } = fixtureStore();
   const [open, setOpen] = useState(false);
   const [fixture, setFixture] = useState<FixtureUpdate>({
@@ -47,14 +48,18 @@ export function TableFixtureAdmin() {
     por_jugar: false,
     id: 0,
   });
-  const [selectedRound, setSelectedRound] = useState<number | string>("");
-  const [selectedGroup, setSelectedGroup] = useState<number | string>("");
+  const [selectedRound, setSelectedRound] = useState<number | string>(() => {
+    return localStorage.getItem("selectedRound") || "";
+  });
+  const [selectedGroup, setSelectedGroup] = useState<number | string>(() => {
+    return localStorage.getItem("selectedGroup") || "";
+  });
   const partidosObtenidos = fixtureStore((state) => state.obtenerPartidos);
   const cargarDatos = async () => {
     await partidosObtenidos();
   };
 
-  const fixtureFiltradoPorJugr = fixutres?.filter(({ por_jugar }) => por_jugar === true) || [];
+  const fixtureFiltradoPorJugr = fixtures?.filter(({ por_jugar }) => por_jugar === true) || [];
 
   const fixtureFiltradoPorRondaYGrupo = fixtureFiltradoPorJugr.filter((fixture) => {
     if (selectedRound && fixture.n_fecha_jugada !== selectedRound) return false;
@@ -78,6 +83,14 @@ export function TableFixtureAdmin() {
   useEffect(() => {
     cargarDatos();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("selectedRound", selectedRound.toString());
+  }, [selectedRound]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedGroup", selectedGroup.toString());
+  }, [selectedGroup]);
 
   const navigate = useNavigate();
 
