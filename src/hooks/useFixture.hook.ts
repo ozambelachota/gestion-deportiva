@@ -1,5 +1,5 @@
 import { addDays, addMinutes } from "date-fns";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { toast } from "sonner";
 import { CampoStore } from "../store/campo.store";
 import DeporteStore from "../store/deporte.store";
@@ -48,34 +48,30 @@ export const useFixturePage = () => {
   const fecha = fixtureStore((state) => state.fecha);
   const setFecha = fixtureStore((state) => state.setFecha);
 
-  async function cargarDatos() {
+  const cargarDatos = useCallback(async () => {
     await obtenerGrupo();
     if (selectGrupo <= 0) return;
     else await obtenerPromocionGrupo(selectGrupo);
-  }
+  }, [selectGrupo, obtenerGrupo, obtenerPromocionGrupo]);
+
   useEffect(() => {
     cargarDatos();
     return () => {};
-  }, [
-    vsPromocion,
-    selectGrupo,
-    numeroFechaJugados,
-    deporteSelect,
-    campoSelect,
-    emparejamiento,
-  ]);
-  const handleChangeEmparejamiento = (event: any) => {
-    setEmparejamiento(event.target.value);
+  }, [vsPromocion, selectGrupo, numeroFechaJugados, deporteSelect, campoSelect, emparejamiento, cargarDatos]);
+  
+  const handleChangeEmparejamiento = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setEmparejamiento(event.target.value as "automatico" | "manual");
   };
 
-  const handleChangeEquipo1 = (event: any) => {
+  const handleChangeEquipo1 = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setEquipo1(event.target.value);
   };
 
-  const handleChangeEquipo2 = (event: any) => {
+  const handleChangeEquipo2 = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setEquipo2(event.target.value);
   };
-  function shuffleArray(array: any[]) {
+
+  function shuffleArray<T>(array: T[]): void {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
@@ -222,11 +218,11 @@ export const useFixturePage = () => {
       toast.success("Partido editado con éxito");
     }
   };
-  const handleChangeSelectGrupo = (event: any) => {
-    selectedGrupo(event.target.value as number);
+  const handleChangeSelectGrupo = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    selectedGrupo(Number(event.target.value));
   };
-  const handleChangeSelectCampo = (event: any) => {
-    selectCampo(event.target.value as number);
+  const handleChangeSelectCampo = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    selectCampo(Number(event.target.value));
   };
   const handleSavePartido = async () => {
     try {
